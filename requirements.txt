@@ -1,0 +1,18 @@
+# HTTP client (replaces RestAssured)
+httpx==0.27.*
+
+# Test framework (replaces TestNG)
+pytest==8.3.*
+pytest-xdist==3.6.*
+
+# Allure reporting
+allure-pytest==2.13.*
+
+# Test data generation (replaces Java Faker)
+Faker==25.*
+
+# Environment/config
+python-dotenv==1.0.*
+
+# AI test generator
+anthropic==0.28.*

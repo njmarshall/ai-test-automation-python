@@ -1,0 +1,15 @@
+# Virtual environment
+venv/
+
+# Environment secrets - NEVER commit this
+.env
+
+# Pytest / Allure
+.pytest_cache/
+allure-results/
+allure-report/
+__pycache__/
+*.pyc
+
+# PyCharm
+.idea/
