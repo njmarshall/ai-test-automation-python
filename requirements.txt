@@ -17,3 +17,4 @@ python-dotenv==1.0.*
 # AI test generator
 anthropic==0.28.*  # healthcare_fhir Patient CRTP model
 pydantic==2.*
+pytest-playwright==0.7.*
