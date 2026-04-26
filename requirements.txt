@@ -15,4 +15,5 @@ Faker==25.*
 python-dotenv==1.0.*
 
 # AI test generator
-anthropic==0.28.*pydantic==2.*  # healthcare_fhir Patient CRTP model
+anthropic==0.28.*  # healthcare_fhir Patient CRTP model
+pydantic==2.*
