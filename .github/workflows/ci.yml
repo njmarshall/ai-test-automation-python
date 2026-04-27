@@ -91,6 +91,5 @@ jobs:
         run: |
           pytest projects/petstore/api/tests/ \
             -v \
-            -m petstore \
             --tb=short \
             --no-header
