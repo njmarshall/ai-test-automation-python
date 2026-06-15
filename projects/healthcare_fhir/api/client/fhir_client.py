@@ -69,6 +69,24 @@ class FhirClient:
         """DELETE /Patient/{id} — remove a Patient resource."""
         return self._session.delete(f"{self._base_url}/Patient/{patient_id}")
 
+
+    # ------------------------------------------------------------------ #
+    #  Aliases — used by AI-generated tests                               #
+    # ------------------------------------------------------------------ #
+
+    def get_patient(self, patient_id: str):
+        return self.read_patient(patient_id)
+
+    def update_patient(self, patient_id: str, payload: dict):
+        return self._session.put(
+            f"{self._base_url}/Patient/{patient_id}", json=payload
+        )
+
+    def search_patients(self, params: dict):
+        return self._session.get(
+            f"{self._base_url}/Patient", params=params
+        )
+
     # ------------------------------------------------------------------ #
     #  Encounter operations (Phase 3 — new)                               #
     # ------------------------------------------------------------------ #

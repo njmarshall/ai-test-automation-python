@@ -87,13 +87,15 @@ REQUIREMENTS:
 2. Each endpoint must have at minimum:
    - One happy path test
    - One error path test (wrong id, missing field, bad input)
-3. For GET /Patient (search): test at least 2 query parameters
-4. For PUT /Patient/{{id}}: test both update and field validation
-5. Use FhirValidator chaining:
+3. For GET /Patient (search): test 1 query parameter only
+4. For PUT /Patient/{id}: test happy path only
+5. IMPORTANT: Generate a MAXIMUM of 12 tests total — quality over quantity
+6. IMPORTANT: Every code block must be complete — no truncation
+7. Use FhirValidator chaining:
    FhirValidator(response).status(200).resource_type("Patient").has_field("id")
-6. Use FhirFactory.build_patient_dict() for all POST/PUT bodies
-7. Never hardcode patient IDs — always use fixtures or extract from responses
-8. Add a module docstring explaining this file was AI-generated
+8. Use FhirFactory.build_patient_dict() for all POST/PUT bodies
+9. Never hardcode patient IDs — always use fixtures or extract from responses
+10. Add a module docstring explaining this file was AI-generated
 
 Generate the complete test file now:"""
 

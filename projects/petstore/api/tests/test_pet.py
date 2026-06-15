@@ -14,6 +14,7 @@ class TestPet:
 
     @allure.title("POST /pet — create a new pet")
     @pytest.mark.smoke
+    @pytest.mark.petstore
     def test_create_pet(self, api):
         payload = TestDataFactory.random_pet_payload()
 

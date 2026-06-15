@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT     = Path(__file__).parent
@@ -43,7 +43,7 @@ from projects.healthcare_fhir.api.ai.staleness_detector import StalenessDetector
 # ------------------------------------------------------------------ #
 
 def _file_header() -> str:
-    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     return f'''"""
 test_patient_ai.py
 ------------------

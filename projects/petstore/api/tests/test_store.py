@@ -14,6 +14,7 @@ class TestStore:
 
     @allure.title("GET /store/inventory — retrieve inventory")
     @pytest.mark.smoke
+    @pytest.mark.petstore
     def test_get_inventory(self, api):
         response = api.get("/store/inventory")
 
