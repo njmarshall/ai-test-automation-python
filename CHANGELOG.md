@@ -7,3 +7,9 @@
 - AI-generated FHIR Patient test suite via Anthropic SDK
 - Playwright UI tests against HAPI FHIR sandbox
 - GitHub Actions CI/CD pipeline
+
+## 2026-06-15
+
+### Added
+- test_update_patient_persists_new_family_name — full CRUD coverage
+- Total: 34 tests passing
