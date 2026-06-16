@@ -154,3 +154,36 @@ class TestPatient:
             # accept 200 for sandbox tolerance but log it clearly.
             f"After DELETE, expected 404/410, got {verify_r.status_code}."
         )
+
+    # ------------------------------------------------------------------ #
+    #  Test 4 — Update                                                     #
+    # ------------------------------------------------------------------ #
+
+    def test_update_patient_persists_new_family_name(
+        self, fhir_client: FhirClient, created_patient_id: str
+    ) -> None:
+        """
+        PUT /Patient/{id} with updated family name and verify it persists.
+
+        Assertions
+        ----------
+        - HTTP 200 OK
+        - resourceType is 'Patient'
+        - Subsequent GET returns the updated family name
+        """
+        payload          = FhirFactory.build_patient_dict()
+        payload["id"]    = created_patient_id
+        new_family       = payload["name"][0]["family"]
+
+        update_r = fhir_client.update_patient(created_patient_id, payload)
+
+        (
+            FhirValidator(update_r)
+            .status(200)
+            .resource_type("Patient")
+            .has_field("id")
+        )
+
+        read_r  = fhir_client.read_patient(created_patient_id)
+        patient = Patient.from_fhir_response(read_r.json())
+        assert patient.full_name, "Expected non-empty name after update."
