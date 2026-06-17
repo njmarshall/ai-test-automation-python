@@ -13,3 +13,10 @@
 ### Added
 - test_update_patient_persists_new_family_name — full CRUD coverage
 - Total: 34 tests passing
+
+## 2026-06-16
+
+### Notes
+- Repository actively maintained
+- CI pipeline green across all 3 jobs
+- Next: insurance Phase 1 capstone
