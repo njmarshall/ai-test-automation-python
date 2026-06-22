@@ -1,4 +1,4 @@
-name: CI — Healthcare FHIR Test Suite
+name: CI — AI Test Automation Suite
 
 on:
   push:
@@ -91,5 +91,33 @@ jobs:
         run: |
           pytest projects/petstore/api/tests/ \
             -v \
+            --tb=short \
+            --no-header
+
+  # ------------------------------------------------------------------ #
+  #  Insurance API Tests                                                #
+  # ------------------------------------------------------------------ #
+  insurance-tests:
+    name: Insurance API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Insurance API tests
+        run: |
+          pytest projects/insurance/api/tests/ \
+            -v \
+            -m insurance \
             --tb=short \
             --no-header
