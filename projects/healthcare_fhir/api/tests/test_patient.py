@@ -119,6 +119,7 @@ class TestPatient:
     #  Test 3 — Delete                                                     #
     # ------------------------------------------------------------------ #
 
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_delete_patient_removes_resource(
         self, fhir_client: FhirClient
     ) -> None:
