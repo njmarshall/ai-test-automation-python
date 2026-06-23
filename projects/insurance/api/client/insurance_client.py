@@ -58,9 +58,9 @@ class InsuranceClient:
         """DELETE /posts/{id} — remove a Policy resource."""
         return self._session.delete(f"{self._base_url}/posts/{policy_id}")
 
-    def list_policies(self) -> httpx.Response:
+    def list_policies(self, params: dict = None) -> httpx.Response:
         """GET /posts — list all Policy resources."""
-        return self._session.get(f"{self._base_url}/posts")
+        return self._session.get(f"{self._base_url}/posts", params=params)
 
     def list_policies_by_customer(self, user_id: int) -> httpx.Response:
         """GET /posts?userId={id} — list policies for a customer."""

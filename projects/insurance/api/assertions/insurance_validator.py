@@ -88,6 +88,43 @@ class InsuranceValidator:
         )
         return self
 
+
+    def body_equals(self, expected: dict) -> "InsuranceValidator":
+        """Assert the response body equals the expected dict."""
+        body = self._parse()
+        assert body == expected, (
+            f"Expected body {expected!r}, got {body!r}."
+        )
+        return self
+
+    def is_list(self) -> "InsuranceValidator":
+        """Assert the response body is a list."""
+        try:
+            data = self._response.json()
+        except Exception:
+            data = []
+        assert isinstance(data, list), (
+            f"Expected response to be a list, got {type(data).__name__}."
+        )
+        return self
+
+    def list_is_not_empty(self) -> "InsuranceValidator":
+        """Assert the response body is a non-empty list."""
+        data = self._response.json()
+        assert len(data) > 0, "Expected non-empty list, got empty list."
+        return self
+
+    def all_items_have_field_value(self, field: str, expected) -> "InsuranceValidator":
+        """Assert all items in a list response have a field equal to expected."""
+        data = self._response.json()
+        for item in data:
+            actual = item.get(field)
+            assert actual == expected, (
+            f"Expected body {expected!r}, got {body!r}."
+                f"but found {field}={actual!r}."
+            )
+        return self
+
     def extract_id(self) -> int:
         """Return the resource id from the response body."""
         body = self._parse()
