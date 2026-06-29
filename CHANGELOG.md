@@ -36,3 +36,9 @@
 - Daily commit — maintaining active development streak
 
 daily update: 2026-06-26
+
+## 2026-06-28
+
+- Fintech capstone Phase 1 complete
+- 9 tests targeting Coinbase public API (currencies, exchange rates, spot prices)
+- Total: 58 passed, 1 skipped across all projects
