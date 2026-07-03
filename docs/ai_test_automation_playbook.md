@@ -263,3 +263,86 @@ Testing real market data (currencies, exchange rates, spot prices) shows:
 | Phase 3 | ⏳ | Historical price data, multi-pair comparison |
 | Phase 4 | ⏳ | Playwright UI — Coinbase public price charts |
 | Phase 5 | ✅ | CI integration — fintech job added to GitHub Actions |
+
+---
+
+## 11. Interview Q&A — Practiced July 2026
+
+### Q1 — Tell me about your ai-test-automation-python repo
+
+**High-level answer:**
+> "I built an AI-powered test automation framework as a co-pilot workflow
+> between me and Claude. It covers 4 domains — healthcare FHIR, insurance,
+> fintech, and PetStore — with 73 tests passing across API and UI layers.
+> Each capstone follows the same layered architecture: Singleton config,
+> Facade client, CRTP models, Factory test data, and Fluent assertions.
+> The AI generates tests automatically from API specs, and a StalenessDetector
+> flags tests that drift from the spec before they fail in CI."
+
+---
+
+### Q2 — Explain a design pattern you used
+
+**Pattern: Singleton**
+> "Singleton ensures one shared instance no matter how many times you
+> instantiate the class. In test automation this is critical for the HTTP
+> client — you don't want a new connection pool per test. In my FhirConfig
+> and InsuranceConfig, environment variables are loaded exactly once across
+> the entire test run — faster tests, consistent headers, no resource leaks."
+
+---
+
+### Q3 — Flaky test experience at Indeed
+
+**STAR format:**
+> "At Indeed we had async email delivery tests that intermittently failed —
+> the service returned 200 (immediately processed) or 202 (queued).
+> Both were valid responses. I updated assertions to accept status_in(200, 202),
+> added retry with delay, and documented WHY both statuses are valid.
+> Flaky rate dropped ~30% to near zero — my manager could trust the CI badge."
+
+---
+
+### Q4 — Claude Chat vs Claude Code
+
+> "Claude Chat = architecture decisions and design pattern discussion.
+> Claude Code = surgical fixes, running tests, fixing errors in terminal.
+>
+> Example: I used Claude Chat to design the CRTP base class FhirResource[T].
+> When AI-generated tests had HAPI sandbox quirks, Claude Code fixed
+> specific lines in 2 minutes vs 15 rounds of copy-pasting.
+>
+> Key guardrail: always tell Claude Code 'fix only this line, do not
+> rewrite the file' — otherwise test counts drift."
+
+---
+
+### Q5 — Why healthtech? ⭐ STRONGEST ANSWER
+
+> "My father was a family doctor — I grew up understanding how critical
+> reliable health technology is for patients. Healthtech is rapidly growing
+> and heavily relying on AI for quick solutions and health improvement.
+> I'm building AI-powered test automation to support the health industry
+> with stable, reliable products in the long run.
+>
+> My Deaf background also gives me a unique perspective on healthcare
+> accessibility — I understand firsthand how critical reliable health
+> technology is for patients who depend on it."
+
+**Use this as your closing statement in every interview.**
+
+---
+
+### Quick Reference — Numbers to Remember
+
+| Metric | Value |
+|---|---|
+| Total tests | 73 passed, 1 skipped |
+| Domains | 4 (FHIR, Insurance, Fintech, PetStore) |
+| AI-generated tests | 37 (10 FHIR + 12 Insurance + 15 Fintech) |
+| Hand-crafted tests | 36 |
+| CI jobs | 5 (all green) |
+| Design patterns | Singleton, Facade, CRTP, Factory, Template Method, Fluent |
+
+---
+
