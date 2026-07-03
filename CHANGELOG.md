@@ -49,3 +49,9 @@ daily update: 2026-06-26
 - generate_fintech_tests.py: Coinbase public API generator
 - 15 AI-generated tests across 5 endpoint classes
 - Total: 73 passed, 1 skipped across all projects
+
+## 2026-07-01
+
+- Added interview Q&A section to AI test automation playbook
+- Fixed @pytest.mark.petstore to class level — CI now collects all 11 tests
+- Total: 73 passed, 1 skipped across all projects
