@@ -6,6 +6,7 @@ from shared.dataprovider.test_data_factory import TestDataFactory
 
 @allure.feature("PetStore")
 @allure.story("Store Orders")
+@pytest.mark.petstore
 class TestStore:
     """
     Order lifecycle tests for /store endpoints.

@@ -6,6 +6,7 @@ from shared.dataprovider.test_data_factory import TestDataFactory
 
 @allure.feature("PetStore")
 @allure.story("Pet CRUD")
+@pytest.mark.petstore
 class TestPet:
     """
     Full CRUD tests for /pet endpoints.
