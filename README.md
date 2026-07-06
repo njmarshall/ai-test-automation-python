@@ -10,7 +10,7 @@ Production-grade FHIR healthcare API and UI test automation framework.
 - **insurance** — Planned capstone
 
 ## Test Coverage
-- 73 passed, 1 skipped across all projects
+- 77 passed, 1 skipped across all projects
 - 10 AI-generated tests via Anthropic SDK
 - 3 Playwright UI tests against HAPI FHIR sandbox
 
