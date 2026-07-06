@@ -264,3 +264,62 @@ class TestSpotPrices:
             .data_amount_is_positive()
             .data_field_equals("base", "ETH")
         )
+
+
+@pytest.mark.fintech
+class TestServerTime:
+    """Tests for GET /time — Coinbase server time."""
+
+    def test_get_server_time_returns_200(
+        self, fintech_client: FintechClient
+    ) -> None:
+        """GET /time must return 200 with iso and epoch time fields."""
+        response = fintech_client.get_server_time()
+
+        (
+            FintechValidator(response)
+            .status(200)
+            .has_data()
+            .has_data_field("iso")
+            .has_data_field("epoch")
+            .within_sla(sla_ms=5000)
+        )
+
+    def test_server_time_epoch_is_positive(
+        self, fintech_client: FintechClient
+    ) -> None:
+        """Epoch time must be a positive number greater than 0."""
+        response = fintech_client.get_server_time()
+        FintechValidator(response).status(200).has_data()
+        epoch = response.json()["data"].get("epoch")
+        assert epoch is not None, "Expected epoch field in server time."
+        assert float(epoch) > 0, f"Expected positive epoch, got {epoch}."
+
+
+@pytest.mark.fintech
+class TestHistoricPrices:
+    """Tests for GET /prices/{pair}/historic — time-series price data."""
+
+    def test_get_btc_usd_historic_prices_returns_200(
+        self, fintech_client: FintechClient
+    ) -> None:
+        """GET /prices/BTC-USD/historic must return 200 with price data."""
+        response = fintech_client.get_historic_prices(pair="BTC-USD", period="day")
+
+        (
+            FintechValidator(response)
+            .status(200)
+            .has_data()
+            .within_sla(sla_ms=5000)
+        )
+
+    def test_historic_prices_returns_list(
+        self, fintech_client: FintechClient
+    ) -> None:
+        """Historic prices data must be a non-empty list."""
+        response = fintech_client.get_historic_prices(pair="BTC-USD", period="day")
+        FintechValidator(response).status(200).has_data()
+        data = response.json().get("data", {})
+        prices = data.get("prices", [])
+        assert isinstance(prices, list), "Expected prices to be a list."
+        assert len(prices) > 0, "Expected non-empty historic prices list."

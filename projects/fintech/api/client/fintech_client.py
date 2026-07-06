@@ -68,6 +68,18 @@ class FintechClient:
             f"{self._base_url}/prices/{pair}/sell"
         )
 
+
+    def get_server_time(self) -> httpx.Response:
+        """GET /time — get Coinbase server time."""
+        return self._session.get(f"{self._base_url}/time")
+
+    def get_historic_prices(self, pair: str = "BTC-USD", period: str = "day") -> httpx.Response:
+        """GET /prices/{pair}/historic — get historic prices for a trading pair."""
+        return self._session.get(
+            f"{self._base_url}/prices/{pair}/historic",
+            params={"period": period},
+        )
+
     # ------------------------------------------------------------------ #
     #  Lifecycle                                                           #
     # ------------------------------------------------------------------ #
