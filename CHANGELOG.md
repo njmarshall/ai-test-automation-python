@@ -62,3 +62,10 @@ daily update: 2026-07-03
 
 - Fintech Phase 3 complete — server time + historic prices
 - Total: 77 passed, 1 skipped
+
+## 2026-07-08
+
+- Added shields.io badges to README
+- Fintech UI tests complete — Coinbase price page
+- Playwright fixture conflict resolved
+- Total: 80 passed, 1 skipped across all projects
