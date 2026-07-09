@@ -28,7 +28,7 @@ We wrap these with our own fixtures to inject our page objects cleanly.
 from __future__ import annotations
 
 import pytest
-from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
+from playwright.sync_api import Browser, BrowserContext, Page, Playwright
 
 from projects.healthcare_fhir.ui.pages.fhir_explorer_page import FhirExplorerPage
 
@@ -38,18 +38,24 @@ from projects.healthcare_fhir.ui.pages.fhir_explorer_page import FhirExplorerPag
 # ------------------------------------------------------------------ #
 
 @pytest.fixture(scope="session")
-def browser_instance():
+def browser_instance(playwright: Playwright) -> Browser:  # type: ignore
     """
     Launch a Chromium browser once for the entire test session.
     Closed automatically after all UI tests complete.
+
+    Reuses pytest-playwright's session-scoped `playwright` fixture rather
+    than calling sync_playwright() directly — Playwright's sync API only
+    allows one driver loop per thread, so a second manual sync_playwright()
+    call (e.g. from the fintech UI conftest) would raise
+    "using Playwright Sync API inside the asyncio loop" when both suites
+    run in the same pytest session.
     """
-    with sync_playwright() as pw:
-        browser = pw.chromium.launch(
-            headless=True,
-            args=["--no-sandbox", "--disable-dev-shm-usage"],
-        )
-        yield browser
-        browser.close()
+    browser = playwright.chromium.launch(
+        headless=True,
+        args=["--no-sandbox", "--disable-dev-shm-usage"],
+    )
+    yield browser
+    browser.close()
 
 
 # ------------------------------------------------------------------ #
