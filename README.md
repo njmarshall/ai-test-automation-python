@@ -1,6 +1,9 @@
 # AI Test Automation — Python
 
-![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
+[![Tests](https://img.shields.io/badge/tests-78%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 
 Production-grade FHIR healthcare API and UI test automation framework.
 
