@@ -149,3 +149,65 @@ jobs:
             -m fintech \
             --tb=short \
             --no-header
+
+  # ------------------------------------------------------------------ #
+  #  Insurance UI Tests                                                 #
+  # ------------------------------------------------------------------ #
+  insurance-ui-tests:
+    name: Insurance UI Tests (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run Insurance UI tests
+        run: |
+          pytest projects/insurance/ui/tests/ \
+            -v \
+            -m "insurance and ui" \
+            --tb=short \
+            --no-header
+
+  # ------------------------------------------------------------------ #
+  #  Fintech UI Tests                                                   #
+  # ------------------------------------------------------------------ #
+  fintech-ui-tests:
+    name: Fintech UI Tests (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run Fintech UI tests
+        run: |
+          pytest projects/fintech/ui/tests/ \
+            -v \
+            -m "fintech and ui" \
+            --tb=short \
+            --no-header
