@@ -211,3 +211,34 @@ jobs:
             -m "fintech and ui" \
             --tb=short \
             --no-header
+
+  # ------------------------------------------------------------------ #
+  #  PetStore UI Tests                                                  #
+  # ------------------------------------------------------------------ #
+  petstore-ui-tests:
+    name: PetStore UI Tests (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run PetStore UI tests
+        run: |
+          pytest projects/petstore/ui/tests/ \
+            -v \
+            -m "petstore and ui" \
+            --tb=short \
+            --no-header
