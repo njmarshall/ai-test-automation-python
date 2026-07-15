@@ -81,3 +81,8 @@ daily update: 2026-07-03
 - AsyncPoller added — 3 polling strategies from real production experience
 - Finix payment, Indeed email, HEAVY.AI HA cluster patterns
 - Total: 90 passed, 1 skipped
+
+## 2026-07-14
+
+- Async Polling Tests added to CI — 9 parallel jobs now
+- AsyncPoller: Timeout, FixedRetry, ExponentialBackoff strategies
