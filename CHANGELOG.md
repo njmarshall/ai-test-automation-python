@@ -91,3 +91,9 @@ daily update: 2026-07-03
 
 - Second LinkedIn article drafted — Java framework
 - AsyncPoller CI job added
+
+## 2026-07-15
+
+- EventSequencer added — Indeed email pipeline pattern
+- 3 tests: complete sequence, missing event, out-of-order detection
+- Total: 93 passed, 1 skipped
