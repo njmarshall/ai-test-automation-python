@@ -346,3 +346,27 @@ Testing real market data (currencies, exchange rates, spot prices) shows:
 
 ---
 
+## 12. Async Patterns — Interview Talking Points
+
+### AsyncPoller — Three Strategies from Real Production
+
+**Finix payment pattern (TimeoutStrategy):**
+> "At Finix, payment transfers returned 202 immediately but took up to 15 seconds to complete. I built a timeout-based poller that checked transfer status every second until SUCCEEDED or FAILED — or until the 15 second SLA was exceeded."
+
+**Indeed email pattern (FixedRetryStrategy):**
+> "At Indeed, email delivery had a fixed number of pipeline stages. I polled with a constant delay between retries — predictable, easy to debug, aligned with the known pipeline timing."
+
+**HEAVY.AI HA pattern (ExponentialBackoffStrategy):**
+> "At HEAVY.AI, GPU cluster failover testing required polling for replica promotion. Exponential backoff was critical — hammering a recovering cluster worsened recovery time."
+
+### EventSequencer — The Indeed Email Story
+
+**Interview answer:**
+> "At Indeed I tested a complex email delivery pipeline where events had to arrive in a specific sequence: QUEUED, SPAM_CHECK, BLACKLIST_CHECK, CONTENT_SCAN, DELIVERED. I built an EventSequencer that validated both completeness (all events present) and order (events arrived in the right sequence). Missing the blacklist check or having content scan fire before spam check indicated real pipeline failures that status-only checks would miss."
+
+### Key differentiators vs other SDETs
+- Most SDETs test final status only (pass/fail)
+- You test the SEQUENCE and COMPLETENESS of async events
+- You understand WHY order matters (race conditions, pipeline bugs)
+- You can articulate the real production context behind each pattern
+
