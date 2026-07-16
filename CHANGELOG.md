@@ -86,3 +86,8 @@ daily update: 2026-07-03
 
 - Async Polling Tests added to CI — 9 parallel jobs now
 - AsyncPoller: Timeout, FixedRetry, ExponentialBackoff strategies
+
+## 2026-07-15
+
+- Second LinkedIn article drafted — Java framework
+- AsyncPoller CI job added
