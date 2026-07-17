@@ -28,6 +28,7 @@ Production-grade AI-powered test automation framework across healthcare, insuran
 - FixedRetryStrategy — Indeed email delivery pipeline (fixed retries)
 - ExponentialBackoffStrategy — HEAVY.AI GPU cluster HA recovery (backoff)
 - Reusable AsyncPoller in shared/async/ — Strategy pattern, 3 algorithms
+- EventSequencer validates event ORDER and COMPLETENESS (Indeed email pipeline pattern)
 
 ## AI Co-Pilot Workflow
 - Claude Chat for architecture decisions and design patterns

@@ -97,3 +97,9 @@ daily update: 2026-07-03
 - EventSequencer added — Indeed email pipeline pattern
 - 3 tests: complete sequence, missing event, out-of-order detection
 - Total: 93 passed, 1 skipped
+
+## 2026-07-16
+
+- EventSequencer added to CI — 10 parallel jobs now
+- README updated with EventSequencer
+- Total: 94 tests collected
