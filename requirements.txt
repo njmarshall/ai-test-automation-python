@@ -19,3 +19,4 @@ anthropic==0.28.*  # healthcare_fhir Patient CRTP model
 pydantic==2.*
 pytest-playwright==0.7.*
 pytest-rerunfailures==14.*
+deepeval==4.1.*
