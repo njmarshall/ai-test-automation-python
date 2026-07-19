@@ -103,3 +103,9 @@ daily update: 2026-07-03
 - EventSequencer added to CI — 10 parallel jobs now
 - README updated with EventSequencer
 - Total: 94 tests collected
+
+## 2026-07-18
+
+- DeepEval LLM evaluation added — Claude judges Claude
+- Async API playbook Section 13 added
+- Total: 95 passed, 1 skipped
