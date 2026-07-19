@@ -370,3 +370,437 @@ Testing real market data (currencies, exchange rates, spot prices) shows:
 - You understand WHY order matters (race conditions, pipeline bugs)
 - You can articulate the real production context behind each pattern
 
+
+---
+
+## 13. Async API Testing — In-Depth Playbook
+
+### What is Async API Testing?
+
+Most API tests assume synchronous behavior:
+```
+Request → Immediate Response → Assert
+```
+
+Async API testing handles real-world async patterns:
+```
+Request → 202 Accepted → Poll → Poll → Poll → Final State → Assert
+```
+
+### The Three Async Patterns (from real production experience)
+
+---
+
+#### Pattern 1: Timeout-Based Polling (Finix payment processing)
+
+**When to use:** You know the SLA (e.g. 15 seconds) but not how many retries it takes.
+
+**Real scenario:** Finix POST /transfers returns 202 immediately. Payment processing
+takes 2-15 seconds depending on bank response time.
+
+```python
+poller = AsyncPoller(
+    strategy="timeout",
+    timeout_sec=15.0,    # Finix SLA
+    interval_sec=1.0,    # check every 1 second
+)
+
+result = poller.poll(
+    fn=lambda: client.get_transfer(transfer_id),
+    until=lambda r: r.json()["state"] in ("SUCCEEDED", "FAILED"),
+    description="payment transfer completion",
+)
+```
+
+**Interview talking point:**
+> "At Finix I handled async payment processing where transfers returned 202
+> immediately but took up to 15 seconds to complete. I built a timeout-based
+> poller with configurable SLA so tests fail fast when the payment system
+> is degraded, not after an arbitrary number of retries."
+
+---
+
+#### Pattern 2: Fixed Retry (Indeed email delivery)
+
+**When to use:** You know approximately how many pipeline stages exist.
+
+**Real scenario:** Indeed email pipeline has 5 known stages. Each takes ~3 seconds.
+
+```python
+poller = AsyncPoller(
+    strategy="fixed",
+    retries=5,           # 5 pipeline stages
+    delay_sec=3.0,       # ~3 seconds per stage
+)
+
+result = poller.poll(
+    fn=lambda: client.get_email_status(email_id),
+    until=lambda r: r.json()["status"] == "DELIVERED",
+    description="email delivery",
+)
+```
+
+**Interview talking point:**
+> "At Indeed email delivery had a fixed number of pipeline stages.
+> Fixed retry with constant delay was more predictable than timeout-based
+> polling — if a stage was missing entirely, the retry budget was exhausted
+> quickly and the test failed with a clear error rather than waiting the
+> full timeout."
+
+---
+
+#### Pattern 3: Exponential Backoff (HEAVY.AI GPU cluster HA)
+
+**When to use:** Distributed systems where hammering a recovering server makes
+things worse.
+
+**Real scenario:** HEAVY.AI GPU cluster failover — replica promotion takes
+variable time. Polling too aggressively delays recovery.
+
+```python
+poller = AsyncPoller(
+    strategy="backoff",
+    max_retries=5,
+    base_delay_sec=1.0,  # 1s, 2s, 4s, 8s, 16s
+    max_delay_sec=30.0,
+)
+
+result = poller.poll(
+    fn=lambda: client.get_cluster_status(),
+    until=lambda r: r.json()["state"] == "SERVING",
+    description="cluster replica promotion",
+)
+```
+
+**Interview talking point:**
+> "At HEAVY.AI I tested GPU database cluster high availability.
+> Exponential backoff was critical — polling a recovering cluster every
+> second actually delayed recovery by adding load. Backoff gave the
+> cluster breathing room while still catching recovery quickly."
+
+---
+
+### Event Sequence Validation (Indeed email pipeline)
+
+Beyond polling for a final state, some systems require validating that events
+arrive in the CORRECT ORDER. Missing or out-of-order events indicate
+pipeline bugs invisible to status-only checks.
+
+**Real scenario:** Indeed email pipeline must complete stages in order:
+QUEUED → SPAM_CHECK → BLACKLIST_CHECK → CONTENT_SCAN → DELIVERED
+
+```python
+sequencer = EventSequencer(
+    expected_sequence=[
+        "QUEUED",
+        "SPAM_CHECK",
+        "BLACKLIST_CHECK",
+        "CONTENT_SCAN",
+        "DELIVERED",
+    ],
+    timeout_sec=30,
+    poll_interval_sec=2,
+    strict_order=True,   # order matters!
+)
+
+result = sequencer.validate(
+    fetch_events=lambda: email_client.get_events(email_id),
+    extract_status=lambda r: [e["status"] for e in r.json()["events"]],
+)
+
+assert result.is_complete(), f"Missing events: {result.missing}"
+assert result.in_order(), f"Out of order: {result.out_of_order}"
+```
+
+**Three failure modes detected:**
+
+1. **Missing event:** BLACKLIST_CHECK never fired → infrastructure gap
+2. **Out-of-order event:** CONTENT_SCAN before SPAM_CHECK → race condition
+3. **Timeout:** DELIVERED never arrived → delivery failure
+
+**Interview talking point:**
+> "At Indeed I discovered that simple status polling missed a class of
+> bugs where pipeline stages fired out of order. CONTENT_SCAN firing
+> before SPAM_CHECK looked fine from a final-status perspective but
+> indicated a race condition in the event bus. EventSequencer caught
+> these bugs before they reached production."
+
+---
+
+### When to Use Each Pattern
+
+| Scenario | Pattern | Why |
+|---|---|---|
+| Payment processing | Timeout | SLA-driven, variable timing |
+| Email delivery | Fixed Retry | Known pipeline stages |
+| Distributed systems | Exponential Backoff | Avoid thundering herd |
+| Pipeline validation | EventSequencer | Order AND completeness matter |
+| Simple status check | AsyncPoller.poll_for_status() | Convenience wrapper |
+
+---
+
+### Common Mistakes in Async Testing
+
+**Mistake 1: Using time.sleep() directly**
+```python
+# Wrong — brittle, wastes time on fast systems
+time.sleep(15)
+response = client.get_status()
+assert response.json()["state"] == "SUCCEEDED"
+
+# Right — polls until ready or timeout
+result = poller.poll(fn=..., until=..., description=...)
+```
+
+**Mistake 2: Not handling timeout gracefully**
+```python
+# Wrong — test hangs forever
+while client.get_status().json()["state"] != "SUCCEEDED":
+    time.sleep(1)
+
+# Right — PollingTimeoutError raised with clear message
+try:
+    result = poller.poll(fn=..., until=..., description="payment")
+except PollingTimeoutError as e:
+    pytest.fail(f"Payment processing exceeded SLA: {e}")
+```
+
+**Mistake 3: Testing final status only**
+```python
+# Wrong — misses out-of-order pipeline bugs
+assert client.get_status().json()["status"] == "DELIVERED"
+
+# Right — validates complete event sequence in order
+result = sequencer.assert_valid(fetch_events=..., extract_status=...)
+```
+
+---
+
+### Code Locations
+
+```
+shared/async/
+├── async_poller.py      ← TimeoutStrategy, FixedRetryStrategy, ExponentialBackoffStrategy
+└── event_sequencer.py   ← EventSequencer, SequenceResult
+
+projects/fintech/api/tests/
+├── test_async_polling.py    ← 4 tests demonstrating all 3 strategies
+└── test_event_sequencer.py  ← 3 tests: complete, missing, out-of-order
+```
+
+---
+
+## 13. Async API Testing — In-Depth Playbook
+
+### What is Async API Testing?
+
+Most API tests assume synchronous behavior:
+```
+Request → Immediate Response → Assert
+```
+
+Async API testing handles real-world async patterns:
+```
+Request → 202 Accepted → Poll → Poll → Poll → Final State → Assert
+```
+
+### The Three Async Patterns (from real production experience)
+
+---
+
+#### Pattern 1: Timeout-Based Polling (Finix payment processing)
+
+**When to use:** You know the SLA (e.g. 15 seconds) but not how many retries it takes.
+
+**Real scenario:** Finix POST /transfers returns 202 immediately. Payment processing
+takes 2-15 seconds depending on bank response time.
+
+```python
+poller = AsyncPoller(
+    strategy="timeout",
+    timeout_sec=15.0,    # Finix SLA
+    interval_sec=1.0,    # check every 1 second
+)
+
+result = poller.poll(
+    fn=lambda: client.get_transfer(transfer_id),
+    until=lambda r: r.json()["state"] in ("SUCCEEDED", "FAILED"),
+    description="payment transfer completion",
+)
+```
+
+**Interview talking point:**
+> "At Finix I handled async payment processing where transfers returned 202
+> immediately but took up to 15 seconds to complete. I built a timeout-based
+> poller with configurable SLA so tests fail fast when the payment system
+> is degraded, not after an arbitrary number of retries."
+
+---
+
+#### Pattern 2: Fixed Retry (Indeed email delivery)
+
+**When to use:** You know approximately how many pipeline stages exist.
+
+**Real scenario:** Indeed email pipeline has 5 known stages. Each takes ~3 seconds.
+
+```python
+poller = AsyncPoller(
+    strategy="fixed",
+    retries=5,           # 5 pipeline stages
+    delay_sec=3.0,       # ~3 seconds per stage
+)
+
+result = poller.poll(
+    fn=lambda: client.get_email_status(email_id),
+    until=lambda r: r.json()["status"] == "DELIVERED",
+    description="email delivery",
+)
+```
+
+**Interview talking point:**
+> "At Indeed email delivery had a fixed number of pipeline stages.
+> Fixed retry with constant delay was more predictable than timeout-based
+> polling — if a stage was missing entirely, the retry budget was exhausted
+> quickly and the test failed with a clear error rather than waiting the
+> full timeout."
+
+---
+
+#### Pattern 3: Exponential Backoff (HEAVY.AI GPU cluster HA)
+
+**When to use:** Distributed systems where hammering a recovering server makes
+things worse.
+
+**Real scenario:** HEAVY.AI GPU cluster failover — replica promotion takes
+variable time. Polling too aggressively delays recovery.
+
+```python
+poller = AsyncPoller(
+    strategy="backoff",
+    max_retries=5,
+    base_delay_sec=1.0,  # 1s, 2s, 4s, 8s, 16s
+    max_delay_sec=30.0,
+)
+
+result = poller.poll(
+    fn=lambda: client.get_cluster_status(),
+    until=lambda r: r.json()["state"] == "SERVING",
+    description="cluster replica promotion",
+)
+```
+
+**Interview talking point:**
+> "At HEAVY.AI I tested GPU database cluster high availability.
+> Exponential backoff was critical — polling a recovering cluster every
+> second actually delayed recovery by adding load. Backoff gave the
+> cluster breathing room while still catching recovery quickly."
+
+---
+
+### Event Sequence Validation (Indeed email pipeline)
+
+Beyond polling for a final state, some systems require validating that events
+arrive in the CORRECT ORDER. Missing or out-of-order events indicate
+pipeline bugs invisible to status-only checks.
+
+**Real scenario:** Indeed email pipeline must complete stages in order:
+QUEUED → SPAM_CHECK → BLACKLIST_CHECK → CONTENT_SCAN → DELIVERED
+
+```python
+sequencer = EventSequencer(
+    expected_sequence=[
+        "QUEUED",
+        "SPAM_CHECK",
+        "BLACKLIST_CHECK",
+        "CONTENT_SCAN",
+        "DELIVERED",
+    ],
+    timeout_sec=30,
+    poll_interval_sec=2,
+    strict_order=True,   # order matters!
+)
+
+result = sequencer.validate(
+    fetch_events=lambda: email_client.get_events(email_id),
+    extract_status=lambda r: [e["status"] for e in r.json()["events"]],
+)
+
+assert result.is_complete(), f"Missing events: {result.missing}"
+assert result.in_order(), f"Out of order: {result.out_of_order}"
+```
+
+**Three failure modes detected:**
+
+1. **Missing event:** BLACKLIST_CHECK never fired → infrastructure gap
+2. **Out-of-order event:** CONTENT_SCAN before SPAM_CHECK → race condition
+3. **Timeout:** DELIVERED never arrived → delivery failure
+
+**Interview talking point:**
+> "At Indeed I discovered that simple status polling missed a class of
+> bugs where pipeline stages fired out of order. CONTENT_SCAN firing
+> before SPAM_CHECK looked fine from a final-status perspective but
+> indicated a race condition in the event bus. EventSequencer caught
+> these bugs before they reached production."
+
+---
+
+### When to Use Each Pattern
+
+| Scenario | Pattern | Why |
+|---|---|---|
+| Payment processing | Timeout | SLA-driven, variable timing |
+| Email delivery | Fixed Retry | Known pipeline stages |
+| Distributed systems | Exponential Backoff | Avoid thundering herd |
+| Pipeline validation | EventSequencer | Order AND completeness matter |
+| Simple status check | AsyncPoller.poll_for_status() | Convenience wrapper |
+
+---
+
+### Common Mistakes in Async Testing
+
+**Mistake 1: Using time.sleep() directly**
+```python
+# Wrong — brittle, wastes time on fast systems
+time.sleep(15)
+response = client.get_status()
+assert response.json()["state"] == "SUCCEEDED"
+
+# Right — polls until ready or timeout
+result = poller.poll(fn=..., until=..., description=...)
+```
+
+**Mistake 2: Not handling timeout gracefully**
+```python
+# Wrong — test hangs forever
+while client.get_status().json()["state"] != "SUCCEEDED":
+    time.sleep(1)
+
+# Right — PollingTimeoutError raised with clear message
+try:
+    result = poller.poll(fn=..., until=..., description="payment")
+except PollingTimeoutError as e:
+    pytest.fail(f"Payment processing exceeded SLA: {e}")
+```
+
+**Mistake 3: Testing final status only**
+```python
+# Wrong — misses out-of-order pipeline bugs
+assert client.get_status().json()["status"] == "DELIVERED"
+
+# Right — validates complete event sequence in order
+result = sequencer.assert_valid(fetch_events=..., extract_status=...)
+```
+
+---
+
+### Code Locations
+
+```
+shared/async/
+├── async_poller.py      ← TimeoutStrategy, FixedRetryStrategy, ExponentialBackoffStrategy
+└── event_sequencer.py   ← EventSequencer, SequenceResult
+
+projects/fintech/api/tests/
+├── test_async_polling.py    ← 4 tests demonstrating all 3 strategies
+└── test_event_sequencer.py  ← 3 tests: complete, missing, out-of-order
+```
