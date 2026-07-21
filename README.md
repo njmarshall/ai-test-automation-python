@@ -18,10 +18,12 @@ Production-grade AI-powered test automation framework across healthcare, insuran
 | petstore | PetStore REST API (Swagger) | Swagger UI (Playwright) | planned |
 
 ## Test Coverage
-- 86 passed, 1 skipped across all 4 projects
+- 95 passed, 1 skipped across all 4 projects
 - 37 AI-generated tests via Anthropic SDK
 - 12 Playwright UI tests across all projects
-- 7 parallel CI jobs running on every push
+- 10 parallel CI jobs running on every push
+- AsyncPoller and EventSequencer — async event validation patterns
+- DeepEval LLM evaluation — Claude judges AI-generated test quality
 
 ## Async Polling Patterns
 - TimeoutStrategy — Finix payment approval pattern (max 15s timeout)
