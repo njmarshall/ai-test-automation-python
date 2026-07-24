@@ -109,3 +109,8 @@ daily update: 2026-07-03
 - DeepEval LLM evaluation added — Claude judges Claude
 - Async API playbook Section 13 added
 - Total: 95 passed, 1 skipped
+
+## 2026-07-23
+
+- Third LinkedIn article published — async testing at Indeed and Finix
+- Article shared in Test Automation and Software Testing groups
