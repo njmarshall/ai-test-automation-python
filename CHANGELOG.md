@@ -114,3 +114,8 @@ daily update: 2026-07-03
 
 - Third LinkedIn article published — async testing at Indeed and Finix
 - Article shared in Test Automation and Software Testing groups
+
+## 2026-07-24
+
+- DeepEval CI job added with ANTHROPIC_API_KEY secret
+- 11 parallel CI jobs now running
