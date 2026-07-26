@@ -119,3 +119,8 @@ daily update: 2026-07-03
 
 - DeepEval CI job added with ANTHROPIC_API_KEY secret
 - 11 parallel CI jobs now running
+
+## 2026-07-26
+
+- AsyncPoller added to FHIR and Insurance domains
+- 101 passed, 1 skipped — new high score
