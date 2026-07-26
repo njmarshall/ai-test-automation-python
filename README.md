@@ -6,6 +6,10 @@
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![CI Jobs](https://img.shields.io/badge/CI%20jobs-7%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
+## Architecture
+
+![Architecture](docs/architecture.svg)
+
 Production-grade AI-powered test automation framework across healthcare, insurance, fintech, and PetStore domains.
 
 ## Projects
