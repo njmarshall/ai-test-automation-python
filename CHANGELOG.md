@@ -124,3 +124,9 @@ daily update: 2026-07-03
 
 - AsyncPoller added to FHIR and Insurance domains
 - 101 passed, 1 skipped — new high score
+
+## 2026-07-27
+
+- Upwork profile updated with 101 tests, AsyncPoller, DeepEval
+- README badge updated to 101 passing
+- Profile README updated with latest achievements
