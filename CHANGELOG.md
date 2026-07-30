@@ -138,3 +138,8 @@ daily update: 2026-07-27
 - Interview prep completed — 4 questions practiced
 - Upwork profile updated with 101 tests, AsyncPoller, DeepEval
 - AI Test Lead opportunity in progress
+
+## 2026-07-29
+
+- Active recruiter conversations — SDET/AI Test Lead opportunities
+- Practicing Python and Java algorithms for interviews
