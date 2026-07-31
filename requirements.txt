@@ -12,7 +12,7 @@ allure-pytest==2.13.*
 Faker==25.*
 
 # Environment/config
-python-dotenv==1.0.*
+python-dotenv>=1.0
 
 # AI test generator
 anthropic==0.28.*  # healthcare_fhir Patient CRTP model
