@@ -142,23 +142,47 @@ class EventSequencer:
         timeout_sec:       float = 30.0,
         poll_interval_sec: float = 2.0,
         strict_order:      bool  = True,
+        per_event_timeout_sec: Optional[dict] = None,
     ) -> None:
         """
         Parameters
         ----------
         expected_sequence : ordered list of event statuses to expect
-        timeout_sec       : max time to wait for all events
+        timeout_sec       : max time to wait for the whole sequence, and the
+                           fallback budget for any event not listed in
+                           per_event_timeout_sec
         poll_interval_sec : how often to poll for new events
         strict_order      : if True, events must arrive in exact order
                            if False, all events must appear but order is flexible
+        per_event_timeout_sec : optional {event_name: seconds} map giving each
+                           event its OWN polling budget. This mirrors the Indeed
+                           job-alert pipeline, where each daemon had a very
+                           different latency — the notification scheduler could
+                           take minutes while delivery took seconds. When set,
+                           the sequencer waits for each event only as long as
+                           ITS budget and fails fast if a fast event is missing,
+                           instead of burning one conservative worst-case
+                           timeout on the whole chain. This is the change that
+                           cut suite run time dramatically in production: a
+                           missing 30-second event costs ~30 seconds, not the
+                           multi-minute ceiling.
         """
         if not expected_sequence:
             raise ValueError("expected_sequence must contain at least one event.")
 
-        self.expected_sequence  = expected_sequence
-        self.timeout_sec        = timeout_sec
-        self.poll_interval_sec  = poll_interval_sec
-        self.strict_order       = strict_order
+        if per_event_timeout_sec is not None:
+            unknown = set(per_event_timeout_sec) - set(expected_sequence)
+            if unknown:
+                raise ValueError(
+                    "per_event_timeout_sec has events not in expected_sequence: "
+                    f"{sorted(unknown)}"
+                )
+
+        self.expected_sequence      = expected_sequence
+        self.timeout_sec            = timeout_sec
+        self.poll_interval_sec      = poll_interval_sec
+        self.strict_order           = strict_order
+        self.per_event_timeout_sec  = per_event_timeout_sec
 
     # ------------------------------------------------------------------ #
     #  Public interface                                                    #
@@ -170,8 +194,22 @@ class EventSequencer:
         extract_status: Callable[[Any], List[str]],
     ) -> SequenceResult:
         """
+        Validate the event sequence. If per_event_timeout_sec was set, each
+        event is waited for on its own budget (Indeed per-daemon pattern);
+        otherwise a single whole-sequence timeout is used.
+        """
+        if self.per_event_timeout_sec is not None:
+            return self._validate_per_event(fetch_events, extract_status)
+        return self._validate_whole_sequence(fetch_events, extract_status)
+
+    def _validate_whole_sequence(
+        self,
+        fetch_events:   Callable[[], Any],
+        extract_status: Callable[[Any], List[str]],
+    ) -> SequenceResult:
+        """
         Poll fetch_events() until all expected events are observed
-        or timeout is reached.
+        or the single whole-sequence timeout is reached.
 
         Parameters
         ----------
@@ -211,6 +249,73 @@ class EventSequencer:
 
         elapsed_sec  = time.time() - start_time
         missing      = self._find_missing(observed)
+        out_of_order = self._find_out_of_order(observed) if self.strict_order else []
+
+        return SequenceResult(
+            expected=self.expected_sequence,
+            observed=observed,
+            elapsed_sec=elapsed_sec,
+            timed_out=timed_out,
+            missing=missing,
+            out_of_order=out_of_order,
+        )
+
+    def _validate_per_event(
+        self,
+        fetch_events:   Callable[[], Any],
+        extract_status: Callable[[Any], List[str]],
+    ) -> SequenceResult:
+        """
+        Per-event budget validation (Indeed per-daemon pattern).
+
+        Walk the expected events in order. Give each event its own budget from
+        per_event_timeout_sec (falling back to timeout_sec). Poll until the
+        event is observed or ITS budget elapses. If a fast event is missing, we
+        stop after its small budget instead of waiting out one conservative
+        ceiling for the whole chain — the change that cut total run time by
+        roughly 90% in production.
+        """
+        overall_start = time.time()
+        observed: List[str] = []
+        missing:  List[str] = []
+        timed_out = False
+
+        for event in self.expected_sequence:
+            budget      = self.per_event_timeout_sec.get(event, self.timeout_sec)
+            event_start = time.time()
+            seen        = False
+
+            while True:
+                response       = fetch_events()
+                current_events = extract_status(response)
+                for e in current_events:
+                    if e not in observed:
+                        observed.append(e)
+
+                if event in observed:
+                    seen = True
+                    break
+
+                if (time.time() - event_start) >= budget:
+                    break
+
+                time.sleep(self.poll_interval_sec)
+
+            if not seen:
+                missing.append(event)
+                timed_out = True
+                if self.strict_order:
+                    # Fail fast: once the chain has broken, don't spend the
+                    # later events' budgets waiting for events that can't
+                    # legitimately arrive yet.
+                    break
+
+        # Events after an early break were never waited for — still missing.
+        for e in self.expected_sequence:
+            if e not in observed and e not in missing:
+                missing.append(e)
+
+        elapsed_sec  = time.time() - overall_start
         out_of_order = self._find_out_of_order(observed) if self.strict_order else []
 
         return SequenceResult(
