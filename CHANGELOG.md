@@ -160,3 +160,9 @@ daily update: 2026-07-27
 
 - Fourth LinkedIn article published — DeepEval LLM evaluation
 - Article includes custom ChatGPT infographic
+
+## 2026-08-03
+
+- Guardrails added — PHI scrubbing + output validation
+- DeepEval GEval criteria fixed for error-path tests
+- Total: 118 passed, 1 skipped
