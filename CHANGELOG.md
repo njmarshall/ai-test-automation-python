@@ -155,3 +155,8 @@ daily update: 2026-07-27
 - Replied to Muhammad on LinkedIn 3rd article
 - CI all 11 jobs green
 - 105 tests passing
+
+## 2026-08-03
+
+- Fourth LinkedIn article published — DeepEval LLM evaluation
+- Article includes custom ChatGPT infographic
