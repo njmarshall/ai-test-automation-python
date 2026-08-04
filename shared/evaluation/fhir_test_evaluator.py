@@ -133,10 +133,18 @@ class FhirTestEvaluator:
                 "Evaluate whether the generated pytest test code is relevant "
                 "to the FHIR API specification provided. "
                 "A relevant test should: "
-                "1. Test the correct HTTP method (POST, GET, PUT, DELETE) "
+                "1. Test the correct HTTP method (POST, GET, PUT, DELETE) for the "
+                "endpoint under test "
                 "2. Target the correct FHIR endpoint path (/Patient, /Encounter, etc.) "
-                "3. Assert the correct HTTP status code (201 for POST, 200 for GET) "
+                "3. Assert an HTTP status code appropriate to the scenario under test: "
+                "201 for a successful POST and 200 for a successful GET/PUT, OR an "
+                "appropriate error status (e.g. 400, 404) when the test deliberately "
+                "exercises an error path (invalid payload, missing required field, "
+                "non-existent resource, etc.) "
                 "4. Use FhirClient facade methods, not raw httpx calls "
+                "Deliberate error-path/negative tests are just as relevant as happy-path "
+                "tests — do NOT penalize a test for expecting a non-2xx status when its "
+                "name and docstring show that is the scenario being tested. "
                 "Score 1.0 if all criteria met, 0.0 if none met."
             ),
             evaluation_params=[
@@ -151,13 +159,22 @@ class FhirTestEvaluator:
             name="FHIR Assertion Correctness",
             criteria=(
                 "Evaluate whether the assertions in the generated test are "
-                "correct for FHIR R4 API responses. "
-                "Correct assertions should: "
+                "correct for FHIR R4 API responses, given the scenario the test "
+                "targets (happy path or error path). "
+                "For a happy-path test, correct assertions should: "
                 "1. Check resourceType field matches the resource (Patient, Encounter) "
                 "2. Verify the id field is present after creation "
-                "3. Use FhirValidator fluent chaining, not raw assert statements "
-                "4. Handle HAPI sandbox quirks (200 OR 204 for DELETE) "
-                "Score 1.0 if assertions are correct, 0.0 if assertions are wrong."
+                "For an error-path/negative test, correct assertions should instead: "
+                "1. Check resourceType equals 'OperationOutcome' "
+                "2. Verify an 'issue' entry describing the failure is present "
+                "In both cases, correct assertions should: "
+                "3. Use FhirValidator fluent chaining for response-shape assertions "
+                "(raw assert statements are acceptable only for preconditions, such as "
+                "confirming setup succeeded before teardown) "
+                "4. Handle HAPI sandbox quirks (200 OR 204 for DELETE, 200 OR 404 for "
+                "delete of a non-existent resource) "
+                "Score 1.0 if assertions are correct for the scenario under test, "
+                "0.0 if assertions are wrong."
             ),
             evaluation_params=[
                 SingleTurnParams.INPUT,
