@@ -166,3 +166,9 @@ daily update: 2026-07-27
 - Guardrails added — PHI scrubbing + output validation
 - DeepEval GEval criteria fixed for error-path tests
 - Total: 118 passed, 1 skipped
+
+## 2026-08-04
+
+- Observability added — AI call logging with cost, speed, drift detection
+- All 4 AI quality ideas complete: Evaluation, Guardrails, Orchestration, Observability
+- Total: 128 passed, 1 skipped
