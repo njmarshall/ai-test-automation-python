@@ -352,3 +352,30 @@ jobs:
             -v \
             --tb=short \
             --no-header
+
+  # ------------------------------------------------------------------ #
+  #  Observability Tests                                                #
+  # ------------------------------------------------------------------ #
+  observability-tests:
+    name: Observability Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Observability tests
+        run: |
+          pytest projects/healthcare_fhir/api/tests/test_observability.py \
+            -v \
+            --tb=short \
+            --no-header
