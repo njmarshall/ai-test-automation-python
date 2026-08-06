@@ -172,3 +172,9 @@ daily update: 2026-07-27
 - Observability added — AI call logging with cost, speed, drift detection
 - All 4 AI quality ideas complete: Evaluation, Guardrails, Orchestration, Observability
 - Total: 128 passed, 1 skipped
+
+## 2026-08-05
+
+- Observability + Guardrails integrated into BaseTestGenerator
+- Every Claude API call now observed and prompt-scrubbed
+- 13 parallel CI jobs all green
