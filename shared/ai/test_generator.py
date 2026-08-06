@@ -27,6 +27,9 @@ from abc import ABC, abstractmethod
 
 import anthropic
 
+from shared.observability.ai_observer import AiObserver
+from shared.guardrails.input_guard import InputGuard
+
 
 class BaseTestGenerator(ABC):
     """
@@ -53,9 +56,11 @@ class BaseTestGenerator(ABC):
                 "Export it before running the generator:\n"
                 "  export ANTHROPIC_API_KEY=your_key_here"
             )
-        self._client     = anthropic.Anthropic(api_key=api_key)
-        self._model      = model
-        self._max_tokens = max_tokens
+        self._client       = anthropic.Anthropic(api_key=api_key)
+        self._model        = model
+        self._max_tokens   = max_tokens
+        self._observer     = AiObserver()
+        self._input_guard  = InputGuard()
 
     # ------------------------------------------------------------------ #
     #  Template Method — invariant skeleton                               #
@@ -105,15 +110,27 @@ class BaseTestGenerator(ABC):
 
     def _call_api(self, system_prompt: str, user_prompt: str) -> str:
         """Call the Anthropic Messages API and return the text response."""
-        message = self._client.messages.create(
-            model=self._model,
-            max_tokens=self._max_tokens,
-            system=system_prompt,
-            messages=[
-                {"role": "user", "content": user_prompt}
-            ],
-        )
+        scrubbed_prompt = self._input_guard.scrub_prompt(user_prompt)
+
+        with self._observer.observe("test_generation") as obs:
+            message = self._client.messages.create(
+                model=self._model,
+                max_tokens=self._max_tokens,
+                system=system_prompt,
+                messages=[
+                    {"role": "user", "content": scrubbed_prompt}
+                ],
+            )
+            obs.record_tokens(
+                input_tokens=message.usage.input_tokens,
+                output_tokens=message.usage.output_tokens,
+            )
+
         return message.content[0].text
+
+    def get_metrics(self) -> str:
+        """Return a human-readable summary of observed AI calls."""
+        return self._observer.summary()
 
     @staticmethod
     def _extract_code(raw: str) -> str:
