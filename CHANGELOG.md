@@ -199,3 +199,9 @@ daily update: 2026-07-27
 - 13 parallel CI jobs all green
 
 daily update: 2026-08-08
+
+## 2026-08-09
+
+- Sixth LinkedIn article published — PHI Guardrails deep dive
+- Article reviewed by ChatGPT for HIPAA accuracy
+- V6 final with proper formatting
