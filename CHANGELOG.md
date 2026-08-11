@@ -211,3 +211,8 @@ daily update: 2026-08-08
 - Sixth article reformatted — V10 final version
 - Impressions increasing after formatting fix
 - 129 tests passing, 13 CI jobs green
+
+## 2026-08-10
+
+- FHIR Async and Insurance Async tests added to CI
+- 15 parallel CI jobs now running
