@@ -205,3 +205,9 @@ daily update: 2026-08-08
 - Sixth LinkedIn article published — PHI Guardrails deep dive
 - Article reviewed by ChatGPT for HIPAA accuracy
 - V6 final with proper formatting
+
+## 2026-08-10
+
+- Sixth article reformatted — V10 final version
+- Impressions increasing after formatting fix
+- 129 tests passing, 13 CI jobs green
