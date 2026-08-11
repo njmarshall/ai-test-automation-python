@@ -379,3 +379,57 @@ jobs:
             -v \
             --tb=short \
             --no-header
+
+  # ------------------------------------------------------------------ #
+  #  FHIR Async Tests                                                   #
+  # ------------------------------------------------------------------ #
+  fhir-async-tests:
+    name: FHIR Async Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run FHIR Async tests
+        run: |
+          pytest projects/healthcare_fhir/api/tests/test_fhir_async.py \
+            -v \
+            --tb=short \
+            --no-header
+
+  # ------------------------------------------------------------------ #
+  #  Insurance Async Tests                                              #
+  # ------------------------------------------------------------------ #
+  insurance-async-tests:
+    name: Insurance Async Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Insurance Async tests
+        run: |
+          pytest projects/insurance/api/tests/test_insurance_async.py \
+            -v \
+            --tb=short \
+            --no-header
