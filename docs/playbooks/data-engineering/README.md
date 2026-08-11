@@ -115,11 +115,10 @@ This playbook represents my active reconnection with the modern Databricks ecosy
 
 ## Study Resources
 
-- [Databricks Academy](https://academy.databricks.com) — free learning paths including Data Engineer Associate
+- [Databricks Training & Certification](https://www.databricks.com/learn/training/home) — free learning paths including Data Engineer Associate
 - [Databricks Documentation](https://docs.databricks.com) — Delta Lake and Unity Catalog sections
 - [Great Expectations Documentation](https://docs.greatexpectations.io)
-- [Databricks Community Edition](https://community.cloud.databricks.com) — free hands-on environment
-
+- [Databricks Free Edition](https://databricks.com/learn/free-edition) — replaced Community Edition in 2026; free hands-on workspace, no cloud account needed
 ---
 
 *Active learning document — July 2026*  
