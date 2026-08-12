@@ -29,6 +29,7 @@ import anthropic
 
 from shared.observability.ai_observer import AiObserver
 from shared.guardrails.input_guard import InputGuard
+from shared.guardrails.output_guard import OutputGuard
 
 
 class BaseTestGenerator(ABC):
@@ -61,6 +62,7 @@ class BaseTestGenerator(ABC):
         self._max_tokens   = max_tokens
         self._observer     = AiObserver()
         self._input_guard  = InputGuard()
+        self._output_guard = OutputGuard()
 
     # ------------------------------------------------------------------ #
     #  Template Method — invariant skeleton                               #
@@ -126,7 +128,13 @@ class BaseTestGenerator(ABC):
                 output_tokens=message.usage.output_tokens,
             )
 
-        return message.content[0].text
+        raw_text = message.content[0].text
+
+        validation = self._output_guard.validate(raw_text)
+        if not validation.passed:
+            raise ValueError(f"Generated code failed output validation: {validation.failures}")
+
+        return raw_text
 
     def get_metrics(self) -> str:
         """Return a human-readable summary of observed AI calls."""
