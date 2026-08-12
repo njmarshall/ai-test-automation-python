@@ -216,3 +216,9 @@ daily update: 2026-08-08
 
 - FHIR Async and Insurance Async tests added to CI
 - 15 parallel CI jobs now running
+
+## 2026-08-11
+
+- OutputGuard integrated into BaseTestGenerator
+- Full guardrail coverage on both sides of every Claude call
+- 128 tests passing
