@@ -146,11 +146,11 @@ GitHub Actions · Allure Reports
 | # | Title | Topic |
 |---|---|---|
 | 1 | [How I Built a 73-Test AI-Powered Test Framework Across 4 Domains Using Claude](https://www.linkedin.com/pulse/how-i-built-73-test-ai-powered-test-framework-across-4-neil-marshall-oefac/) | Framework overview |
-| 2 | [From Java to AI: Enterprise-Grade Test Framework Using TestNG, RestAssured, and Claude](https://www.linkedin.com/in/njmarshall/) | Java framework |
-| 3 | [Why Async Testing Is the Hardest Part of SDET Work and How I Solved It](https://www.linkedin.com/in/njmarshall/) | AsyncPoller + EventSequencer |
-| 4 | [AI Can Generate Tests. But Who Checks If They Are Any Good?](https://www.linkedin.com/in/njmarshall/) | DeepEval evaluation |
-| 5 | [The 4 Ideas Every AI Test Engineer Needs to Know in 2026](https://www.linkedin.com/in/njmarshall/) | All 4 AI pillars |
-| 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/in/njmarshall/) | Guardrails deep dive |
+| 2 | [From Java to AI: Enterprise-Grade Test Framework Using TestNG, RestAssured, and Claude](https://www.linkedin.com/pulse/from-java-ai-how-i-built-enterprise-grade-test-using-testng-marshall-kaedc/) | Java framework |
+| 3 | [Why Async Testing Is the Hardest Part of SDET Work and How I Solved It](https://www.linkedin.com/pulse/why-async-testing-hardest-part-sdet-work-how-i-solved-neil-marshall-9wbpc/) | AsyncPoller + EventSequencer |
+| 4 | [AI Can Generate Tests. But Who Checks If They Are Any Good?](https://www.linkedin.com/pulse/ai-can-generate-tests-who-checks-any-good-neil-marshall-idibf/) | DeepEval evaluation |
+| 5 | [The 4 Ideas Every AI Test Engineer Needs to Know in 2026](https://www.linkedin.com/pulse/4-ideas-every-ai-test-engineer-needs-know-2026-neil-marshall-agrnc/) | All 4 AI pillars |
+| 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/pulse/how-i-built-phi-guardrails-my-ai-test-pipeline-neil-marshall-on6vc/) | Guardrails deep dive |
 
 ---
 
