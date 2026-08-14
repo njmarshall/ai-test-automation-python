@@ -22,7 +22,7 @@
 
   <!-- Title -->
   <text class="th" x="340" y="28" text-anchor="middle" font-size="15">ai-test-automation-python</text>
-  <text class="ts" x="340" y="46" text-anchor="middle">95 tests · 4 domains · 11 parallel CI jobs</text>
+  <text class="ts" x="340" y="46" text-anchor="middle">135 tests · 4 domains · 15 parallel CI jobs</text>
 
   <!-- SHARED FOUNDATION -->
   <g class="c-gray">
@@ -111,8 +111,8 @@
   <!-- CI -->
   <g class="c-gray">
     <rect x="30" y="456" width="620" height="54" rx="14" stroke-width="0.5"/>
-    <text class="th" x="340" y="478" text-anchor="middle">GitHub Actions CI — 11 parallel jobs</text>
-    <text class="ts" x="340" y="496" text-anchor="middle">FHIR API · FHIR UI · Insurance · Fintech · PetStore · Async · EventSeq · DeepEval</text>
+    <text class="th" x="340" y="478" text-anchor="middle">GitHub Actions CI — 15 parallel jobs</text>
+    <text class="ts" x="340" y="496" text-anchor="middle">FHIR API · FHIR UI · Insurance · Fintech · PetStore · Async · EventSeq · DeepEval · Guardrails · Observability · Agent</text>
   </g>
 
   <!-- Arrow down -->
@@ -121,7 +121,7 @@
   <!-- TEST COUNT -->
   <g class="c-teal">
     <rect x="30" y="540" width="620" height="54" rx="14" stroke-width="0.5"/>
-    <text class="th" x="340" y="562" text-anchor="middle">95 passed · 1 skipped · 0 errors</text>
+    <text class="th" x="340" y="562" text-anchor="middle">135 passed · 1 skipped · 0 errors</text>
     <text class="ts" x="340" y="580" text-anchor="middle">Hand-crafted · AI-generated · Playwright UI · Async polling · LLM evaluation</text>
   </g>
 
