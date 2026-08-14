@@ -4,51 +4,154 @@
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
 [![Tests](https://img.shields.io/badge/tests-135%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
-[![CI Jobs](https://img.shields.io/badge/CI%20jobs-7%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
+[![CI Jobs](https://img.shields.io/badge/CI%20jobs-15%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
+
+Production-grade AI-powered test automation framework across healthcare FHIR, insurance, fintech, and PetStore domains. Built with enterprise design patterns, AI test generation, self-healing agents, and a complete AI quality pipeline.
+
+---
 
 ## Architecture
 
 ![Architecture](docs/architecture.svg)
 
-Production-grade AI-powered test automation framework across healthcare, insurance, fintech, and PetStore domains.
+---
 
-## Projects
+## The 4 AI Quality Pillars
 
-| Project | API Tests | UI Tests | AI Tests |
-|---|---|---|---|
-| healthcare_fhir | FHIR R4 Patient, Encounter, Observation | HAPI FHIR explorer (Playwright) | 10 AI-generated |
-| insurance | Policy CRUD (JSONPlaceholder) | JSONPlaceholder docs (Playwright) | 12 AI-generated |
-| fintech | Coinbase market data, exchange rates, spot prices | Coinbase price page (Playwright) | 15 AI-generated |
-| petstore | PetStore REST API (Swagger) | Swagger UI (Playwright) | planned |
+This framework implements all four pillars required for production AI test automation:
+
+| Pillar | Implementation | Location |
+|---|---|---|
+| Evaluation | DeepEval + ClaudeJudge scores AI-generated tests. Score below 0.7 = rejected | `shared/evaluation/` |
+| Guardrails | InputGuard scrubs PHI before Claude. OutputGuard validates generated code safety | `shared/guardrails/` |
+| Observability | AiObserver tracks cost, speed, quality drift on every Claude API call | `shared/observability/` |
+| Orchestration | SelfHealingAgent connects all pillars into an autonomous repair loop | `shared/agent/` |
+
+---
+
+## Self-Healing Agent — Direction 1 Agentic Loop
+
+When a test fails in CI, the SelfHealingAgent orchestrates all 4 pillars automatically:
+
+```
+CI Failure Detected
+      ↓
+Step 1: Read failing test file
+Step 2: InputGuard scrubs PHI from fix prompt     ← Guardrails
+Step 3: Claude generates the fix                  ← AI Generation
+Step 4: OutputGuard validates generated code      ← Guardrails
+Step 5: Human approval checkpoint                 ← Safety
+Step 6: AiObserver records cost/speed/quality     ← Observability
+      ↓
+HealingResult — PASS or REJECTED
+```
+
+---
+
+## Domain Coverage
+
+| Project | API Tests | UI Tests | AI-Generated | Async Tests |
+|---|---|---|---|---|
+| healthcare_fhir | FHIR R4 Patient, Encounter, Observation | HAPI FHIR explorer (Playwright) | 10 tests | AsyncPoller + EventSequencer |
+| insurance | Policy CRUD (JSONPlaceholder) | JSONPlaceholder docs (Playwright) | 12 tests | AsyncPoller |
+| fintech | Coinbase market data, exchange rates, spot prices | Coinbase price page (Playwright) | 15 tests | AsyncPoller + EventSequencer |
+| petstore | PetStore REST API (Swagger) | Swagger UI (Playwright) | planned | planned |
+
+---
 
 ## Test Coverage
-- 101 passed, 1 skipped across all 4 projects
-- 37 AI-generated tests via Anthropic SDK
-- 12 Playwright UI tests across all projects
-- 10 parallel CI jobs running on every push
-- AsyncPoller and EventSequencer — async event validation patterns
-- DeepEval LLM evaluation — Claude judges AI-generated test quality
+
+- **135 passed, 1 skipped** across all 4 domains
+- **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
+- **12 Playwright UI tests** across all 4 domains
+- **15 parallel CI jobs** running on every push
+- **7 self-healing agent tests** — mocked, fast, no API calls
+
+---
 
 ## Async Polling Patterns
-- TimeoutStrategy — Finix payment approval pattern (max 15s timeout)
-- FixedRetryStrategy — Indeed email delivery pipeline (fixed retries)
-- ExponentialBackoffStrategy — HEAVY.AI GPU cluster HA recovery (backoff)
-- Reusable AsyncPoller in shared/async/ — Strategy pattern, 3 algorithms
-- EventSequencer validates event ORDER and COMPLETENESS (Indeed email pipeline pattern)
+
+Reusable `AsyncPoller` and `EventSequencer` in `shared/async/` — built from real production experience:
+
+| Strategy | Origin | Use Case |
+|---|---|---|
+| TimeoutStrategy | Finix payments | Poll until SUCCEEDED/FAILED within 15s SLA |
+| FixedRetryStrategy | Indeed email delivery | Fixed retries for known pipeline stages |
+| ExponentialBackoffStrategy | HEAVY.AI GPU cluster HA | Avoid thundering herd during recovery |
+| EventSequencer | Indeed email pipeline | Validates event ORDER and COMPLETENESS |
+
+---
 
 ## AI Co-Pilot Workflow
-- Claude Chat for architecture decisions and design patterns
-- Claude Code for automated test fixing loops and surgical fixes
-- StalenessDetector flags stale tests before CI runs
-- AI test generators for FHIR, Insurance, and Fintech domains
 
-## Stack
-Python 3.13, pytest, httpx, Playwright, Anthropic SDK, Pydantic, Faker, pytest-rerunfailures
+```
+Claude Chat    → Architecture decisions and design patterns
+Claude Code    → Surgical fixes and automated test repair
+InputGuard     → PHI scrubbing before every Claude API call
+OutputGuard    → Code safety validation after every Claude response
+AiObserver     → Cost, speed, quality metrics on every call
+StalenessDetector → Flags stale tests before CI runs
+```
+
+---
+
+## Shared Foundation
+
+Every project inherits from `shared/` — add a new domain in hours, not weeks:
+
+```
+shared/
+├── ai/            ← LLM layer — BaseTestGenerator (Template Method)
+├── agent/         ← AI Agent — SelfHealingAgent (Orchestration)
+├── async/         ← AsyncPoller + EventSequencer (Strategy)
+├── evaluation/    ← DeepEval + ClaudeJudge (Evals)
+├── guardrails/    ← InputGuard + OutputGuard (Safety)
+├── observability/ ← AiObserver + drift detection (Monitoring)
+├── config/        ← Singleton pattern
+├── http/          ← Facade over httpx
+├── assertions/    ← Fluent Interface validators
+└── dataprovider/  ← Factory pattern test data
+```
+
+---
 
 ## Design Patterns
-Singleton, Facade, Factory, CRTP, Template Method, Fluent Interface, SOLID
 
-## Published Article
-[How I Built a 73-Test AI-Powered Test Framework Across 4 Domains Using Claude](https://www.linkedin.com/pulse/how-i-built-73-test-ai-powered-test-framework-across-4-neil-marshall-oefac/)
+| Pattern | Applied In |
+|---|---|
+| Singleton | Config loaders — env vars loaded once per run |
+| Facade | HTTP clients — tests never touch raw httpx |
+| CRTP | Resource models — FhirResource[T], typed deserialisation |
+| Factory | Test data — randomised, FHIR-compliant payloads |
+| Template Method | AI generators — BaseTestGenerator skeleton |
+| Fluent Interface | Validators — FhirValidator, InsuranceValidator, FintechValidator |
+| Strategy | AsyncPoller — 3 interchangeable polling algorithms |
+| Page Object Model | Playwright UI tests across all 4 domains |
+| SOLID | Applied throughout all layers |
 
-*Last updated: July 2026*
+---
+
+## Stack
+
+```
+Python 3.13 · pytest · httpx · Playwright · Anthropic SDK
+Pydantic · Faker · DeepEval · pytest-rerunfailures
+GitHub Actions · Allure Reports
+```
+
+---
+
+## Published Articles
+
+| # | Title | Topic |
+|---|---|---|
+| 1 | [How I Built a 73-Test AI-Powered Test Framework Across 4 Domains Using Claude](https://www.linkedin.com/pulse/how-i-built-73-test-ai-powered-test-framework-across-4-neil-marshall-oefac/) | Framework overview |
+| 2 | [From Java to AI: Enterprise-Grade Test Framework Using TestNG, RestAssured, and Claude](https://www.linkedin.com/in/njmarshall/) | Java framework |
+| 3 | [Why Async Testing Is the Hardest Part of SDET Work and How I Solved It](https://www.linkedin.com/in/njmarshall/) | AsyncPoller + EventSequencer |
+| 4 | [AI Can Generate Tests. But Who Checks If They Are Any Good?](https://www.linkedin.com/in/njmarshall/) | DeepEval evaluation |
+| 5 | [The 4 Ideas Every AI Test Engineer Needs to Know in 2026](https://www.linkedin.com/in/njmarshall/) | All 4 AI pillars |
+| 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/in/njmarshall/) | Guardrails deep dive |
+
+---
+
+*Last updated: August 2026*
