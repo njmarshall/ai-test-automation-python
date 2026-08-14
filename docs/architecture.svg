@@ -110,19 +110,20 @@
 
   <!-- CI -->
   <g class="c-gray">
-    <rect x="30" y="456" width="620" height="54" rx="14" stroke-width="0.5"/>
-    <text class="th" x="340" y="478" text-anchor="middle">GitHub Actions CI — 15 parallel jobs</text>
-    <text class="ts" x="340" y="496" text-anchor="middle">FHIR API · FHIR UI · Insurance · Fintech · PetStore · Async · EventSeq · DeepEval · Guardrails · Observability · Agent</text>
+    <rect x="30" y="456" width="620" height="68" rx="14" stroke-width="0.5"/>
+    <text class="th" x="340" y="476" text-anchor="middle">GitHub Actions CI — 15 parallel jobs</text>
+    <text class="ts" x="340" y="493" text-anchor="middle">FHIR API · FHIR UI · Insurance API · Insurance UI · Fintech API · Fintech UI · PetStore API</text>
+    <text class="ts" x="340" y="511" text-anchor="middle">PetStore UI · Async · EventSeq · DeepEval · Guardrails · Observability · Agent</text>
   </g>
 
   <!-- Arrow down -->
-  <line x1="340" y1="510" x2="340" y2="535" class="arr" marker-end="url(#arrow)"/>
+  <line x1="340" y1="524" x2="340" y2="549" class="arr" marker-end="url(#arrow)"/>
 
   <!-- TEST COUNT -->
   <g class="c-teal">
-    <rect x="30" y="540" width="620" height="54" rx="14" stroke-width="0.5"/>
-    <text class="th" x="340" y="562" text-anchor="middle">135 passed · 1 skipped · 0 errors</text>
-    <text class="ts" x="340" y="580" text-anchor="middle">Hand-crafted · AI-generated · Playwright UI · Async polling · LLM evaluation</text>
+    <rect x="30" y="554" width="620" height="54" rx="14" stroke-width="0.5"/>
+    <text class="th" x="340" y="576" text-anchor="middle">135 passed · 1 skipped · 0 errors</text>
+    <text class="ts" x="340" y="594" text-anchor="middle">Hand-crafted · AI-generated · Playwright UI · Async polling · LLM evaluation</text>
   </g>
 
   <!-- PATTERNS -->
