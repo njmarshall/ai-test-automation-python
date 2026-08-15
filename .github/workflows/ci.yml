@@ -433,3 +433,30 @@ jobs:
             -v \
             --tb=short \
             --no-header
+
+  # ------------------------------------------------------------------ #
+  #  Self Healing Agent Tests                                           #
+  # ------------------------------------------------------------------ #
+  self-healing-agent-tests:
+    name: Self Healing Agent Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Self Healing Agent tests
+        run: |
+          pytest projects/healthcare_fhir/api/tests/test_self_healing_agent.py \
+            -v \
+            --tb=short \
+            --no-header
