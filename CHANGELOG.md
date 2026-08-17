@@ -249,3 +249,9 @@ daily update: 2026-08-08
 
 - Self Healing Agent added to CI — 16 parallel jobs now
 - 6th article shared in Test Automation and Software Testing groups
+
+## 2026-08-16
+
+- MCP integration roadmap added to docs/
+- Contract testing placeholder added to shared/
+- 136 tests collected, 16 CI jobs green
