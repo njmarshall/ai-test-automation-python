@@ -154,4 +154,6 @@ GitHub Actions · Allure Reports
 
 ---
 
+| 7 | [Async API Testing: 5 Failure Modes Most Test Suites Miss](https://www.linkedin.com/pulse/async-api-testing-5-failure-modes-most-test-suites-miss-neil-marshall/) | Async failure modes |
+
 *Last updated: August 2026*
