@@ -255,3 +255,11 @@ daily update: 2026-08-08
 - MCP integration roadmap added to docs/
 - Contract testing placeholder added to shared/
 - 136 tests collected, 16 CI jobs green
+
+## 2026-08-17
+
+- Seventh LinkedIn article published — Async API Testing: 5 Failure Modes
+- Article reviewed by ChatGPT for technical accuracy
+- P0 fixes applied — duplicate detection and AiObserver claims corrected
+- AI two-layer architecture section added
+- Shared in Test Automation and Software Testing groups
