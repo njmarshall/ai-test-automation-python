@@ -269,3 +269,8 @@ daily update: 2026-08-08
 - Studying Java for interview tomorrow
 - 7 LinkedIn articles published
 - 136 tests passing, 16 CI jobs green
+
+## 2026-08-18
+
+- Java repo updated — interview prep commits
+- Studying Java algorithms for tomorrow's interview
