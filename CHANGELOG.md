@@ -274,3 +274,9 @@ daily update: 2026-08-08
 
 - Java repo updated — interview prep commits
 - Studying Java algorithms for tomorrow's interview
+
+## 2026-08-19
+
+- AI SDET interview prep guide published to playbook repo
+- Covers 7 key areas: AI questions, HTTP errors, SDLC, test pyramid, first day plan, long-term strategy
+- Java interview tomorrow afternoon
