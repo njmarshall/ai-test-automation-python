@@ -280,3 +280,9 @@ daily update: 2026-08-08
 - AI SDET interview prep guide published to playbook repo
 - Covers 7 key areas: AI questions, HTTP errors, SDLC, test pyramid, first day plan, long-term strategy
 - Java interview tomorrow afternoon
+
+## 2026-08-19
+
+- AI SDET interview prep guide published to playbook repo
+- Covers 7 key areas: AI questions, HTTP errors, SDLC, test pyramid, first day plan, long-term strategy
+- Java interview tomorrow afternoon
