@@ -291,3 +291,8 @@ daily update: 2026-08-08
 
 - Applied to 2 jobs
 - Spoke with 3 recruiters
+
+## 2026-08-20
+
+- Interview prep completed — Guardrails and opener practiced
+- Java interview tomorrow afternoon
