@@ -296,3 +296,9 @@ daily update: 2026-08-08
 
 - Interview prep completed — Guardrails and opener practiced
 - Java interview tomorrow afternoon
+
+## 2026-08-21
+
+- Complete interview prep guide created — all 5 questions with code examples
+- Amazon interview tomorrow morning
+- Java interview tomorrow afternoon
