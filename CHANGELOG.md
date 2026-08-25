@@ -302,3 +302,9 @@ daily update: 2026-08-08
 - Complete interview prep guide created — all 5 questions with code examples
 - Amazon interview tomorrow morning
 - Java interview tomorrow afternoon
+
+## 2026-08-24
+
+- Eighth LinkedIn article published — AI Quality Drift and AiObserver
+- Article shared in Test Automation and Software Testing groups
+- 8 articles published total
