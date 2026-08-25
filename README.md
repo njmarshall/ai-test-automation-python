@@ -152,6 +152,7 @@ GitHub Actions · Allure Reports
 | 5 | [The 4 Ideas Every AI Test Engineer Needs to Know in 2026](https://www.linkedin.com/pulse/4-ideas-every-ai-test-engineer-needs-know-2026-neil-marshall-agrnc/) | All 4 AI pillars |
 | 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/pulse/how-i-built-phi-guardrails-my-ai-test-pipeline-neil-marshall-on6vc/) | Guardrails deep dive |
 | 7 | [Async API Testing: 5 Failure Modes Most Test Suites Miss](https://www.linkedin.com/pulse/async-api-testing-5-failure-modes-most-test-suites-miss-neil-marshall/) | Async failure modes |
+| 8 | [AI Quality Drift: How I Built AiObserver to Detect It Before Failure](https://www.linkedin.com/pulse/ai-quality-drift-how-i-built-aiobserver-detect-before-neil-marshall/) | Observability deep dive |
 
 ---
 
