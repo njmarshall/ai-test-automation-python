@@ -308,3 +308,9 @@ daily update: 2026-08-08
 - Eighth LinkedIn article published — AI Quality Drift and AiObserver
 - Article shared in Test Automation and Software Testing groups
 - 8 articles published total
+
+## 2026-08-25
+
+- Profile README updated — 136 tests, 8 articles
+- Spring Boot framework scaffolding started
+- 8 LinkedIn articles published
