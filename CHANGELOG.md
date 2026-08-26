@@ -314,3 +314,9 @@ daily update: 2026-08-08
 - Profile README updated — 136 tests, 8 articles
 - Spring Boot framework scaffolding started
 - 8 LinkedIn articles published
+
+## 2026-08-25
+
+- Marshall Test Engineering updated in GitHub profile
+- 8 LinkedIn articles published
+- 136 tests passing, 16 CI jobs green
