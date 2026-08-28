@@ -320,3 +320,9 @@ daily update: 2026-08-08
 - Marshall Test Engineering updated in GitHub profile
 - 8 LinkedIn articles published
 - 136 tests passing, 16 CI jobs green
+
+## 2026-08-27
+
+- Switching Spring Boot development to dedicated chat
+- ai-test-automation-spring active
+- Taking a short break from burnout
