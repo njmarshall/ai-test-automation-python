@@ -332,3 +332,9 @@ daily update: 2026-08-08
 - Contract testing added — FHIR Patient API (6 tests)
 - Closes principal architect gap
 - Total: 141 passed, 1 skipped
+
+## 2026-08-28
+
+- Performance testing scaffold started — Locust + FhirPerformanceChecker
+- HAPI sandbox timeout issue identified — fix tomorrow
+- Part 2 tomorrow: add timeouts + CI job
