@@ -338,3 +338,10 @@ daily update: 2026-08-08
 - Performance testing scaffold started — Locust + FhirPerformanceChecker
 - HAPI sandbox timeout issue identified — fix tomorrow
 - Part 2 tomorrow: add timeouts + CI job
+
+## 2026-08-29
+
+- Performance testing Part 2 in progress
+- Debugging pytest collection hang with Claude Code
+- Locust installed, FhirPerformanceChecker built
+- pytest-timeout installed
