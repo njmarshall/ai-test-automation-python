@@ -345,3 +345,9 @@ daily update: 2026-08-08
 - Debugging pytest collection hang with Claude Code
 - Locust installed, FhirPerformanceChecker built
 - pytest-timeout installed
+
+## 2026-08-29
+
+- Fixed pytest collection hang — two root causes resolved
+- Performance tests now collect in 0.00s
+- Claude Code diagnosed gevent + sentry deadlock
