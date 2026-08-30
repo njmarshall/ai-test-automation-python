@@ -1,7 +1,12 @@
 """
 fhir_load_test.py
 -----------------
-Locust performance baseline for the FHIR Patient API.
+Pytest-safe performance baseline for the FHIR Patient API.
+
+Deliberately has no dependency on `locust` — importing locust
+monkey-patches socket/select/threading process-wide via gevent,
+which hangs pytest collection. The Locust load test definitions
+live in fhir_locustfile.py instead.
 
 What is performance testing?
 -----------------------------
@@ -25,11 +30,9 @@ and load baselines caught regressions before they reached users.
 
 Usage
 -----
-    # Run Locust web UI (interactive)
-    locust -f shared/performance/fhir_load_test.py
-
-    # Run headless (CI mode)
-    locust -f shared/performance/fhir_load_test.py \
+    # Run Locust web UI or headless load test
+    # (see fhir_locustfile.py for the Locust user definitions)
+    locust -f shared/performance/fhir_locustfile.py \
         --headless \
         --users 10 \
         --spawn-rate 2 \
@@ -54,14 +57,6 @@ import random
 import time
 from dataclasses import dataclass, field
 from typing import List, Optional
-
-# Locust import — graceful fallback if not installed
-try:
-    from locust import HttpUser, between, task
-    LOCUST_AVAILABLE = True
-except ImportError:
-    LOCUST_AVAILABLE = False
-    HttpUser = object  # placeholder for type hints
 
 
 # ------------------------------------------------------------------ #
@@ -152,7 +147,7 @@ class FhirPerformanceChecker:
                 f"{self.base_url}/Patient",
                 json=payload,
                 headers={"Content-Type": "application/fhir+json"},
-                timeout=10.0,
+                timeout=5.0,
             )
             duration_ms = (time.time() - start) * 1000
             result = PerformanceResult(
@@ -184,7 +179,7 @@ class FhirPerformanceChecker:
             response = httpx.get(
                 f"{self.base_url}/Patient/{patient_id}",
                 headers={"Accept": "application/fhir+json"},
-                timeout=10.0,
+                timeout=5.0,
             )
             duration_ms = (time.time() - start) * 1000
             result = PerformanceResult(
@@ -226,91 +221,3 @@ class FhirPerformanceChecker:
             f"  Min duration       : {min(durations):.0f}ms",
         ]
         return "\n".join(lines)
-
-
-# ------------------------------------------------------------------ #
-#  Locust user (requires Locust installation)                          #
-# ------------------------------------------------------------------ #
-
-if LOCUST_AVAILABLE:
-    class FhirPatientUser(HttpUser):
-        """
-        Locust user that simulates a clinical application
-        creating, reading, and deleting FHIR Patient resources.
-
-        Wait between 1-3 seconds between tasks to simulate
-        realistic clinical workflow pacing.
-
-        Run with:
-            locust -f shared/performance/fhir_load_test.py \
-                --headless --users 10 --spawn-rate 2 \
-                --run-time 30s \
-                --host http://hapi.fhir.org/baseR4
-        """
-
-        wait_time = between(1, 3)
-        _created_ids: List[str] = []
-
-        def _patient_payload(self) -> dict:
-            return {
-                "resourceType": "Patient",
-                "name": [{"use": "official", "family": f"LocustTest{random.randint(1000, 9999)}"}],
-                "gender": "unknown",
-            }
-
-        @task(3)
-        def create_patient(self) -> None:
-            """Weighted 3x — most common clinical operation."""
-            with self.client.post(
-                "/Patient",
-                json=self._patient_payload(),
-                headers={"Content-Type": "application/fhir+json"},
-                name="POST /Patient",
-                catch_response=True,
-            ) as response:
-                if response.status_code == 201:
-                    patient_id = response.json().get("id")
-                    if patient_id:
-                        self._created_ids.append(patient_id)
-                    response.success()
-                else:
-                    response.failure(
-                        f"Expected 201, got {response.status_code}"
-                    )
-
-        @task(2)
-        def read_patient(self) -> None:
-            """Weighted 2x — common read operation."""
-            if not self._created_ids:
-                return
-            patient_id = random.choice(self._created_ids)
-            with self.client.get(
-                f"/Patient/{patient_id}",
-                headers={"Accept": "application/fhir+json"},
-                name="GET /Patient/{id}",
-                catch_response=True,
-            ) as response:
-                if response.status_code == 200:
-                    response.success()
-                else:
-                    response.failure(
-                        f"Expected 200, got {response.status_code}"
-                    )
-
-        @task(1)
-        def delete_patient(self) -> None:
-            """Weighted 1x — less common cleanup operation."""
-            if not self._created_ids:
-                return
-            patient_id = self._created_ids.pop(0)
-            with self.client.delete(
-                f"/Patient/{patient_id}",
-                name="DELETE /Patient/{id}",
-                catch_response=True,
-            ) as response:
-                if response.status_code in (200, 204):
-                    response.success()
-                else:
-                    response.failure(
-                        f"Expected 200/204, got {response.status_code}"
-                    )
