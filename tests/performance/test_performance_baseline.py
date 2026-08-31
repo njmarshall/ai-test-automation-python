@@ -8,6 +8,8 @@ that make HTTP calls during collection.
 
 from __future__ import annotations
 
+import random
+
 import pytest
 
 from shared.performance.fhir_load_test import FhirPerformanceChecker, FhirSLA
@@ -41,14 +43,15 @@ class TestFhirPerformanceBaseline:
 
         import httpx
         response = httpx.post(
-            "http://hapi.fhir.org/baseR4/Patient",
+            "https://hapi.fhir.org/baseR4/Patient",
             json={
                 "resourceType": "Patient",
-                "name": [{"use": "official", "family": "ReadPerfTest"}],
+                "name": [{"use": "official", "family": f"ReadPerfTest{random.randint(1000, 9999)}"}],
                 "gender": "unknown",
             },
             headers={"Content-Type": "application/fhir+json"},
             timeout=5.0,
+            follow_redirects=True,
         )
         assert response.status_code == 201
         patient_id = response.json().get("id")

@@ -37,7 +37,7 @@ Usage
         --users 10 \
         --spawn-rate 2 \
         --run-time 30s \
-        --host http://hapi.fhir.org/baseR4
+        --host https://hapi.fhir.org/baseR4
 
     # Run pytest performance assertions
     pytest projects/healthcare_fhir/api/tests/test_performance_baseline.py -v
@@ -113,14 +113,14 @@ class FhirPerformanceChecker:
 
     Example
     -------
-        checker = FhirPerformanceChecker(base_url="http://hapi.fhir.org/baseR4")
+        checker = FhirPerformanceChecker(base_url="https://hapi.fhir.org/baseR4")
         result = checker.measure_create_patient()
         assert result.passed_sla, result.summary()
     """
 
     def __init__(
         self,
-        base_url: str = "http://hapi.fhir.org/baseR4",
+        base_url: str = "https://hapi.fhir.org/baseR4",
         sla: Optional[FhirSLA] = None,
     ) -> None:
         self.base_url = base_url.rstrip("/")
@@ -148,6 +148,7 @@ class FhirPerformanceChecker:
                 json=payload,
                 headers={"Content-Type": "application/fhir+json"},
                 timeout=5.0,
+                follow_redirects=True,
             )
             duration_ms = (time.time() - start) * 1000
             result = PerformanceResult(
@@ -180,6 +181,7 @@ class FhirPerformanceChecker:
                 f"{self.base_url}/Patient/{patient_id}",
                 headers={"Accept": "application/fhir+json"},
                 timeout=5.0,
+                follow_redirects=True,
             )
             duration_ms = (time.time() - start) * 1000
             result = PerformanceResult(

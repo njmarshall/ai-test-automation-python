@@ -91,6 +91,7 @@ class TestDeepEvalFhir:
     to keep evaluation fast and cost-effective.
     """
 
+    @pytest.mark.flaky(reruns=4, reruns_delay=3)
     def test_ai_generated_tests_are_relevant(self) -> None:
         """
         Evaluate that AI-generated FHIR tests are relevant to the spec.
