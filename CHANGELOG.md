@@ -351,3 +351,10 @@ daily update: 2026-08-08
 - Fixed pytest collection hang — two root causes resolved
 - Performance tests now collect in 0.00s
 - Claude Code diagnosed gevent + sentry deadlock
+
+## 2026-08-30
+
+- Performance tests fixed — 3 passing
+- DeepEval flaky reruns increased to 4
+- 143 tests passing overall
+- API key issue being resolved
