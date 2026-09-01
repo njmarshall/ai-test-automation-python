@@ -371,3 +371,8 @@ daily update: 2026-08-08
 - Workspace API key configured — DeepEval fully working
 - Performance tests passing
 - Total: 144 passed, 1 skipped — new high score
+
+## 2026-08-31
+
+- Performance Baseline Tests added to CI — 17 parallel jobs now
+- Performance testing Part 2 complete
