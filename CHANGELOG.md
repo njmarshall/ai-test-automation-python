@@ -376,3 +376,9 @@ daily update: 2026-08-08
 
 - Performance Baseline Tests added to CI — 17 parallel jobs now
 - Performance testing Part 2 complete
+
+## 2026-09-01
+
+- k6 performance suite added — 4 phases: baseline, load, stress, endurance
+- Baseline results: avg 205ms, p95 305ms, 0% errors
+- Correlation and parameterization implemented
