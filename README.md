@@ -82,6 +82,37 @@ Reusable `AsyncPoller` and `EventSequencer` in `shared/async/` — built from re
 
 ---
 
+## Performance Testing
+
+Four-phase k6 performance suite for FHIR Patient API:
+
+| Phase | File | Virtual Users | Duration | Purpose |
+|---|---|---|---|---|
+| Baseline | k6/baseline.js | 1 | 30s | Verify SLAs under no load |
+| Load | k6/load.js | 10-50 | 2.5 mins | Normal clinical traffic |
+| Stress | k6/stress.js | 50-200 | 3 mins | Find breaking point |
+| Endurance | k6/endurance.js | 20 | 30 mins | Detect memory leaks |
+
+Baseline results (HAPI FHIR sandbox):
+- Average response time: 205ms
+- p95 response time: 305ms
+- Error rate: 0.00%
+- All SLA thresholds passed
+
+Run baseline:
+
+```bash
+k6 run shared/performance/k6/baseline.js
+```
+
+Key features:
+- Correlation: Patient ID extracted and reused across CREATE, READ, DELETE
+- Parameterization: randomized names, genders, unique identifiers per request
+- Custom metrics: per-operation trends, error rates, active patient gauge
+- SLA thresholds: CREATE < 3000ms, READ < 2000ms, DELETE < 2000ms
+
+---
+
 ## AI Co-Pilot Workflow
 
 ```
