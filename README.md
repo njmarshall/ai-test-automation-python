@@ -61,11 +61,12 @@ HealingResult — PASS or REJECTED
 
 ## Test Coverage
 
-- **135 passed, 1 skipped** across all 4 domains
+- **145 passed, 1 skipped** across all 4 domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
-- **15 parallel CI jobs** running on every push
+- **17 parallel CI jobs** running on every push
 - **7 self-healing agent tests** — mocked, fast, no API calls
+- **3 performance baseline tests** — SLA assertions via httpx
 
 ---
 
