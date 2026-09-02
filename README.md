@@ -185,6 +185,7 @@ GitHub Actions · Allure Reports
 | 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/pulse/how-i-built-phi-guardrails-my-ai-test-pipeline-neil-marshall-on6vc/) | Guardrails deep dive |
 | 7 | [Async API Testing: 5 Failure Modes Most Test Suites Miss](https://www.linkedin.com/pulse/async-api-testing-5-failure-modes-most-test-suites-miss-neil-marshall/) | Async failure modes |
 | 8 | [AI Quality Drift: How I Built AiObserver to Detect It Before Failure](https://www.linkedin.com/pulse/ai-quality-drift-how-i-built-aiobserver-detect-before-neil-marshall/) | Observability deep dive |
+| 9 | [I Built a Self-Healing Test Agent. The Hard Part Was Teaching It When Not to Heal](https://www.linkedin.com/pulse/i-built-self-healing-test-agent-hard-part-teaching-when-neil-marshall-5z4wc/) | Self-Healing Agent deep dive |
 
 ---
 
