@@ -388,3 +388,8 @@ daily update: 2026-08-08
 - k6 Performance Baseline added to CI — 18 parallel jobs
 - Profile README updated — 145 tests, k6, contract testing, 9 articles
 - Interview prep completed — 3 questions practiced
+
+## 2026-09-03
+
+- Article 10 drafted — Contract Testing deep dive
+- Publish Sunday night for Monday morning engagement
