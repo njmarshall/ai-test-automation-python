@@ -393,3 +393,9 @@ daily update: 2026-08-08
 
 - Article 10 drafted — Contract Testing deep dive
 - Publish Sunday night for Monday morning engagement
+
+## 2026-09-05
+
+- Article 10 V4 complete — Contract Testing 10/10 rating
+- Architecture SVG updated — 145 tests, 18 CI jobs
+- k6 performance suite committed
