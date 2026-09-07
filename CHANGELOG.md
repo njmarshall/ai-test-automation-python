@@ -404,3 +404,9 @@ daily update: 2026-08-08
 
 - Article 10 cover image created by ChatGPT
 - Publishing Sunday night for Monday morning engagement
+
+## 2026-09-06
+
+- pytest collection confirmed working — 145 tests
+- Article 10 ready to publish tomorrow night
+- Labor Day Monday — publishing Sunday night
