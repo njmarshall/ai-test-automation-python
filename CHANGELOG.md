@@ -410,3 +410,9 @@ daily update: 2026-08-08
 - pytest collection confirmed working — 145 tests
 - Article 10 ready to publish tomorrow night
 - Labor Day Monday — publishing Sunday night
+
+## 2026-09-07
+
+- Article 10 published — Contract Testing
+- Shared in Test Automation and Software Testing groups
+- 10 LinkedIn articles published total
