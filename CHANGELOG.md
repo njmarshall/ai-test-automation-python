@@ -416,3 +416,9 @@ daily update: 2026-08-08
 - Article 10 published — Contract Testing
 - Shared in Test Automation and Software Testing groups
 - 10 LinkedIn articles published total
+
+## 2026-09-08
+
+- Article 10 published — Contract Testing 10/10
+- Shared in Test Automation and Software Testing groups
+- Interview prep — contract testing practiced
