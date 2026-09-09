@@ -422,3 +422,9 @@ daily update: 2026-08-08
 - Article 10 published — Contract Testing 10/10
 - Shared in Test Automation and Software Testing groups
 - Interview prep — contract testing practiced
+
+## 2026-09-08
+
+- 10 LinkedIn articles published total
+- 145 tests passing, 18 CI jobs green
+- Book outline: 20 chapters planned
