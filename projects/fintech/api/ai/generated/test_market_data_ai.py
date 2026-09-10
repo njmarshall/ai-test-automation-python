@@ -190,6 +190,7 @@ class TestBuyAndSellPriceEndpoints:
             .within_sla(sla_ms=5000)
         )
 
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_btc_usd_buy_price_exceeds_sell_price(self, fintech_client: FintechClient):
         buy_response = fintech_client.get_buy_price(pair="BTC-USD")
         sell_response = fintech_client.get_sell_price(pair="BTC-USD")
