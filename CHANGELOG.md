@@ -434,3 +434,10 @@ daily update: 2026-08-08
 - MCP connector added — Slack, GitHub, Jira integration
 - 9 MCP tests passing
 - Total: 153 passed, 1 skipped — new high score
+
+## 2026-09-10
+
+- ExploratoryTestAgent added — Direction 2 proactive agentic testing
+- 9 tests passing
+- Article 11 drafted — publishing tonight
+- Total: 162 passed, 1 skipped — new high score
