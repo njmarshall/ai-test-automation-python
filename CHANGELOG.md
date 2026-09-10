@@ -428,3 +428,9 @@ daily update: 2026-08-08
 - 10 LinkedIn articles published total
 - 145 tests passing, 18 CI jobs green
 - Book outline: 20 chapters planned
+
+## 2026-09-09
+
+- MCP connector added — Slack, GitHub, Jira integration
+- 9 MCP tests passing
+- Total: 153 passed, 1 skipped — new high score
