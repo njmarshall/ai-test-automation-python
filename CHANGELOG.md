@@ -441,3 +441,10 @@ daily update: 2026-08-08
 - 9 tests passing
 - Article 11 drafted — publishing tonight
 - Total: 162 passed, 1 skipped — new high score
+
+## 2026-09-10
+
+- Article 11 published — The Test Nobody Wrote
+- ExploratoryTestAgent Direction 2 complete
+- 162 tests passing, 18 CI jobs green
+- Article 12 planned — adaptive loop
