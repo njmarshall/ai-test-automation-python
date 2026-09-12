@@ -455,3 +455,9 @@ daily update: 2026-08-08
 - ExploratoryTestAgent Direction 2 complete
 - 162 tests passing, 18 CI jobs green
 - Paul Kanaris (QACE Institute) engaged — reviewing Article 12
+
+## 2026-09-11
+
+- MCP connector — Slack, GitHub, Jira integration
+- 9 MCP tests passing
+- Article 12 planned — adaptive loop implementation
