@@ -448,3 +448,10 @@ daily update: 2026-08-08
 - ExploratoryTestAgent Direction 2 complete
 - 162 tests passing, 18 CI jobs green
 - Article 12 planned — adaptive loop
+
+## 2026-09-11
+
+- Article 11 published — The Test Nobody Wrote
+- ExploratoryTestAgent Direction 2 complete
+- 162 tests passing, 18 CI jobs green
+- Paul Kanaris (QACE Institute) engaged — reviewing Article 12
