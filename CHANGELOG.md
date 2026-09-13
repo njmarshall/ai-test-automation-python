@@ -480,3 +480,9 @@ daily update: 2026-08-08
 - ExploratoryTestAgent Direction 2 — 162 tests passing
 - MCP connector — Slack, GitHub, Jira
 - 18 parallel CI jobs all green
+
+## 2026-09-12
+
+- Book outline updated — 20 chapters planned
+- Paul Kanaris engaged as expert reviewer
+- Article series: 11 published, Article 12 pending Paul review
