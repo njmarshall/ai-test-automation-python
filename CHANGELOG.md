@@ -474,3 +474,9 @@ daily update: 2026-08-08
 - 5 versions reviewed by ChatGPT — all publication blockers resolved
 - Paul Kanaris (QACE Institute) reviewing draft
 - Cover image created by ChatGPT
+
+## 2026-09-12
+
+- ExploratoryTestAgent Direction 2 — 162 tests passing
+- MCP connector — Slack, GitHub, Jira
+- 18 parallel CI jobs all green
