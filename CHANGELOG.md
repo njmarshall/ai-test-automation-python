@@ -486,3 +486,10 @@ daily update: 2026-08-08
 - Book outline updated — 20 chapters planned
 - Paul Kanaris engaged as expert reviewer
 - Article series: 11 published, Article 12 pending Paul review
+
+## 2026-09-13
+
+- 163 tests collected — new high
+- Article 11 link added to README
+- Article 12 V5 with Paul Kanaris review
+- Article 13 drafted — Adaptive Testing vs Exploratory Learning
