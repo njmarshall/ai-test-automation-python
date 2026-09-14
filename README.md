@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-144%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-163%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![CI Jobs](https://img.shields.io/badge/CI%20jobs-18%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
@@ -186,6 +186,7 @@ GitHub Actions · Allure Reports
 | 7 | [Async API Testing: 5 Failure Modes Most Test Suites Miss](https://www.linkedin.com/pulse/async-api-testing-5-failure-modes-most-test-suites-miss-neil-marshall/) | Async failure modes |
 | 8 | [AI Quality Drift: How I Built AiObserver to Detect It Before Failure](https://www.linkedin.com/pulse/ai-quality-drift-how-i-built-aiobserver-detect-before-neil-marshall/) | Observability deep dive |
 | 9 | [I Built a Self-Healing Test Agent. The Hard Part Was Teaching It When Not to Heal](https://www.linkedin.com/pulse/i-built-self-healing-test-agent-hard-part-teaching-when-neil-marshall-5z4wc/) | Self-Healing Agent deep dive |
+| 11 | [The Test Nobody Wrote: How I Built an AI Agent That Hunts for Untested Risks](https://www.linkedin.com/pulse/test-nobody-wrote-how-i-built-ai-agent-hunts-untested-neil-marshall/) | ExploratoryTestAgent |
 
 ---
 
