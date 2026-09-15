@@ -493,3 +493,10 @@ daily update: 2026-08-08
 - Article 11 link added to README
 - Article 12 V5 with Paul Kanaris review
 - Article 13 drafted — Adaptive Testing vs Exploratory Learning
+
+## 2026-09-14
+
+- Article 12 published — The Test That Writes the Next Test
+- 7 versions reviewed by Claude and ChatGPT
+- Paul Kanaris credited for oracle distinction insight
+- Shared in Test Automation and Software Testing groups
