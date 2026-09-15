@@ -500,3 +500,9 @@ daily update: 2026-08-08
 - 7 versions reviewed by Claude and ChatGPT
 - Paul Kanaris credited for oracle distinction insight
 - Shared in Test Automation and Software Testing groups
+
+## 2026-09-14
+
+- Article 13 drafted — Adaptive Testing vs Exploratory Learning
+- 163 tests passing, 18 CI jobs green
+- SFC job application submitted
