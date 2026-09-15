@@ -506,3 +506,10 @@ daily update: 2026-08-08
 - Article 13 drafted — Adaptive Testing vs Exploratory Learning
 - 163 tests passing, 18 CI jobs green
 - SFC job application submitted
+
+## 2026-09-14
+
+- 12 LinkedIn articles published total
+- Book outline: 20 chapters planned
+- Paul Kanaris collaboration ongoing
+- Article series: 12 published, Article 13 pending
