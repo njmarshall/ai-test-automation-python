@@ -520,3 +520,10 @@ daily update: 2026-08-08
 - Article 13 strategy discussed with ChatGPT
 - Expert outreach planned — oracle testing, exploratory testing
 - Article 13 updates pending before expert contact
+
+## 2026-09-15
+
+- 12 LinkedIn articles published
+- 163 tests passing, 18 CI jobs green
+- Paul Kanaris collaboration active
+- Article 13 in preparation
