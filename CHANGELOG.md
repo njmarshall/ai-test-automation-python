@@ -513,3 +513,10 @@ daily update: 2026-08-08
 - Book outline: 20 chapters planned
 - Paul Kanaris collaboration ongoing
 - Article series: 12 published, Article 13 pending
+
+## 2026-09-15
+
+- Interview preparation completed
+- Article 13 strategy discussed with ChatGPT
+- Expert outreach planned — oracle testing, exploratory testing
+- Article 13 updates pending before expert contact
