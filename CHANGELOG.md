@@ -534,3 +534,9 @@ daily update: 2026-08-08
 - 9 idempotency tests passing
 - Total: 171 passed, 1 skipped — new high score
 - Inspired by Flex interview — async payment API patterns
+
+## 2026-09-17
+
+- Async payment tests added — AsyncPoller integration
+- 6 async tests: poll, timeout, idempotency+async, backoff, fixed retry
+- Total: 177 passed, 1 skipped — new high score
