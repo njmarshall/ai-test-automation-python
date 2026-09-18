@@ -58,11 +58,15 @@ class PaymentRequest(BaseModel):
     is created. Subsequent requests with the same key return
     the original payment result without creating a new charge.
     """
-    amount:           int       = Field(..., gt=0, description="Amount in cents")
-    currency:         Currency  = Field(default=Currency.USD)
-    merchant_id:      str       = Field(..., min_length=1)
-    description:      str       = Field(default="")
-    idempotency_key:  str       = Field(..., description="Unique key per payment attempt")
+    amount:           int           = Field(..., gt=0, description="Amount in cents")
+    currency:         Currency      = Field(default=Currency.USD)
+    merchant_id:      str           = Field(..., min_length=1)
+    description:      str           = Field(default="")
+    idempotency_key:  str           = Field(..., description="Unique key per payment attempt")
+    initial_status:   PaymentStatus = Field(
+        default=PaymentStatus.SUCCEEDED,
+        description="Status assigned at creation (test hook for async workflows)",
+    )
 
     @field_validator("idempotency_key")
     @classmethod

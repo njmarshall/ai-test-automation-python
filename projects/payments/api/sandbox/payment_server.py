@@ -162,7 +162,7 @@ def create_payment(
         currency=request.currency,
         merchant_id=request.merchant_id,
         description=request.description,
-        status=PaymentStatus.SUCCEEDED,
+        status=request.initial_status,
         idempotency_key=idem_key,
         is_duplicate=False,
         created_at=datetime.now(timezone.utc),

@@ -50,6 +50,7 @@ class PaymentClient:
         currency:        str = "USD",
         description:     str = "",
         use_header:      bool = True,
+        initial_status:  Optional[str] = None,
     ) -> httpx.Response:
         """
         Create a payment.
@@ -62,6 +63,9 @@ class PaymentClient:
         currency:        ISO currency code
         description:     optional payment description
         use_header:      send key in X-Idempotency-Key header (recommended)
+        initial_status:  status assigned at creation (test hook for async
+                          workflows, e.g. "PENDING"); defaults to sandbox
+                          behavior (SUCCEEDED) when omitted
         """
         key = idempotency_key or str(uuid4())
 
@@ -72,6 +76,8 @@ class PaymentClient:
             "description":     description,
             "idempotency_key": key,
         }
+        if initial_status is not None:
+            payload["initial_status"] = initial_status
 
         headers = {}
         if use_header:
