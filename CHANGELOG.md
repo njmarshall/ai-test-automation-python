@@ -527,3 +527,10 @@ daily update: 2026-08-08
 - 163 tests passing, 18 CI jobs green
 - Paul Kanaris collaboration active
 - Article 13 in preparation
+
+## 2026-09-17
+
+- Payments domain added — idempotency sandbox with FastAPI
+- 9 idempotency tests passing
+- Total: 171 passed, 1 skipped — new high score
+- Inspired by Flex interview — async payment API patterns
