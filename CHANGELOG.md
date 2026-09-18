@@ -540,3 +540,10 @@ daily update: 2026-08-08
 - Async payment tests added — AsyncPoller integration
 - 6 async tests: poll, timeout, idempotency+async, backoff, fixed retry
 - Total: 177 passed, 1 skipped — new high score
+
+## 2026-09-17
+
+- Article 14 complete — 10/10 rating
+- Your Payment API Passed. Can It Survive a Retry?
+- Payment sandbox + idempotency tests built
+- 177 tests passing
