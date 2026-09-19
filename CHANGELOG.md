@@ -547,3 +547,10 @@ daily update: 2026-08-08
 - Your Payment API Passed. Can It Survive a Retry?
 - Payment sandbox + idempotency tests built
 - 177 tests passing
+
+## 2026-09-18
+
+- Article 13 published — Payment Idempotency 10/10
+- Payment sandbox built with FastAPI
+- 9 idempotency + 6 async payment tests
+- 177 tests passing — new high score
