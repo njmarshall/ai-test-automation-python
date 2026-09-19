@@ -554,3 +554,9 @@ daily update: 2026-08-08
 - Payment sandbox built with FastAPI
 - 9 idempotency + 6 async payment tests
 - 177 tests passing — new high score
+
+## 2026-09-18
+
+- Article 14 planned — Adaptive Testing vs Exploratory Learning
+- Waiting for oracle/exploratory expert feedback
+- Article numbering updated
