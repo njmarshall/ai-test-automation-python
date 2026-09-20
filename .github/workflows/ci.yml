@@ -517,3 +517,30 @@ jobs:
           k6 run shared/performance/k6/baseline.js \
             --duration 30s \
             --vus 1
+
+  # ------------------------------------------------------------------ #
+  #  Payment Idempotency Tests                                          #
+  # ------------------------------------------------------------------ #
+  payment-tests:
+    name: Payment Idempotency Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Payment tests
+        run: |
+          pytest projects/payments/ \
+            -v \
+            --tb=short \
+            --no-header
