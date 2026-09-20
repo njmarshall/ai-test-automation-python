@@ -560,3 +560,9 @@ daily update: 2026-08-08
 - Article 14 planned — Adaptive Testing vs Exploratory Learning
 - Waiting for oracle/exploratory expert feedback
 - Article numbering updated
+
+## 2026-09-19
+
+- Clarification: Article 13 published tonight — Payment Idempotency
+- Article 14 planned — Adaptive Testing vs Exploratory Learning (oracle expert pending)
+- Note: commit 2f76b6f message incorrectly labeled Article 13 as Article 14
