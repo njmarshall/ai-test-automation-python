@@ -566,3 +566,8 @@ daily update: 2026-08-08
 - Clarification: Article 13 published tonight — Payment Idempotency
 - Article 14 planned — Adaptive Testing vs Exploratory Learning (oracle expert pending)
 - Note: commit 2f76b6f message incorrectly labeled Article 13 as Article 14
+
+## 2026-09-20
+
+- Architecture SVG updated — 178 tests, 19 CI jobs
+- Profile README updated — 13 articles, payments domain
