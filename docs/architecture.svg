@@ -22,7 +22,7 @@
 
   <!-- Title -->
   <text class="th" x="340" y="28" text-anchor="middle" font-size="15">ai-test-automation-python</text>
-  <text class="ts" x="340" y="46" text-anchor="middle">163 tests · 4 domains · 18 parallel CI jobs</text>
+  <text class="ts" x="340" y="46" text-anchor="middle">178 tests · 4 domains · 18 parallel CI jobs</text>
 
   <!-- SHARED FOUNDATION -->
   <g class="c-gray">
@@ -112,7 +112,7 @@
   <!-- CI -->
   <g class="c-gray">
     <rect x="30" y="456" width="620" height="68" rx="14" stroke-width="0.5"/>
-    <text class="th" x="340" y="476" text-anchor="middle">GitHub Actions CI — 18 parallel jobs</text>
+    <text class="th" x="340" y="476" text-anchor="middle">GitHub Actions CI — 19 parallel jobs</text>
     <text class="ts" x="340" y="493" text-anchor="middle">FHIR API · FHIR UI · Insurance API · Insurance UI · Fintech API · Fintech UI · PetStore API</text>
     <text class="ts" x="340" y="511" text-anchor="middle">PetStore UI · Async · EventSeq · DeepEval · Guardrails · Observability · Agent</text>
   </g>
