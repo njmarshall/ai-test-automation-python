@@ -578,3 +578,10 @@ daily update: 2026-08-08
 - 13 LinkedIn articles published
 - Payment sandbox complete
 - SQL domain next priority
+
+## 2026-09-21
+
+- SQL data quality domain added — 15 tests
+- Patient, Transaction, Policy tables
+- NULL checks, uniqueness, range validation, schema
+- Total: 192 passed, 1 skipped — new high score
