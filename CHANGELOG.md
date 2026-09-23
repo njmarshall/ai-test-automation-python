@@ -585,3 +585,9 @@ daily update: 2026-08-08
 - Patient, Transaction, Policy tables
 - NULL checks, uniqueness, range validation, schema
 - Total: 192 passed, 1 skipped — new high score
+
+## 2026-09-22
+
+- Article 14 drafted — SQL Data Quality Testing
+- Three domains: healthcare, fintech, insurance
+- Flex second interview scheduled Monday/Tuesday
