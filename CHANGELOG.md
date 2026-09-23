@@ -591,3 +591,9 @@ daily update: 2026-08-08
 - Article 14 drafted — SQL Data Quality Testing
 - Three domains: healthcare, fintech, insurance
 - Flex second interview scheduled Monday/Tuesday
+
+## 2026-09-22
+
+- Paul Kanaris replied — continuing collaboration
+- Replied to Paul and Himanshu LinkedIn posts
+- Fintech articles prioritized for Flex interview
