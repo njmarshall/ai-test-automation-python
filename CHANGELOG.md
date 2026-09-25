@@ -604,3 +604,7 @@ daily update: 2026-08-08
 - SQL domain complete — 15 data quality tests
 - Payment sandbox — 15 idempotency + async tests
 - Article 15 planned — Fintech Testing Strategy
+
+## 2026-09-24
+- Article 15 drafted: The Database Was Correct. The Customer Still Failed.
+- Paul Kanaris customer journey oracle insight credited in article
