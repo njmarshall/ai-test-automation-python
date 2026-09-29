@@ -5,14 +5,15 @@ Shared pytest fixtures for all tests under projects/payments/api/tests/.
 
 Server lifecycle
 ----------------
-payment_server  — module-scoped: starts the FastAPI sandbox once per module
+payment_server  — module-scoped: starts the FastAPI sandbox once per module.
+                  Uses port 8003 to avoid collision with test_idempotency.py
+                  (port 8001) and test_async_payment.py (port 8002).
 payment_client  — function-scoped: provides a clean PaymentClient,
                   resets sandbox state before each test
 succeeded_payment — function-scoped: creates one SUCCEEDED payment and
                     returns its response dict; used by refund and webhook tests
 
-Port: 8001 (same as existing test_idempotency.py; module-scoped server
-      prevents conflicts when tests run in the same pytest session)
+Port: 8003 (dedicated to refund/webhook tests)
 """
 from __future__ import annotations
 
@@ -26,13 +27,15 @@ import uvicorn
 from projects.payments.api.client.payment_client import PaymentClient
 from projects.payments.api.sandbox.payment_server import app
 
+_PORT = 8003
+
 
 # ── server lifecycle ──────────────────────────────────────────────────────────
 
 @pytest.fixture(scope="module")
 def payment_server():
-    """Start the payment sandbox once per test module."""
-    config = uvicorn.Config(app, host="127.0.0.1", port=8001, log_level="error")
+    """Start the payment sandbox once per test module on port 8003."""
+    config = uvicorn.Config(app, host="127.0.0.1", port=_PORT, log_level="error")
     server = uvicorn.Server(config)
     thread = threading.Thread(target=server.run, daemon=True)
     thread.start()
@@ -51,7 +54,7 @@ def payment_client(payment_server) -> PaymentClient:
     Using function scope ensures every test starts with an empty event log
     and no prior payments, which makes event-count assertions reliable.
     """
-    client = PaymentClient(base_url="http://127.0.0.1:8001")
+    client = PaymentClient(base_url=f"http://127.0.0.1:{_PORT}")
     client.reset_sandbox()
     yield client
     client.close()
