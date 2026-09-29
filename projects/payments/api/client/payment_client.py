@@ -42,6 +42,8 @@ class PaymentClient:
         self._base_url = base_url.rstrip("/")
         self._client   = httpx.Client(timeout=10.0)
 
+    # ── payments ─────────────────────────────────────────────────────
+
     def create_payment(
         self,
         amount:          int,
@@ -97,8 +99,77 @@ class PaymentClient:
         """Delete a payment (sandbox cleanup)."""
         return self._client.delete(f"{self._base_url}/payments/{payment_id}")
 
+    # ── refunds ──────────────────────────────────────────────────────
+
+    def create_refund(
+        self,
+        payment_id: str,
+        amount:     Optional[int] = None,
+        reason:     Optional[str] = None,
+    ) -> httpx.Response:
+        """
+        Refund a payment.
+
+        Parameters
+        ----------
+        payment_id: ID of the payment to refund
+        amount:     amount in cents. Omit for a full refund.
+        reason:     optional reason string (max 255 chars)
+        """
+        payload: dict = {}
+        if amount is not None:
+            payload["amount"] = amount
+        if reason is not None:
+            payload["reason"] = reason
+
+        return self._client.post(
+            f"{self._base_url}/payments/{payment_id}/refunds",
+            json=payload,
+        )
+
+    def list_refunds(self, payment_id: str) -> httpx.Response:
+        """List all refunds for a payment."""
+        return self._client.get(
+            f"{self._base_url}/payments/{payment_id}/refunds"
+        )
+
+    # ── webhooks ─────────────────────────────────────────────────────
+
+    def list_webhook_events(
+        self,
+        payment_id:  Optional[str] = None,
+        event_type:  Optional[str] = None,
+    ) -> httpx.Response:
+        """
+        Retrieve webhook events from the sandbox event log.
+
+        Parameters
+        ----------
+        payment_id: filter to events for a specific payment
+        event_type: filter to a specific event type
+                    e.g. "payment.succeeded", "payment.fully_refunded"
+        """
+        params: dict = {}
+        if payment_id:
+            params["payment_id"] = payment_id
+        if event_type:
+            params["event_type"] = event_type
+
+        return self._client.get(
+            f"{self._base_url}/webhooks/events",
+            params=params,
+        )
+
+    def get_webhook_event(self, event_id: str) -> httpx.Response:
+        """Retrieve a single webhook event by its event_id."""
+        return self._client.get(
+            f"{self._base_url}/webhooks/events/{event_id}"
+        )
+
+    # ── sandbox utilities ─────────────────────────────────────────────
+
     def reset_sandbox(self) -> httpx.Response:
-        """Reset sandbox state between tests."""
+        """Reset all sandbox state between tests."""
         return self._client.delete(f"{self._base_url}/sandbox/reset")
 
     def get_stats(self) -> httpx.Response:

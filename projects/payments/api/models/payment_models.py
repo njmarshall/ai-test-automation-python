@@ -15,13 +15,24 @@ Idempotency key rules:
 - Expires after 24 hours (configurable)
 - Same key + same payload = same result (no new charge)
 - Same key + different payload = 422 (conflict)
+
+Refund rules:
+- Only SUCCEEDED payments can be refunded
+- Partial refunds are supported
+- Cumulative refunds cannot exceed the original payment amount
+- Refunds emit webhook events (PAYMENT_PARTIALLY_REFUNDED or PAYMENT_FULLY_REFUNDED)
+
+Webhook events:
+- Every payment state transition emits a structured event
+- Tests retrieve events from /webhooks/events to verify contracts
+- Real systems deliver these to merchant callback URLs
 """
 
 from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Optional
+from typing import Any, Dict, Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field, field_validator
@@ -45,8 +56,22 @@ class PaymentStatus(str, Enum):
     DUPLICATE  = "DUPLICATE"
 
 
+class RefundStatus(str, Enum):
+    PENDING   = "PENDING"
+    SUCCEEDED = "SUCCEEDED"
+    FAILED    = "FAILED"
+
+
+class WebhookEventType(str, Enum):
+    PAYMENT_CREATED            = "payment.created"
+    PAYMENT_SUCCEEDED          = "payment.succeeded"
+    PAYMENT_FAILED             = "payment.failed"
+    PAYMENT_PARTIALLY_REFUNDED = "payment.partially_refunded"
+    PAYMENT_FULLY_REFUNDED     = "payment.fully_refunded"
+
+
 # ------------------------------------------------------------------ #
-#  Request models                                                      #
+#  Payment request / response                                          #
 # ------------------------------------------------------------------ #
 
 class PaymentRequest(BaseModel):
@@ -85,10 +110,6 @@ class PaymentRequest(BaseModel):
         return v
 
 
-# ------------------------------------------------------------------ #
-#  Response models                                                     #
-# ------------------------------------------------------------------ #
-
 class PaymentResponse(BaseModel):
     """
     Response from creating or retrieving a payment.
@@ -121,8 +142,74 @@ class IdempotencyConflictResponse(BaseModel):
     Returned when same idempotency key is used
     with a different payload — indicates a client error.
     """
-    error:           str = "IDEMPOTENCY_CONFLICT"
-    detail:          str
-    original_amount: int
+    error:            str = "IDEMPOTENCY_CONFLICT"
+    detail:           str
+    original_amount:  int
     requested_amount: int
-    idempotency_key: str
+    idempotency_key:  str
+
+
+# ------------------------------------------------------------------ #
+#  Refund request / response                                           #
+# ------------------------------------------------------------------ #
+
+class RefundRequest(BaseModel):
+    """
+    Request to refund a payment.
+
+    amount: amount to refund in cents. If omitted, the full remaining
+            balance is refunded (full refund or remaining partial balance).
+    reason: optional human-readable reason for the refund.
+    """
+    amount: Optional[int] = Field(
+        default=None,
+        gt=0,
+        description="Amount to refund in cents. Omit for full refund.",
+    )
+    reason: Optional[str] = Field(
+        default=None,
+        max_length=255,
+        description="Optional reason for the refund",
+    )
+
+
+class RefundResponse(BaseModel):
+    """
+    Response from creating or retrieving a refund.
+    """
+    refund_id:  str
+    payment_id: str
+    amount:     int
+    currency:   Currency
+    status:     RefundStatus
+    reason:     str          = ""
+    created_at: datetime
+    message:    str          = ""
+
+
+# ------------------------------------------------------------------ #
+#  Webhook event                                                       #
+# ------------------------------------------------------------------ #
+
+class WebhookEvent(BaseModel):
+    """
+    A structured event emitted by the sandbox on every payment
+    or refund state transition.
+
+    In a real fintech system (Stripe, Finix, Adyen) these are
+    delivered via HTTP POST to merchant-registered callback URLs.
+    The sandbox stores them in memory for test assertions instead.
+
+    Fields
+    ------
+    event_id:   unique identifier for this event delivery
+    event_type: one of WebhookEventType (e.g. "payment.succeeded")
+    payment_id: the payment this event relates to
+    occurred_at: when the event was emitted (UTC)
+    data:        event-specific payload
+    """
+    event_id:    str
+    event_type:  WebhookEventType
+    payment_id:  str
+    occurred_at: datetime
+    data:        Dict[str, Any] = Field(default_factory=dict)
