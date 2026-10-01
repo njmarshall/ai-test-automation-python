@@ -2,11 +2,11 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-192%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
-[![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-269%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Domains](https://img.shields.io/badge/domains-5-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![CI Jobs](https://img.shields.io/badge/CI%20jobs-19%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
-Production-grade AI-powered test automation framework across healthcare FHIR, insurance, fintech, and PetStore domains. Built with enterprise design patterns, AI test generation, self-healing agents, and a complete AI quality pipeline.
+Production-grade AI-powered test automation framework across healthcare FHIR, insurance, fintech, payments, and Flex split-rent domains. Built with enterprise design patterns, AI test generation, self-healing agents, and a complete AI quality pipeline.
 
 ---
 
@@ -56,17 +56,53 @@ HealingResult — PASS or REJECTED
 | insurance | Policy CRUD (JSONPlaceholder) | JSONPlaceholder docs (Playwright) | 12 tests | AsyncPoller |
 | fintech | Coinbase market data, exchange rates, spot prices | Coinbase price page (Playwright) | 15 tests | AsyncPoller + EventSequencer |
 | petstore | PetStore REST API (Swagger) | Swagger UI (Playwright) | planned | planned |
+| payments | Payment sandbox — idempotency, async polling, refunds, webhook events | — | — | AsyncPoller |
+| fintech/flex | Flex split-rent mock server — plan creation, installment charging, disbursement, delinquency | — | — | — |
+
+---
+
+## Flex Split-Rent Domain
+
+`projects/fintech/flex/` is a realistic FastAPI mock of Flex's core banking API — the chartered bank that lets renters pay rent in two installments while guaranteeing landlords receive 100% on the due date.
+
+**Business rules encoded:**
+
+| Rule | Detail |
+|---|---|
+| Split calculation | Installment 1 = ceil(rent × 55%), Installment 2 = remainder. Two installments always sum to exactly monthly rent. |
+| Due dates | Installment 1 due 14 days before rent due date. Installment 2 due 1 day before. Gives Flex time to collect before disbursing. |
+| Late fee | $35 flat if paid after due date (Flex published rate). |
+| Landlord disbursement | Always goes out on rent due date regardless of installment status. Chartered bank absorbs the risk. |
+| Credit float | If landlord is disbursed before an installment is collected, a credit float entry is created on the ledger. |
+| Idempotency | Same idempotency key on installment charge returns same result — no double-charge. |
+| Max retries | 3 attempts per installment. Third failure marks installment permanently FAILED. Fourth call returns MAX_RETRIES_EXCEEDED. |
+| Delinquency | Plan goes DELINQUENT only when both installments are permanently FAILED. |
+
+**Test suites (62 tests):**
+
+| Suite | Tests | What it covers |
+|---|---|---|
+| test_plan_creation.py | 13 | Plan created, installments split correctly, disbursement scheduled, idempotency |
+| test_installment_charging.py | 20 | Happy path, idempotency, failure/retry state machine, delinquency |
+| test_disbursement.py | 14 | Disbursement sent, credit float ledger, already-disbursed guard |
+| test_plan_summary.py | 15 | Full plan state, balance due, float entries, cancelled/delinquent/completed states |
+
+**Why this domain matters for fintech interviews:**
+
+Chartered bank split payments are a real production pattern — Flex, Splitit, Afterpay, and similar BNPL platforms all face the same challenge: collecting from a consumer in installments while guaranteeing a merchant or landlord is paid in full on day one. Testing this correctly requires verifying the state machine (ACTIVE → COMPLETED / DELINQUENT / CANCELLED), the credit float ledger, the idempotency cache, and the retry guard all behave correctly under edge cases. This suite demonstrates exactly that.
 
 ---
 
 ## Test Coverage
 
-- **145 passed, 1 skipped** across all 4 domains
+- **269 passed, 1 skipped** across all domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
-- **12 Playwright UI tests** across all 4 domains
-- **17 parallel CI jobs** running on every push
+- **12 Playwright UI tests** across all domains
+- **19 parallel CI jobs** running on every push
 - **7 self-healing agent tests** — mocked, fast, no API calls
 - **3 performance baseline tests** — SLA assertions via httpx
+- **62 Flex fintech tests** — split-rent state machine, credit float, idempotency
+- **15 webhook event tests** — payment event contract verification
 
 ---
 
@@ -158,7 +194,7 @@ shared/
 | Template Method | AI generators — BaseTestGenerator skeleton |
 | Fluent Interface | Validators — FhirValidator, InsuranceValidator, FintechValidator |
 | Strategy | AsyncPoller — 3 interchangeable polling algorithms |
-| Page Object Model | Playwright UI tests across all 4 domains |
+| Page Object Model | Playwright UI tests across all domains |
 | SOLID | Applied throughout all layers |
 
 ---
@@ -166,8 +202,8 @@ shared/
 ## Stack
 
 ```
-Python 3.13 · pytest · httpx · Playwright · Anthropic SDK
-Pydantic · Faker · DeepEval · pytest-rerunfailures
+Python 3.13 · pytest · httpx · FastAPI · Playwright · Anthropic SDK
+Pydantic · Faker · DeepEval · pytest-rerunfailures · uvicorn
 GitHub Actions · Allure Reports
 ```
 
@@ -187,7 +223,11 @@ GitHub Actions · Allure Reports
 | 8 | [AI Quality Drift: How I Built AiObserver to Detect It Before Failure](https://www.linkedin.com/pulse/ai-quality-drift-how-i-built-aiobserver-detect-before-neil-marshall/) | Observability deep dive |
 | 9 | [I Built a Self-Healing Test Agent. The Hard Part Was Teaching It When Not to Heal](https://www.linkedin.com/pulse/i-built-self-healing-test-agent-hard-part-teaching-when-neil-marshall-5z4wc/) | Self-Healing Agent deep dive |
 | 11 | [The Test Nobody Wrote: How I Built an AI Agent That Hunts for Untested Risks](https://www.linkedin.com/pulse/test-nobody-wrote-how-i-built-ai-agent-hunts-untested-neil-marshall/) | ExploratoryTestAgent |
+| 12 | [The Test That Writes the Next Test](https://www.linkedin.com/pulse/test-writes-next-neil-marshall/) | Adaptive test generation loop |
+| 13 | [Your Payment API Passed. Can It Survive a Retry?](https://www.linkedin.com/pulse/your-payment-api-passed-can-survive-retry-neil-marshall/) | Payment idempotency + async sandbox |
+| 14 | [Your API Response Passed. What Did It Write to the Database?](https://www.linkedin.com/pulse/your-api-response-passed-what-did-write-database-neil-marshall-jdr6c/) | SQL data quality and database side-effect testing |
+| 15 | [The Database Was Correct. The Customer Still Failed.](https://www.linkedin.com/pulse/database-was-correct-customer-still-failed-neil-marshall/) | Fintech customer journey oracle testing |
 
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
