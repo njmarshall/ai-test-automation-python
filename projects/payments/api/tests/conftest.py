@@ -32,7 +32,7 @@ _PORT = 8003
 
 # ── server lifecycle ──────────────────────────────────────────────────────────
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def payment_server():
     """Start the payment sandbox once per test module on port 8003."""
     config = uvicorn.Config(app, host="127.0.0.1", port=_PORT, log_level="error")
