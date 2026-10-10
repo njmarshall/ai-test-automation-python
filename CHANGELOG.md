@@ -46,3 +46,17 @@
 - State machine: ACTIVE → COMPLETED / DELINQUENT / CANCELLED
 - Total: 269 passed, 1 skipped — new high score
 - All 19 CI jobs green
+
+## 2026-10-08
+
+- Article 16 first draft added — articles/article16_draft.md
+- Topic: I Built a Chartered Bank in Python. Here Is What the Tests Had to Prove.
+- Covers: three-party transaction model, state machine, credit float ledger, idempotency, retry guard, split calculation, 62-test suite
+- Written as interview prep for Flex Risk Team round 3
+
+## 2026-10-09
+
+- README Published Articles table fixed — Article 10 row restored (Contract Testing and FHIR)
+- Article 10 URL placeholder added; Neil to update with LinkedIn URL
+- Article 13 identified as the article on hold pending oracle/adaptive testing expert review
+- Memory updated to reflect correct article status across series
