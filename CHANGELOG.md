@@ -60,3 +60,10 @@
 - Article 10 URL placeholder added; Neil to update with LinkedIn URL
 - Article 13 identified as the article on hold pending oracle/adaptive testing expert review
 - Memory updated to reflect correct article status across series
+
+## 2026-10-10
+
+- Flex Risk Team round 3 interview prep — full-day study session
+- Studied payment flow scenarios using POST/GET status patterns
+- Practiced responding to AI-generated prompts on payment domain edge cases
+- Reviewed and deepened understanding of payment test suite in Python/pytest
