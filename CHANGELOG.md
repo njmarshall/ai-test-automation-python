@@ -67,3 +67,10 @@
 - Studied payment flow scenarios using POST/GET status patterns
 - Practiced responding to AI-generated prompts on payment domain edge cases
 - Reviewed and deepened understanding of payment test suite in Python/pytest
+
+## 2026-10-11
+
+- Flex Risk Team round 3 interview prep — continued study session
+- Practiced crafting and responding to AI-generated prompts on payment domain
+- Studied payment test suite patterns — happy path, retries, edge cases
+- Focused on risky test scenarios: delinquency, idempotency failures, MAX_RETRIES_EXCEEDED
