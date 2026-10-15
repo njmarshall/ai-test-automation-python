@@ -74,3 +74,14 @@
 - Practiced crafting and responding to AI-generated prompts on payment domain
 - Studied payment test suite patterns — happy path, retries, edge cases
 - Focused on risky test scenarios: delinquency, idempotency failures, MAX_RETRIES_EXCEEDED
+
+## 2026-10-14
+- Flex Risk Team round 3 interview prep — mock session day 2
+- Practiced 6 behavioral questions with STAR format answers
+- Learned financial terms in plain English: disbursement, credit float, delinquency, ACH return, ledger, state machine
+- Q3: speed vs thoroughness — Finix Friday release review story
+- Q4: bug nobody else found — duplicate disbursement guard story
+- Q5: pushing back on a requirement — fourth retry MAX_RETRIES_EXCEEDED story
+- Q6: test that caught a real problem — ACH return after SUCCEEDED story
+- Reviewed ACH return credit float scenario step by step
+- Friday = Risk Team behavioral, Monday = AI Testing hands-on
