@@ -85,3 +85,9 @@
 - Q6: test that caught a real problem — ACH return after SUCCEEDED story
 - Reviewed ACH return credit float scenario step by step
 - Friday = Risk Team behavioral, Monday = AI Testing hands-on
+
+## 2026-10-16
+- Flex Risk Team round 3 behavioral interview — completed, went well
+- Sent follow-up email with Article 6 (PHI Guardrails) and Article 11 (Untested Risks) links
+- Completed AI Testing interview prompt practice session
+- Monday = AI Testing hands-on exercise (next interview)
