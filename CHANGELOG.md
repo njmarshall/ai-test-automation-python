@@ -91,3 +91,8 @@
 - Sent follow-up email with Article 6 (PHI Guardrails) and Article 11 (Untested Risks) links
 - Completed AI Testing interview prompt practice session
 - Monday = AI Testing hands-on exercise (next interview)
+
+## 2026-10-17
+- AI Testing interview prep — worked through AI prompt assignments
+- Practice focus: writing and evaluating AI prompts for test generation scenarios
+- Monday = AI Testing hands-on exercise interview
