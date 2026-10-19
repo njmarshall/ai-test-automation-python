@@ -96,3 +96,14 @@
 - AI Testing interview prep — worked through AI prompt assignments
 - Practice focus: writing and evaluating AI prompts for test generation scenarios
 - Monday = AI Testing hands-on exercise interview
+
+## 2026-10-18
+- AI Testing hands-on interview prep — Sunday evening study session
+- Reviewed framework components: DeepEval scoring, AiObserver, InputGuard, OutputGuard, ClaudeJudge
+- DeepEval: quality gate at generation time — threshold 0.7, rejects low-scoring tests
+- AiObserver: production monitor tracking cost, speed, and quality drift on every Claude API call
+- InputGuard and OutputGuard: domain-agnostic guardrails — PHI scrubbing in healthcare, PCI scrubbing in fintech
+- ClaudeJudge: uses Claude to evaluate quality of Claude-generated tests — not data protection
+- Cohen's kappa confirmed not implemented in repo — honest answer: on roadmap, currently using DeepEval
+- "AI wrote 20 tests and all pass — do you trust them?" practice answer: No. Passing is not the same as correct.
+- Monday = AI Testing hands-on exercise (fourth and final Flex interview)
