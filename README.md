@@ -150,8 +150,18 @@ GitHub Actions · Allure Reports
 | 3 | [Why Async Testing Is the Hardest Part of SDET Work and How I Solved It](https://www.linkedin.com/pulse/why-async-testing-hardest-part-sdet-work-how-i-solved-neil-marshall-9wbpc/) | AsyncPoller + EventSequencer |
 | 4 | [AI Can Generate Tests. But Who Checks If They Are Any Good?](https://www.linkedin.com/pulse/ai-can-generate-tests-who-checks-any-good-neil-marshall-idibf/) | DeepEval evaluation |
 | 5 | [The 4 Ideas Every AI Test Engineer Needs to Know in 2026](https://www.linkedin.com/pulse/4-ideas-every-ai-test-engineer-needs-know-2026-neil-marshall-agrnc/) | All 4 AI pillars |
-| 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/pulse/how-i-built-phi-guardrails-my-ai-test-pipeline-neil-marshall-on6vc/) | Guardrails deep dive |
+| 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/pulse/how-i-built-phi-guardrails-my-ai-test-pipeline-neil-marshall-on6vc/) | InputGuard + OutputGuard |
+| 7 | [Async API Testing: 5 Failure Modes Most Test Suites Miss](ADD_URL) | Async failure modes |
+| 8 | [AI Quality Drift: How I Used AiObserver to Catch It Before It Became a Failure](ADD_URL) | AiObserver + quality drift |
+| 9 | [ADD_TITLE](ADD_URL) | ADD_TOPIC |
+| 10 | [Your API Tests Pass. Your Consumers Still Break. Here Is Why.](https://www.linkedin.com/pulse/your-api-tests-pass-consumers-still-break-here-why-neil-marshall-dtmuc/) | Contract testing and FHIR |
+| 11 | [ADD_TITLE](ADD_URL) | ExploratoryTestAgent + oracle problem |
+| 12 | [ADD_TITLE](ADD_URL) | Oracle grounding + adaptive loop |
+| 13 | [ADD_TITLE](ADD_URL) | On hold — adaptive vs exploratory testing |
+| 14 | [Your API Response Passed. What Did It Write to the Database?](ADD_URL) | Database-layer testing |
+| 15 | [The Database Was Correct. The Customer Still Failed.](ADD_URL) | Customer journey oracle |
+| 16 | [I Built a Chartered Bank in Python. Here Is What the Tests Had to Prove.](ADD_URL) | Flex chartered bank + 62-test suite |
 
 ---
 
-*Last updated: August 2026*
+*16 articles in this series — Last updated: October 2026*
