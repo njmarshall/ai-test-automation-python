@@ -107,3 +107,10 @@
 - Cohen's kappa confirmed not implemented in repo — honest answer: on roadmap, currently using DeepEval
 - "AI wrote 20 tests and all pass — do you trust them?" practice answer: No. Passing is not the same as correct.
 - Monday = AI Testing hands-on exercise (fourth and final Flex interview)
+
+## 2026-10-20
+- Flex AI Testing hands-on interview — fourth and final interview completed, went well
+- Format: Codebyte Challenge / live coding assessment
+- Task: implement Flex APIs in Python during the session
+- Used Claude as AI co-pilot to identify and address errors in real time
+- Demonstrated practical AI-assisted test engineering workflow under interview conditions
