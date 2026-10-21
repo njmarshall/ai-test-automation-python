@@ -114,3 +114,14 @@
 - Task: implement Flex APIs in Python during the session
 - Used Claude as AI co-pilot to identify and address errors in real time
 - Demonstrated practical AI-assisted test engineering workflow under interview conditions
+
+## 2026-10-20 (README)
+- Published Articles table restored to full 15 articles (rows 7-15 were missing)
+- Added LinkedIn URLs for articles 7, 8, 9, 10, 11, 12, 13, 14, 15
+- Article 7: Async API Testing: 5 Failure Modes Most Test Suites Miss
+- Article 8: AI Quality Drift: How I Used AiObserver to Catch It Before It Became a Failure
+- Article 9: I Built a Self-Healing Test Agent. The Hard Part Was Teaching It When Not to Heal.
+- Article 10: Your API Tests Pass. Your Consumers Still Break. Here Is Why.
+- Articles 11-15: titles and URLs confirmed from LinkedIn Articles spreadsheet
+- Article 16 removed — not yet published
+- Footer updated to "15 articles in this series"
