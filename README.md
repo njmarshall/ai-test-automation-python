@@ -151,17 +151,16 @@ GitHub Actions · Allure Reports
 | 4 | [AI Can Generate Tests. But Who Checks If They Are Any Good?](https://www.linkedin.com/pulse/ai-can-generate-tests-who-checks-any-good-neil-marshall-idibf/) | DeepEval evaluation |
 | 5 | [The 4 Ideas Every AI Test Engineer Needs to Know in 2026](https://www.linkedin.com/pulse/4-ideas-every-ai-test-engineer-needs-know-2026-neil-marshall-agrnc/) | All 4 AI pillars |
 | 6 | [How I Built PHI Guardrails Into My AI Test Pipeline](https://www.linkedin.com/pulse/how-i-built-phi-guardrails-my-ai-test-pipeline-neil-marshall-on6vc/) | InputGuard + OutputGuard |
-| 7 | [Async API Testing: 5 Failure Modes Most Test Suites Miss](ADD_URL) | Async failure modes |
-| 8 | [AI Quality Drift: How I Used AiObserver to Catch It Before It Became a Failure](ADD_URL) | AiObserver + quality drift |
-| 9 | [ADD_TITLE](ADD_URL) | ADD_TOPIC |
+| 7 | [Async API Testing: 5 Failure Modes Most Test Suites Miss](https://www.linkedin.com/pulse/async-api-testing-5-failure-modes-most-test-suites-miss-neil-marshall-tnbtc/) | Async failure modes |
+| 8 | [AI Quality Drift: How I Used AiObserver to Catch It Before It Became a Failure](https://www.linkedin.com/pulse/ai-quality-drift-how-i-used-aiobserver-catch-before-became-marshall-0lhmc/) | AiObserver + quality drift |
+| 9 | [I Built a Self-Healing Test Agent. The Hard Part Was Teaching It When Not to Heal.](https://www.linkedin.com/pulse/i-built-self-healing-test-agent-hard-part-teaching-when-neil-marshall-5z4wc/) | SelfHealingAgent + stop conditions |
 | 10 | [Your API Tests Pass. Your Consumers Still Break. Here Is Why.](https://www.linkedin.com/pulse/your-api-tests-pass-consumers-still-break-here-why-neil-marshall-dtmuc/) | Contract testing and FHIR |
 | 11 | [The Test Nobody Wrote: How I Built an AI Agent That Hunts for Untested Risks](https://www.linkedin.com/pulse/test-nobody-wrote-how-i-built-ai-agent-hunts-untested-neil-marshall-szt5c/) | ExploratoryTestAgent + oracle problem |
 | 12 | [The Test That Writes the Next Test: Building a Truly Adaptive Exploratory Agent](https://www.linkedin.com/pulse/test-writes-next-building-truly-adaptive-exploratory-agent-marshall-uwmsc/) | Oracle grounding + adaptive loop |
 | 13 | [Your Payment API Passed. Can It Survive a Retry?](https://www.linkedin.com/pulse/your-payment-api-passed-can-survive-retry-neil-marshall-nv8gc/) | Retry resilience + idempotency |
 | 14 | [Your API Response Passed. What Did It Write to the Database?](https://www.linkedin.com/pulse/your-api-response-passed-what-did-write-database-neil-marshall-jdr6c/) | Database-layer testing |
 | 15 | [The Database Was Correct. The Customer Still Failed.](https://www.linkedin.com/pulse/database-correct-customer-still-failed-neil-marshall-nccae/) | Customer journey oracle |
-| 16 | [I Built a Chartered Bank in Python. Here Is What the Tests Had to Prove.](ADD_URL) | Flex chartered bank + 62-test suite |
 
 ---
 
-*16 articles in this series — Last updated: October 2026*
+*15 articles in this series — Last updated: October 2026*
