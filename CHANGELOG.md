@@ -125,3 +125,10 @@
 - Articles 11-15: titles and URLs confirmed from LinkedIn Articles spreadsheet
 - Article 16 removed — not yet published
 - Footer updated to "15 articles in this series"
+
+## 2026-10-21
+- Article 16 published on LinkedIn — Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.
+- Final title agreed upon by both ChatGPT and Claude review
+- Topic: healthcare patient journey oracle testing — all API layers pass but the patient-facing outcome fails
+- Extends the customer journey oracle pattern from Article 15 into the healthcare domain
+- 16 articles in this series
