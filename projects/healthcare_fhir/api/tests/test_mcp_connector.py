@@ -14,6 +14,8 @@ import pytest
 
 from shared.mcp.mcp_connector import McpConnector, McpResult
 
+pytestmark = pytest.mark.healthcare
+
 
 class TestMcpConnector:
     """Tests for MCP connector scaffold."""

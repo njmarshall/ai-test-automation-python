@@ -30,7 +30,7 @@ jobs:
 
       - name: Run FHIR API tests
         run: |
-          pytest projects/healthcare_fhir/api/tests/ \
+          pytest projects/healthcare_fhir/api/tests/ projects/healthcare_fhir/api/ai/generated/ \
             -v \
             -m healthcare \
             --tb=short \
@@ -116,7 +116,7 @@ jobs:
 
       - name: Run Insurance API tests
         run: |
-          pytest projects/insurance/api/tests/ \
+          pytest projects/insurance/api/tests/ projects/insurance/api/ai/generated/ \
             -v \
             -m insurance \
             --tb=short \
@@ -144,7 +144,7 @@ jobs:
 
       - name: Run Fintech API tests
         run: |
-          pytest projects/fintech/api/tests/ \
+          pytest projects/fintech/api/tests/ projects/fintech/api/ai/generated/ \
             -v \
             -m fintech \
             --tb=short \
