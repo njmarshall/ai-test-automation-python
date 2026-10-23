@@ -56,6 +56,9 @@ HealingResult — PASS or REJECTED
 | insurance | Policy CRUD (JSONPlaceholder) | JSONPlaceholder docs (Playwright) | 12 tests | AsyncPoller |
 | fintech | Coinbase market data, exchange rates, spot prices | Coinbase price page (Playwright) | 15 tests | AsyncPoller + EventSequencer |
 | petstore | PetStore REST API (Swagger) | Swagger UI (Playwright) | planned | planned |
+| payments | Idempotency, refunds, webhooks, async (44 tests) | — | — | AsyncPoller (6 tests) |
+| flex | Plan creation, installment charging, disbursement, plan summary (62 tests) | — | — | — |
+| sql | Data quality: NULL, uniqueness, range, schema across 3 domains (15 tests) | — | — | — |
 
 ---
 
