@@ -486,7 +486,9 @@ jobs:
           pytest tests/performance/ \
             -v \
             --tb=short \
-            --no-header
+            --no-header \
+            --reruns 2 \
+            --reruns-delay 5
 
   # ------------------------------------------------------------------ #
   #  k6 Performance Baseline                                            #

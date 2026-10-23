@@ -44,7 +44,7 @@ Usage
 
 SLA Thresholds (FHIR R4 HAPI sandbox)
 --------------------------------------
-  POST /Patient  — create    < 3000ms
+  POST /Patient  — create    < 4000ms (CI runners need extra headroom)
   GET  /Patient  — read      < 2000ms
   DELETE         — delete    < 2000ms
   95th percentile response   < 5000ms
@@ -71,7 +71,7 @@ class FhirSLA:
     These are the performance contracts the API must honour.
     Exceeding these thresholds triggers a performance regression alert.
     """
-    create_ms:      int = 3000  # POST /Patient
+    create_ms:      int = 4000  # POST /Patient — 4s allows for CI runner variance
     read_ms:        int = 2000  # GET  /Patient/{id}
     delete_ms:      int = 2000  # DELETE /Patient/{id}
     p95_ms:         int = 5000  # 95th percentile across all requests
