@@ -544,3 +544,57 @@ jobs:
             -v \
             --tb=short \
             --no-header
+
+  # ------------------------------------------------------------------ #
+  #  Flex Split-Rent Tests                                              #
+  # ------------------------------------------------------------------ #
+  flex-tests:
+    name: Flex Split-Rent Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Flex tests
+        run: |
+          pytest projects/fintech/flex/tests/ \
+            -v \
+            --tb=short \
+            --no-header
+
+  # ------------------------------------------------------------------ #
+  #  SQL Data Quality Tests                                             #
+  # ------------------------------------------------------------------ #
+  sql-data-quality-tests:
+    name: SQL Data Quality Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run SQL Data Quality tests
+        run: |
+          pytest projects/sql/api/tests/ \
+            -v \
+            --tb=short \
+            --no-header

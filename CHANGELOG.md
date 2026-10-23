@@ -132,3 +132,11 @@
 - Topic: healthcare patient journey oracle testing — all API layers pass but the patient-facing outcome fails
 - Extends the customer journey oracle pattern from Article 15 into the healthcare domain
 - 16 articles in this series
+
+## 2026-10-22
+- Flex split-rent tests wired into CI — new parallel job: Flex Split-Rent Tests (62 tests)
+- SQL data quality tests wired into CI — new parallel job: SQL Data Quality Tests (15 tests)
+- Total CI jobs: 17 parallel
+- Total tests: 212 passed, 1 skipped
+- README badges updated: tests-212, CI jobs-17
+- README Test Coverage section updated with Flex and SQL suite entries

@@ -2,9 +2,9 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-135%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-212%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
-[![CI Jobs](https://img.shields.io/badge/CI%20jobs-15%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
+[![CI Jobs](https://img.shields.io/badge/CI%20jobs-17%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
 Production-grade AI-powered test automation framework across healthcare FHIR, insurance, fintech, and PetStore domains. Built with enterprise design patterns, AI test generation, self-healing agents, and a complete AI quality pipeline.
 
@@ -61,11 +61,13 @@ HealingResult — PASS or REJECTED
 
 ## Test Coverage
 
-- **135 passed, 1 skipped** across all 4 domains
+- **212 passed, 1 skipped** across all domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
-- **15 parallel CI jobs** running on every push
+- **17 parallel CI jobs** running on every push
 - **7 self-healing agent tests** — mocked, fast, no API calls
+- **62 Flex split-rent tests** — plan creation, installment charging, disbursement, plan summary
+- **15 SQL data quality tests** — NULL, uniqueness, range, and schema checks across 3 domains
 
 ---
 
