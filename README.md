@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-212%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-292%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![CI Jobs](https://img.shields.io/badge/CI%20jobs-17%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
@@ -61,7 +61,7 @@ HealingResult — PASS or REJECTED
 
 ## Test Coverage
 
-- **212 passed, 1 skipped** across all domains
+- **292 passed, 1 skipped** across all domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
 - **17 parallel CI jobs** running on every push
