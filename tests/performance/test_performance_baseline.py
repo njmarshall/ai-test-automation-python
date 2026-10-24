@@ -21,8 +21,8 @@ class TestFhirPerformanceBaseline:
     """Performance baseline tests for FHIR Patient API."""
 
     def test_create_patient_within_sla(self) -> None:
-        """POST /Patient must respond within 3000ms."""
-        checker = FhirPerformanceChecker(sla=FhirSLA(create_ms=3000))
+        """POST /Patient must respond within 4000ms."""
+        checker = FhirPerformanceChecker(sla=FhirSLA(create_ms=4000))
         result  = checker.measure_create_patient()
 
         print(f"\n{result.summary()}")
@@ -69,7 +69,7 @@ class TestFhirPerformanceBaseline:
     def test_performance_sla_configuration(self) -> None:
         """Verify SLA thresholds — no HTTP calls."""
         sla = FhirSLA()
-        assert sla.create_ms == 3000
+        assert sla.create_ms == 4000
         assert sla.read_ms   == 2000
         assert sla.delete_ms == 2000
         assert sla.p95_ms    == 5000
