@@ -120,6 +120,27 @@ shared/
 
 ---
 
+## Pattern: AI Test Generator
+
+`BaseTestGenerator` (`shared/ai/test_generator.py`) turns an API spec dict, such as `{"resource": "Patient", "endpoints": [...]}`, into pytest source code. Subclasses supply the domain prompts. The base class owns the flow:
+
+1. `build_system_prompt()` (subclass): sets the AI persona and output rules
+2. `build_prompt(spec)` (subclass): builds the user message from the spec
+3. `_call_api()` (base): scrubs the prompt, calls Claude, records metrics, validates output
+4. `_extract_code()` (base): strips markdown fences and returns raw Python
+
+**Guardrails inside `_call_api()`**
+
+- `InputGuard.scrub_prompt()` replaces PHI (names, SSNs, emails, MRNs) with tokens such as `[NAME]` before anything leaves the process
+- `AiObserver` records token counts, cost and duration (`get_metrics()`)
+- `OutputGuard.validate()` checks syntax, completeness, at least one `test_` function and no hardcoded secrets
+
+**Failure case:** if Claude returns code with no `test_` function, `generate()` raises `ValueError: Generated code failed output validation: ['No test methods found ...']` and nothing is returned to write to disk.
+
+Unit tests (`pytest tests/unit -v`) mock the Anthropic client, so they need no API key.
+
+---
+
 ## Design Patterns
 
 | Pattern | Applied In |
