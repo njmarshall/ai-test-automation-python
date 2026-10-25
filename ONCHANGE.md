@@ -2,6 +2,13 @@
 
 A running log of checks and changes.
 
+## 2026.10.24
+
+### Added: combined test results summary in CI
+
+* Change: every pytest job now writes `--junitxml=reports/<job-name>.xml` and uploads it as a `junit-<job-name>` artifact. A new `test-summary` job downloads them all and publishes one report with `pmeier/pytest-results-action`.
+* Why: one combined results page in the workflow summary instead of reading 20 separate job logs.
+
 ## 2026.10.23
 
 ### Fixed: CI failures in performance tests and k6 install

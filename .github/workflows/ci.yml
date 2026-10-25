@@ -31,9 +31,17 @@ jobs:
       - name: Run Unit tests
         run: |
           pytest tests/unit \
+            --junitxml=reports/unit-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-unit-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  API Tests — Patient, Encounter, Observation                        #
@@ -58,10 +66,18 @@ jobs:
       - name: Run FHIR API tests
         run: |
           pytest projects/healthcare_fhir/api/tests/ projects/healthcare_fhir/api/ai/generated/ \
+            --junitxml=reports/api-tests.xml \
             -v \
             -m healthcare \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-api-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  UI Tests — Playwright HAPI FHIR explorer                          #
@@ -89,10 +105,18 @@ jobs:
       - name: Run FHIR UI tests
         run: |
           pytest projects/healthcare_fhir/ui/tests/ \
+            --junitxml=reports/ui-tests.xml \
             -v \
             -m ui \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-ui-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  PetStore API Tests                                                 #
@@ -117,9 +141,17 @@ jobs:
       - name: Run PetStore API tests
         run: |
           pytest projects/petstore/api/tests/ \
+            --junitxml=reports/petstore-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-petstore-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Insurance API Tests                                                #
@@ -144,10 +176,18 @@ jobs:
       - name: Run Insurance API tests
         run: |
           pytest projects/insurance/api/tests/ projects/insurance/api/ai/generated/ \
+            --junitxml=reports/insurance-tests.xml \
             -v \
             -m insurance \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-insurance-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Fintech API Tests                                                  #
@@ -172,10 +212,18 @@ jobs:
       - name: Run Fintech API tests
         run: |
           pytest projects/fintech/api/tests/ projects/fintech/api/ai/generated/ \
+            --junitxml=reports/fintech-tests.xml \
             -v \
             -m fintech \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-fintech-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Insurance UI Tests                                                 #
@@ -203,10 +251,18 @@ jobs:
       - name: Run Insurance UI tests
         run: |
           pytest projects/insurance/ui/tests/ \
+            --junitxml=reports/insurance-ui-tests.xml \
             -v \
             -m "insurance and ui" \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-insurance-ui-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Fintech UI Tests                                                   #
@@ -234,10 +290,18 @@ jobs:
       - name: Run Fintech UI tests
         run: |
           pytest projects/fintech/ui/tests/ \
+            --junitxml=reports/fintech-ui-tests.xml \
             -v \
             -m "fintech and ui" \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-fintech-ui-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  PetStore UI Tests                                                  #
@@ -265,10 +329,18 @@ jobs:
       - name: Run PetStore UI tests
         run: |
           pytest projects/petstore/ui/tests/ \
+            --junitxml=reports/petstore-ui-tests.xml \
             -v \
             -m "petstore and ui" \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-petstore-ui-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Async Polling Tests                                                #
@@ -293,9 +365,17 @@ jobs:
       - name: Run Async Polling tests
         run: |
           pytest projects/fintech/api/tests/test_async_polling.py \
+            --junitxml=reports/async-polling-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-async-polling-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Event Sequencer Tests                                              #
@@ -320,9 +400,17 @@ jobs:
       - name: Run Event Sequencer tests
         run: |
           pytest projects/fintech/api/tests/test_event_sequencer.py \
+            --junitxml=reports/event-sequencer-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-event-sequencer-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  DeepEval LLM Evaluation Tests                                      #
@@ -349,9 +437,17 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           pytest projects/healthcare_fhir/api/ai/test_deepeval_fhir.py \
+            --junitxml=reports/deepeval-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-deepeval-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Guardrails Tests                                                   #
@@ -376,9 +472,17 @@ jobs:
       - name: Run Guardrails tests
         run: |
           pytest projects/healthcare_fhir/api/tests/test_guardrails.py \
+            --junitxml=reports/guardrails-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-guardrails-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Observability Tests                                                #
@@ -403,9 +507,17 @@ jobs:
       - name: Run Observability tests
         run: |
           pytest projects/healthcare_fhir/api/tests/test_observability.py \
+            --junitxml=reports/observability-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-observability-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  FHIR Async Tests                                                   #
@@ -430,9 +542,17 @@ jobs:
       - name: Run FHIR Async tests
         run: |
           pytest projects/healthcare_fhir/api/tests/test_fhir_async.py \
+            --junitxml=reports/fhir-async-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-fhir-async-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Insurance Async Tests                                              #
@@ -457,9 +577,17 @@ jobs:
       - name: Run Insurance Async tests
         run: |
           pytest projects/insurance/api/tests/test_insurance_async.py \
+            --junitxml=reports/insurance-async-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-insurance-async-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Self Healing Agent Tests                                           #
@@ -484,9 +612,17 @@ jobs:
       - name: Run Self Healing Agent tests
         run: |
           pytest projects/healthcare_fhir/api/tests/test_self_healing_agent.py \
+            --junitxml=reports/self-healing-agent-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-self-healing-agent-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Performance Baseline Tests                                         #
@@ -511,11 +647,19 @@ jobs:
       - name: Run Performance tests
         run: |
           pytest tests/performance/ \
+            --junitxml=reports/performance-tests.xml \
             -v \
             --tb=short \
             --no-header \
             --reruns 2 \
             --reruns-delay 5
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-performance-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  k6 Performance Baseline                                            #
@@ -560,9 +704,17 @@ jobs:
       - name: Run Payment tests
         run: |
           pytest projects/payments/ \
+            --junitxml=reports/payment-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-payment-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  Flex Split-Rent Tests                                              #
@@ -587,9 +739,17 @@ jobs:
       - name: Run Flex tests
         run: |
           pytest projects/fintech/flex/tests/ \
+            --junitxml=reports/flex-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-flex-tests
+          path: reports/
 
   # ------------------------------------------------------------------ #
   #  SQL Data Quality Tests                                             #
@@ -614,6 +774,58 @@ jobs:
       - name: Run SQL Data Quality tests
         run: |
           pytest projects/sql/api/tests/ \
+            --junitxml=reports/sql-data-quality-tests.xml \
             -v \
             --tb=short \
             --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-sql-data-quality-tests
+          path: reports/
+
+  # ------------------------------------------------------------------ #
+  #  Test Summary: combined JUnit results from every pytest job        #
+  # ------------------------------------------------------------------ #
+  test-summary:
+    name: Test Results Summary
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - unit-tests
+      - api-tests
+      - ui-tests
+      - petstore-tests
+      - insurance-tests
+      - fintech-tests
+      - insurance-ui-tests
+      - fintech-ui-tests
+      - petstore-ui-tests
+      - async-polling-tests
+      - event-sequencer-tests
+      - deepeval-tests
+      - guardrails-tests
+      - observability-tests
+      - fhir-async-tests
+      - insurance-async-tests
+      - self-healing-agent-tests
+      - performance-tests
+      - payment-tests
+      - flex-tests
+      - sql-data-quality-tests
+
+    steps:
+      - name: Download JUnit reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: junit-*
+          merge-multiple: true
+          path: reports/
+
+      - name: Publish test results
+        uses: pmeier/pytest-results-action@main
+        with:
+          path: reports/*.xml
+          summary: true
