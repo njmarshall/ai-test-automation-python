@@ -63,6 +63,7 @@ class TestSwaggerUI:
         swagger_page.navigate_to_swagger()
 
         swagger_page.assert_url_contains("petstore.swagger.io")
+        swagger_page.wait_for_swagger_ui_render()
 
         assert swagger_page.is_swagger_page(), (
             "Expected to be on the Swagger PetStore page."
@@ -94,6 +95,7 @@ class TestSwaggerUI:
         """
         swagger_page.navigate_to_swagger()
         swagger_page.assert_url_contains("petstore.swagger.io")
+        swagger_page.wait_for_swagger_ui_render()
 
         content = swagger_page.get_page_content()
         assert "pet" in content.lower(), (
