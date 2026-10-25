@@ -13,7 +13,7 @@ jobs:
   # ------------------------------------------------------------------ #
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -38,7 +38,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-unit-tests
           path: reports/
@@ -48,7 +48,7 @@ jobs:
   # ------------------------------------------------------------------ #
   api-tests:
     name: FHIR API Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -74,7 +74,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-api-tests
           path: reports/
@@ -84,7 +84,7 @@ jobs:
   # ------------------------------------------------------------------ #
   ui-tests:
     name: FHIR UI Tests (Playwright)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -113,7 +113,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-ui-tests
           path: reports/
@@ -123,7 +123,7 @@ jobs:
   # ------------------------------------------------------------------ #
   petstore-tests:
     name: PetStore API Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -148,7 +148,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-petstore-tests
           path: reports/
@@ -158,7 +158,7 @@ jobs:
   # ------------------------------------------------------------------ #
   insurance-tests:
     name: Insurance API Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -184,7 +184,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-insurance-tests
           path: reports/
@@ -194,7 +194,7 @@ jobs:
   # ------------------------------------------------------------------ #
   fintech-tests:
     name: Fintech Market Data Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -220,7 +220,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-fintech-tests
           path: reports/
@@ -230,7 +230,7 @@ jobs:
   # ------------------------------------------------------------------ #
   insurance-ui-tests:
     name: Insurance UI Tests (Playwright)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -259,7 +259,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-insurance-ui-tests
           path: reports/
@@ -269,7 +269,7 @@ jobs:
   # ------------------------------------------------------------------ #
   fintech-ui-tests:
     name: Fintech UI Tests (Playwright)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -298,7 +298,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-fintech-ui-tests
           path: reports/
@@ -308,7 +308,7 @@ jobs:
   # ------------------------------------------------------------------ #
   petstore-ui-tests:
     name: PetStore UI Tests (Playwright)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -337,7 +337,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-petstore-ui-tests
           path: reports/
@@ -347,7 +347,7 @@ jobs:
   # ------------------------------------------------------------------ #
   async-polling-tests:
     name: Async Polling Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -372,7 +372,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-async-polling-tests
           path: reports/
@@ -382,7 +382,7 @@ jobs:
   # ------------------------------------------------------------------ #
   event-sequencer-tests:
     name: Event Sequencer Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -407,7 +407,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-event-sequencer-tests
           path: reports/
@@ -417,7 +417,7 @@ jobs:
   # ------------------------------------------------------------------ #
   deepeval-tests:
     name: DeepEval LLM Evaluation
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -444,7 +444,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-deepeval-tests
           path: reports/
@@ -454,7 +454,7 @@ jobs:
   # ------------------------------------------------------------------ #
   guardrails-tests:
     name: Guardrails Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -479,7 +479,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-guardrails-tests
           path: reports/
@@ -489,7 +489,7 @@ jobs:
   # ------------------------------------------------------------------ #
   observability-tests:
     name: Observability Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -514,7 +514,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-observability-tests
           path: reports/
@@ -524,7 +524,7 @@ jobs:
   # ------------------------------------------------------------------ #
   fhir-async-tests:
     name: FHIR Async Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -549,7 +549,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-fhir-async-tests
           path: reports/
@@ -559,7 +559,7 @@ jobs:
   # ------------------------------------------------------------------ #
   insurance-async-tests:
     name: Insurance Async Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -584,7 +584,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-insurance-async-tests
           path: reports/
@@ -594,7 +594,7 @@ jobs:
   # ------------------------------------------------------------------ #
   self-healing-agent-tests:
     name: Self Healing Agent Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -619,7 +619,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-self-healing-agent-tests
           path: reports/
@@ -629,7 +629,7 @@ jobs:
   # ------------------------------------------------------------------ #
   performance-tests:
     name: Performance Baseline Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -656,7 +656,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-performance-tests
           path: reports/
@@ -666,7 +666,7 @@ jobs:
   # ------------------------------------------------------------------ #
   k6-baseline:
     name: k6 Performance Baseline
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -686,7 +686,7 @@ jobs:
   # ------------------------------------------------------------------ #
   payment-tests:
     name: Payment Idempotency Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -711,7 +711,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-payment-tests
           path: reports/
@@ -721,7 +721,7 @@ jobs:
   # ------------------------------------------------------------------ #
   flex-tests:
     name: Flex Split-Rent Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -746,7 +746,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-flex-tests
           path: reports/
@@ -756,7 +756,7 @@ jobs:
   # ------------------------------------------------------------------ #
   sql-data-quality-tests:
     name: SQL Data Quality Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -781,7 +781,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-sql-data-quality-tests
           path: reports/
@@ -791,7 +791,7 @@ jobs:
   # ------------------------------------------------------------------ #
   test-summary:
     name: Test Results Summary
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: always()
     needs:
       - unit-tests
@@ -818,7 +818,7 @@ jobs:
 
     steps:
       - name: Download JUnit reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           pattern: junit-*
           merge-multiple: true
