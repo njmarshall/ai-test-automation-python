@@ -38,7 +38,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-unit-tests
           path: reports/
@@ -74,7 +74,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-api-tests
           path: reports/
@@ -113,7 +113,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-ui-tests
           path: reports/
@@ -148,7 +148,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-petstore-tests
           path: reports/
@@ -184,7 +184,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-insurance-tests
           path: reports/
@@ -220,7 +220,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-fintech-tests
           path: reports/
@@ -259,7 +259,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-insurance-ui-tests
           path: reports/
@@ -298,7 +298,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-fintech-ui-tests
           path: reports/
@@ -337,7 +337,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-petstore-ui-tests
           path: reports/
@@ -372,7 +372,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-async-polling-tests
           path: reports/
@@ -407,7 +407,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-event-sequencer-tests
           path: reports/
@@ -444,7 +444,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-deepeval-tests
           path: reports/
@@ -479,7 +479,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-guardrails-tests
           path: reports/
@@ -514,7 +514,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-observability-tests
           path: reports/
@@ -549,7 +549,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-fhir-async-tests
           path: reports/
@@ -584,7 +584,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-insurance-async-tests
           path: reports/
@@ -619,7 +619,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-self-healing-agent-tests
           path: reports/
@@ -656,7 +656,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-performance-tests
           path: reports/
@@ -711,7 +711,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-payment-tests
           path: reports/
@@ -746,7 +746,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-flex-tests
           path: reports/
@@ -781,7 +781,7 @@ jobs:
 
       - name: Upload JUnit report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: junit-sql-data-quality-tests
           path: reports/
@@ -818,7 +818,7 @@ jobs:
 
     steps:
       - name: Download JUnit reports
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4.3.0
         with:
           pattern: junit-*
           merge-multiple: true
