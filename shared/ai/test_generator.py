@@ -130,7 +130,8 @@ class BaseTestGenerator(ABC):
 
         raw_text = message.content[0].text
 
-        validation = self._output_guard.validate(raw_text)
+        # Validate the code itself — fences would always fail the syntax check
+        validation = self._output_guard.validate(self._extract_code(raw_text))
         if not validation.passed:
             raise ValueError(f"Generated code failed output validation: {validation.failures}")
 
