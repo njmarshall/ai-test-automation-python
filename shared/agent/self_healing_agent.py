@@ -54,6 +54,7 @@ from typing import Optional
 
 from shared.guardrails.input_guard import InputGuard
 from shared.guardrails.output_guard import OutputGuard
+from shared.jira.jira_notifier import JiraNotifier
 from shared.observability.ai_observer import AiObserver
 
 
@@ -138,10 +139,11 @@ class SelfHealingAgent:
         require_approval: bool = True,
         quality_threshold: float = QUALITY_THRESHOLD,
     ) -> None:
-        self._input_guard      = InputGuard()
-        self._output_guard     = OutputGuard()
-        self._observer         = AiObserver()
-        self._require_approval = require_approval
+        self._input_guard       = InputGuard()
+        self._output_guard      = OutputGuard()
+        self._observer          = AiObserver()
+        self._jira              = JiraNotifier()   # Phase 6 — audit trail
+        self._require_approval  = require_approval
         self._quality_threshold = quality_threshold
 
     # ------------------------------------------------------------------ #
@@ -224,7 +226,7 @@ class SelfHealingAgent:
                     cost_usd=self._observer.total_cost_usd,
                 )
 
-        return HealingResult(
+        result = HealingResult(
             test_path=failing_test_path,
             status="PASS",
             fix_applied=generated_fix[:200],
@@ -232,6 +234,18 @@ class SelfHealingAgent:
             duration_ms=self._observer.average_duration_ms,
             warnings=validation.warnings,
         )
+
+        # Phase 6 — JIRA audit trail.
+        # Every self-heal that reaches PASS must create a ticket so a human
+        # can review and close it.  Dry-run silently when not configured.
+        jira_result = self._jira.notify(result)
+        if jira_result.created:
+            result.warnings.append(
+                f"JIRA ticket created: {jira_result.ticket_key} "
+                f"— manual review required before closing."
+            )
+
+        return result
 
     def get_metrics(self) -> str:
         """Return observability summary for all healing attempts."""
