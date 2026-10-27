@@ -68,75 +68,10 @@
 - Practiced responding to AI-generated prompts on payment domain edge cases
 - Reviewed and deepened understanding of payment test suite in Python/pytest
 
-## 2026-10-11
+## 2026-10-13
 
-- Flex Risk Team round 3 interview prep — continued study session
-- Practiced crafting and responding to AI-generated prompts on payment domain
-- Studied payment test suite patterns — happy path, retries, edge cases
-- Focused on risky test scenarios: delinquency, idempotency failures, MAX_RETRIES_EXCEEDED
-
-## 2026-10-14
-- Flex Risk Team round 3 interview prep — mock session day 2
-- Practiced 6 behavioral questions with STAR format answers
-- Learned financial terms in plain English: disbursement, credit float, delinquency, ACH return, ledger, state machine
-- Q3: speed vs thoroughness — Finix Friday release review story
-- Q4: bug nobody else found — duplicate disbursement guard story
-- Q5: pushing back on a requirement — fourth retry MAX_RETRIES_EXCEEDED story
-- Q6: test that caught a real problem — ACH return after SUCCEEDED story
-- Reviewed ACH return credit float scenario step by step
-- Friday = Risk Team behavioral, Monday = AI Testing hands-on
-
-## 2026-10-16
-- Flex Risk Team round 3 behavioral interview — completed, went well
-- Sent follow-up email with Article 6 (PHI Guardrails) and Article 11 (Untested Risks) links
-- Completed AI Testing interview prompt practice session
-- Monday = AI Testing hands-on exercise (next interview)
-
-## 2026-10-17
-- AI Testing interview prep — worked through AI prompt assignments
-- Practice focus: writing and evaluating AI prompts for test generation scenarios
-- Monday = AI Testing hands-on exercise interview
-
-## 2026-10-18
-- AI Testing hands-on interview prep — Sunday evening study session
-- Reviewed framework components: DeepEval scoring, AiObserver, InputGuard, OutputGuard, ClaudeJudge
-- DeepEval: quality gate at generation time — threshold 0.7, rejects low-scoring tests
-- AiObserver: production monitor tracking cost, speed, and quality drift on every Claude API call
-- InputGuard and OutputGuard: domain-agnostic guardrails — PHI scrubbing in healthcare, PCI scrubbing in fintech
-- ClaudeJudge: uses Claude to evaluate quality of Claude-generated tests — not data protection
-- Cohen's kappa confirmed not implemented in repo — honest answer: on roadmap, currently using DeepEval
-- "AI wrote 20 tests and all pass — do you trust them?" practice answer: No. Passing is not the same as correct.
-- Monday = AI Testing hands-on exercise (fourth and final Flex interview)
-
-## 2026-10-20
-- Flex AI Testing hands-on interview — fourth and final interview completed, went well
-- Format: Codebyte Challenge / live coding assessment
-- Task: implement Flex APIs in Python during the session
-- Used Claude as AI co-pilot to identify and address errors in real time
-- Demonstrated practical AI-assisted test engineering workflow under interview conditions
-
-## 2026-10-20 (README)
-- Published Articles table restored to full 15 articles (rows 7-15 were missing)
-- Added LinkedIn URLs for articles 7, 8, 9, 10, 11, 12, 13, 14, 15
-- Article 7: Async API Testing: 5 Failure Modes Most Test Suites Miss
-- Article 8: AI Quality Drift: How I Used AiObserver to Catch It Before It Became a Failure
-- Article 9: I Built a Self-Healing Test Agent. The Hard Part Was Teaching It When Not to Heal.
-- Article 10: Your API Tests Pass. Your Consumers Still Break. Here Is Why.
-- Articles 11-15: titles and URLs confirmed from LinkedIn Articles spreadsheet
-- Article 16 removed — not yet published
-- Footer updated to "15 articles in this series"
-
-## 2026-10-21
-- Article 16 published on LinkedIn — Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.
-- Final title agreed upon by both ChatGPT and Claude review
-- Topic: healthcare patient journey oracle testing — all API layers pass but the patient-facing outcome fails
-- Extends the customer journey oracle pattern from Article 15 into the healthcare domain
-- 16 articles in this series
-
-## 2026-10-22
-- Flex split-rent tests wired into CI — new parallel job: Flex Split-Rent Tests (62 tests)
-- SQL data quality tests wired into CI — new parallel job: SQL Data Quality Tests (15 tests)
-- Total CI jobs: 17 parallel
-- Total tests: 212 passed, 1 skipped
-- README badges updated: tests-212, CI jobs-17
-- README Test Coverage section updated with Flex and SQL suite entries
+- Flex Risk Team round 3 interview prep — mock session
+- Practiced idempotency edge cases: happy path, network failure, service disconnect, same-key-different-amount
+- Studied payment risk scenarios: delinquency, duplicate disbursement, ACH returns, fraud/AML patterns
+- Reviewed AI Testing interview format: process-first, think-out-loud, clarifying questions before coding
+- Confirmed Friday = Risk Team behavioral, Monday = AI Testing hands-on exercise

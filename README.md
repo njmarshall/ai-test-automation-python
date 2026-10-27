@@ -2,9 +2,9 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-292%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-135%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
-[![CI Jobs](https://img.shields.io/badge/CI%20jobs-17%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
+[![CI Jobs](https://img.shields.io/badge/CI%20jobs-15%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
 Production-grade AI-powered test automation framework across healthcare FHIR, insurance, fintech, and PetStore domains. Built with enterprise design patterns, AI test generation, self-healing agents, and a complete AI quality pipeline.
 
@@ -56,21 +56,16 @@ HealingResult — PASS or REJECTED
 | insurance | Policy CRUD (JSONPlaceholder) | JSONPlaceholder docs (Playwright) | 12 tests | AsyncPoller |
 | fintech | Coinbase market data, exchange rates, spot prices | Coinbase price page (Playwright) | 15 tests | AsyncPoller + EventSequencer |
 | petstore | PetStore REST API (Swagger) | Swagger UI (Playwright) | planned | planned |
-| payments | Idempotency, refunds, webhooks, async (44 tests) | — | — | AsyncPoller (6 tests) |
-| flex | Plan creation, installment charging, disbursement, plan summary (62 tests) | — | — | — |
-| sql | Data quality: NULL, uniqueness, range, schema across 3 domains (15 tests) | — | — | — |
 
 ---
 
 ## Test Coverage
 
-- **292 passed, 1 skipped** across all domains
+- **135 passed, 1 skipped** across all 4 domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
-- **17 parallel CI jobs** running on every push
+- **15 parallel CI jobs** running on every push
 - **7 self-healing agent tests** — mocked, fast, no API calls
-- **62 Flex split-rent tests** — plan creation, installment charging, disbursement, plan summary
-- **15 SQL data quality tests** — NULL, uniqueness, range, and schema checks across 3 domains
 
 ---
 
@@ -117,27 +112,6 @@ shared/
 ├── assertions/    ← Fluent Interface validators
 └── dataprovider/  ← Factory pattern test data
 ```
-
----
-
-## Pattern: AI Test Generator
-
-`BaseTestGenerator` (`shared/ai/test_generator.py`) turns an API spec dict, such as `{"resource": "Patient", "endpoints": [...]}`, into pytest source code. Subclasses supply the domain prompts. The base class owns the flow:
-
-1. `build_system_prompt()` (subclass): sets the AI persona and output rules
-2. `build_prompt(spec)` (subclass): builds the user message from the spec
-3. `_call_api()` (base): scrubs the prompt, calls Claude, records metrics, validates output
-4. `_extract_code()` (base): strips markdown fences and returns raw Python
-
-**Guardrails inside `_call_api()`**
-
-- `InputGuard.scrub_prompt()` replaces PHI (names, SSNs, emails, MRNs) with tokens such as `[NAME]` before anything leaves the process
-- `AiObserver` records token counts, cost and duration (`get_metrics()`)
-- `OutputGuard.validate()` checks syntax, completeness, at least one `test_` function and no hardcoded secrets
-
-**Failure case:** if Claude returns code with no `test_` function, `generate()` raises `ValueError: Generated code failed output validation: ['No test methods found ...']` and nothing is returned to write to disk.
-
-Unit tests (`pytest tests/unit -v`) mock the Anthropic client, so they need no API key.
 
 ---
 
