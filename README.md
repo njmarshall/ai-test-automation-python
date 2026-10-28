@@ -64,11 +64,11 @@ HealingResult — PASS or REJECTED
 
 ## Test Coverage
 
-- **292 passed, 1 skipped** across all domains
+- **332 passed, 1 skipped** across all domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
 - **17 parallel CI jobs** running on every push
-- **7 self-healing agent tests** — mocked, fast, no API calls
+- **49 unit tests** — 21 JIRA notifier, 19 SelfHealReport builder, 9 BaseTestGenerator; mocked, fast, no API calls
 - **62 Flex split-rent tests** — plan creation, installment charging, disbursement, plan summary
 - **15 SQL data quality tests** — NULL, uniqueness, range, and schema checks across 3 domains
 
@@ -115,6 +115,8 @@ shared/
 ├── config/        ← Singleton pattern
 ├── http/          ← Facade over httpx
 ├── assertions/    ← Fluent Interface validators
+├── jira/          ← JiraNotifier Facade (Phase 6 audit trail)
+├── reporting/     ← SelfHealReport builder (Phase 6 Allure output)
 └── dataprovider/  ← Factory pattern test data
 ```
 
