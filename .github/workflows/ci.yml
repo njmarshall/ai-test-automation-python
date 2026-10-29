@@ -790,6 +790,41 @@ jobs:
           path: reports/
 
   # ------------------------------------------------------------------ #
+  #  Patient Scheduling Oracle Tests (Article 16)                      #
+  # ------------------------------------------------------------------ #
+  scheduling-oracle-tests:
+    name: Patient Scheduling Oracle Tests
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Patient Scheduling Oracle tests
+        run: |
+          pytest tests/integration/test_patient_scheduling_oracle.py \
+            --junitxml=reports/scheduling-oracle-tests.xml \
+            -v \
+            --tb=short \
+            --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4.6.0
+        with:
+          name: junit-scheduling-oracle-tests
+          path: reports/
+
+  # ------------------------------------------------------------------ #
   #  Test Summary: combined JUnit results from every pytest job        #
   # ------------------------------------------------------------------ #
   test-summary:
@@ -818,6 +853,7 @@ jobs:
       - payment-tests
       - flex-tests
       - sql-data-quality-tests
+      - scheduling-oracle-tests
 
     steps:
       - name: Download JUnit reports
