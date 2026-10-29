@@ -1,3 +1,18 @@
+## 2026-10-28
+- docs(phase-6): Phase 6 design patterns playbook added
+  - New: docs/playbooks/phase6_patterns.md — Facade, Builder, Value Object, Template Method
+  - Plain-English explanations with concrete code examples from Phase 6 source
+  - Interview-ready one-liners and a connection diagram showing how all four wire together
+- feat(phase-7): Patient scheduling oracle test added (Article 16 companion code)
+  - New: tests/integration/test_patient_scheduling_oracle.py — 6 tests, all CI-runnable
+  - Three FastAPI sandboxes (scheduling, availability, notification) — no external staging env
+  - Ports 8020-8022 (no collision with existing sandboxes)
+  - Oracle: all four services (scheduling, availability, notification, surface) must agree
+  - Failure messages are patient-impact assertions ("Patient cannot confirm appointment")
+  - Article 16: "Every Layer Passed. The Patient Still Couldn't Schedule."
+  - New CI job: scheduling-oracle-tests; wired into test-summary needs list
+  - Total tests: 338 (up from 332)
+
 ## 2026-09-25
 
 - Article 15 published — The Database Was Correct. The Customer Still Failed.

@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-332%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-338%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![CI Jobs](https://img.shields.io/badge/CI%20jobs-17%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
@@ -64,7 +64,7 @@ HealingResult — PASS or REJECTED
 
 ## Test Coverage
 
-- **332 passed, 1 skipped** across all domains
+- **338 passed, 1 skipped** across all domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
 - **17 parallel CI jobs** running on every push
@@ -188,7 +188,7 @@ GitHub Actions · Allure Reports
 | 13 | [Your Payment API Passed. Can It Survive a Retry?](https://www.linkedin.com/pulse/your-payment-api-passed-can-survive-retry-neil-marshall-nv8gc/) | Retry resilience + idempotency |
 | 14 | [Your API Response Passed. What Did It Write to the Database?](https://www.linkedin.com/pulse/your-api-response-passed-what-did-write-database-neil-marshall-jdr6c/) | Database-layer testing |
 | 15 | [The Database Was Correct. The Customer Still Failed.](https://www.linkedin.com/pulse/database-correct-customer-still-failed-neil-marshall-nccae/) | Customer journey oracle |
-| 16 | Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure. | Healthcare patient journey oracle |
+| 16 | Every Layer Passed. The Patient Still Couldn't Schedule. | Healthcare patient journey oracle |
 
 ---
 
