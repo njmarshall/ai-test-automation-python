@@ -1,3 +1,12 @@
+## 2026-10-29
+- test(shared): unit tests for three zero-coverage shared/ modules (A+B)
+  - New: tests/unit/test_async_poller.py — 18 tests covering TimeoutStrategy, FixedRetryStrategy, ExponentialBackoffStrategy, AsyncPoller.poll(), AsyncPoller.poll_for_status()
+  - New: tests/unit/test_event_sequencer.py — 22 tests covering SequenceResult, EventSequencer constructor, whole-sequence validation, per-event budget path, assert_valid()
+  - New: tests/unit/test_ai_observer.py — 23 tests covering ObservationRecord, ObservationContext, AiObserver.observe(), is_drifting(), summary()
+  - All 83 tests pass in <0.2s (no sleep, no network — time.sleep patched throughout)
+  - Key technique: importlib.import_module("shared.async.x") to work around async keyword; patch("time.sleep") globally; itertools.count(step=3.0) for monotonic mock clocks in per-event budget tests
+  - Badge updated: 338 → 421 passing tests
+
 ## 2026-10-28
 - docs(phase-6): Phase 6 design patterns playbook added
   - New: docs/playbooks/phase6_patterns.md — Facade, Builder, Value Object, Template Method
