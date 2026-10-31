@@ -1,3 +1,11 @@
+## 2026-10-30
+- ci(shared): CI hardening — pytest-timeout + shared/ coverage gate (Option C)
+  - requirements.txt: added pytest-timeout==2.3.* and pytest-cov==5.*
+  - unit-tests CI job: added --timeout=10 to prevent indefinitely-hanging tests from blocking CI
+  - New CI job: shared-coverage — runs the 3 shared/ unit test files with --cov=shared/async --cov=shared/observability --cov-fail-under=80 (baseline: 96% actual, gate at 80% for regression safety)
+  - Coverage report uploaded as artifact: reports/shared-coverage.xml
+  - shared-coverage added to test-summary needs list (23 jobs total)
+
 ## 2026-10-29
 - test(shared): unit tests for three zero-coverage shared/ modules (A+B)
   - New: tests/unit/test_async_poller.py — 18 tests covering TimeoutStrategy, FixedRetryStrategy, ExponentialBackoffStrategy, AsyncPoller.poll(), AsyncPoller.poll_for_status()

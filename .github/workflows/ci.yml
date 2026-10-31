@@ -35,6 +35,7 @@ jobs:
         run: |
           pytest tests/unit \
             --junitxml=reports/unit-tests.xml \
+            --timeout=10 \
             -v \
             --tb=short \
             --no-header
@@ -825,6 +826,46 @@ jobs:
           path: reports/
 
   # ------------------------------------------------------------------ #
+  #  Shared Module Coverage Gate (≥ 80% line coverage)                #
+  # ------------------------------------------------------------------ #
+  shared-coverage:
+    name: Shared Module Coverage Gate
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run shared/ coverage check
+        run: |
+          pytest tests/unit/test_async_poller.py \
+                 tests/unit/test_event_sequencer.py \
+                 tests/unit/test_ai_observer.py \
+            --cov=shared/async \
+            --cov=shared/observability \
+            --cov-report=xml:reports/shared-coverage.xml \
+            --cov-report=term-missing \
+            --cov-fail-under=80 \
+            --timeout=10 \
+            --no-header -q
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4.6.0
+        with:
+          name: shared-coverage-report
+          path: reports/
+
+  # ------------------------------------------------------------------ #
   #  Test Summary: combined JUnit results from every pytest job        #
   # ------------------------------------------------------------------ #
   test-summary:
@@ -854,6 +895,7 @@ jobs:
       - flex-tests
       - sql-data-quality-tests
       - scheduling-oracle-tests
+      - shared-coverage
 
     steps:
       - name: Download JUnit reports
