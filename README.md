@@ -8,6 +8,8 @@
 
 Production-grade AI-powered test automation framework across healthcare FHIR, insurance, fintech, and PetStore domains. Built with enterprise design patterns, AI test generation, self-healing agents, and a complete AI quality pipeline.
 
+> **Improvement roadmap:** [Q1 2027 Three-Month Improvement Roadmap](https://claude.ai/artifact/LRLECcaQ3PRjokMbWyXjqc) — Foundation Hardening (Nov), Observability and Intelligence (Dec), FAANG-Readiness Layer (Jan). Updated each quarter to track framework maturity version-to-version.
+
 ---
 
 ## Architecture
@@ -166,6 +168,18 @@ Python 3.13 · pytest · httpx · Playwright · Anthropic SDK
 Pydantic · Faker · DeepEval · pytest-rerunfailures
 GitHub Actions · Allure Reports
 ```
+
+---
+
+## Improvement Roadmap
+
+This framework follows a quarterly improvement cycle. Each roadmap is versioned and published to show the maturity arc from one period to the next.
+
+| Quarter | Roadmap | Focus Areas |
+|---|---|---|
+| Q1 2027 | [View roadmap](https://claude.ai/artifact/LRLECcaQ3PRjokMbWyXjqc) | Foundation Hardening, Observability and Intelligence, FAANG-Readiness Layer |
+
+The roadmap documents concrete, measurable improvements: flaky test quarantine strategy, contract testing on the AI provider boundary, Cohen's kappa on judge changeovers, chaos engineering for async paths, Architecture Decision Records, and mutation testing. Each item is scoped so a FAANG staff or principal SDET can verify it was completed version-to-version.
 
 ---
 
