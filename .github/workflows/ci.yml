@@ -826,6 +826,41 @@ jobs:
           path: reports/
 
   # ------------------------------------------------------------------ #
+  #  Customer Journey Oracle Tests (Article 16, prior authorization)   #
+  # ------------------------------------------------------------------ #
+  prior-auth-oracle-tests:
+    name: Customer Journey Oracle Tests
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Customer Journey Oracle tests
+        run: |
+          pytest projects/healthcare_fhir/api/prior_auth/ \
+            --junitxml=reports/prior-auth-oracle-tests.xml \
+            -v \
+            --tb=short \
+            --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4.6.0
+        with:
+          name: junit-prior-auth-oracle-tests
+          path: reports/
+
+  # ------------------------------------------------------------------ #
   #  Shared Module Coverage Gate (≥ 80% line coverage)                #
   # ------------------------------------------------------------------ #
   shared-coverage:
@@ -895,6 +930,7 @@ jobs:
       - flex-tests
       - sql-data-quality-tests
       - scheduling-oracle-tests
+      - prior-auth-oracle-tests
       - shared-coverage
 
     steps:

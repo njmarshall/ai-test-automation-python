@@ -1,3 +1,14 @@
+## 2026-11-01
+- feat(phase-7): CustomerJourneyOracle and prior authorization oracle tests (Article 16 code)
+  - New: shared/oracle/customer_journey_oracle.py. Records step observations and judges the customer outcome separately from step success
+  - New: projects/healthcare_fhir/api/prior_auth/. In-process FastAPI sandbox with a toggleable patient-notification defect, Facade client, and 3 tests (approval defect, approval fix, denial defect)
+  - Sandbox runs through TestClient, no real port. Records are held in memory
+  - Scope: the oracle checks the notification content the workflow produced. It does not show delivery to, or action by, a person
+  - The patient scheduling oracle (2026-10-28) remains as a separate companion example
+  - New CI job: prior-auth-oracle-tests, wired into test-summary needs list
+  - Badge updated: 421 to 424 passing tests
+- docs: corrected the 2026-10-21 entry. Article 16 had not yet been published on LinkedIn at that date
+
 ## 2026-10-30
 - ci(shared): CI hardening — pytest-timeout + shared/ coverage gate (Option C)
   - requirements.txt: added pytest-timeout==2.3.* and pytest-cov==5.*
@@ -159,11 +170,10 @@
 - Footer updated to "15 articles in this series"
 
 ## 2026-10-21
-- Article 16 published on LinkedIn — Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.
+- Article 16 title agreed: Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.
 - Final title agreed upon by both ChatGPT and Claude review
 - Topic: healthcare patient journey oracle testing — all API layers pass but the patient-facing outcome fails
 - Extends the customer journey oracle pattern from Article 15 into the healthcare domain
-- 16 articles in this series
 
 ## 2026-10-22
 - Flex split-rent tests wired into CI — new parallel job: Flex Split-Rent Tests (62 tests)

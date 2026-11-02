@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-421%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-424%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![CI Jobs](https://img.shields.io/badge/CI%20jobs-17%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
@@ -66,12 +66,13 @@ HealingResult — PASS or REJECTED
 
 ## Test Coverage
 
-- **338 passed, 1 skipped** across all domains
+- **424 passed, 1 skipped** across all domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
 - **17 parallel CI jobs** running on every push
 - **49 unit tests** — 21 JIRA notifier, 19 SelfHealReport builder, 9 BaseTestGenerator; mocked, fast, no API calls
 - **62 Flex split-rent tests** — plan creation, installment charging, disbursement, plan summary
+- **3 customer journey oracle tests** — prior authorization approval and denial, defect and fix
 - **15 SQL data quality tests** — NULL, uniqueness, range, and schema checks across 3 domains
 
 ---
@@ -114,6 +115,7 @@ shared/
 ├── evaluation/    ← DeepEval + ClaudeJudge (Evals)
 ├── guardrails/    ← InputGuard + OutputGuard (Safety)
 ├── observability/ ← AiObserver + drift detection (Monitoring)
+├── oracle/        ← CustomerJourneyOracle (Phase 7)
 ├── config/        ← Singleton pattern
 ├── http/          ← Facade over httpx
 ├── assertions/    ← Fluent Interface validators
@@ -202,7 +204,7 @@ The roadmap documents concrete, measurable improvements: flaky test quarantine s
 | 13 | [Your Payment API Passed. Can It Survive a Retry?](https://www.linkedin.com/pulse/your-payment-api-passed-can-survive-retry-neil-marshall-nv8gc/) | Retry resilience + idempotency |
 | 14 | [Your API Response Passed. What Did It Write to the Database?](https://www.linkedin.com/pulse/your-api-response-passed-what-did-write-database-neil-marshall-jdr6c/) | Database-layer testing |
 | 15 | [The Database Was Correct. The Customer Still Failed.](https://www.linkedin.com/pulse/database-correct-customer-still-failed-neil-marshall-nccae/) | Customer journey oracle |
-| 16 | Every Layer Passed. The Patient Still Couldn't Schedule. | Healthcare patient journey oracle |
+| 16 | Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure. | Healthcare patient journey oracle |
 
 ---
 
