@@ -1,1 +1,0 @@
-# Flex split payment domain

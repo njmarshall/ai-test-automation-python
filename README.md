@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml/badge.svg)](https://github.com/njmarshall/ai-test-automation-python/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-424%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
+[![Tests](https://img.shields.io/badge/tests-362%20passing-brightgreen.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![Domains](https://img.shields.io/badge/domains-4-orange.svg)](https://github.com/njmarshall/ai-test-automation-python)
 [![CI Jobs](https://img.shields.io/badge/CI%20jobs-17%20parallel-success.svg)](https://github.com/njmarshall/ai-test-automation-python/actions)
 
@@ -59,19 +59,17 @@ HealingResult — PASS or REJECTED
 | fintech | Coinbase market data, exchange rates, spot prices | Coinbase price page (Playwright) | 15 tests | AsyncPoller + EventSequencer |
 | petstore | PetStore REST API (Swagger) | Swagger UI (Playwright) | planned | planned |
 | payments | Idempotency, refunds, webhooks, async (44 tests) | — | — | AsyncPoller (6 tests) |
-| flex | Plan creation, installment charging, disbursement, plan summary (62 tests) | — | — | — |
 | sql | Data quality: NULL, uniqueness, range, schema across 3 domains (15 tests) | — | — | — |
 
 ---
 
 ## Test Coverage
 
-- **424 passed, 1 skipped** across all domains
+- **362 passed, 1 skipped** across all domains
 - **37 AI-generated tests** via Anthropic SDK (FHIR, Insurance, Fintech)
 - **12 Playwright UI tests** across all 4 domains
 - **17 parallel CI jobs** running on every push
 - **49 unit tests** — 21 JIRA notifier, 19 SelfHealReport builder, 9 BaseTestGenerator; mocked, fast, no API calls
-- **62 Flex split-rent tests** — plan creation, installment charging, disbursement, plan summary
 - **3 customer journey oracle tests** — prior authorization approval and denial, defect and fix
 - **15 SQL data quality tests** — NULL, uniqueness, range, and schema checks across 3 domains
 

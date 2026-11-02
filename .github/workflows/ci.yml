@@ -721,41 +721,6 @@ jobs:
           path: reports/
 
   # ------------------------------------------------------------------ #
-  #  Flex Split-Rent Tests                                              #
-  # ------------------------------------------------------------------ #
-  flex-tests:
-    name: Flex Split-Rent Tests
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Set up Python 3.13
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run Flex tests
-        run: |
-          pytest projects/fintech/flex/tests/ \
-            --junitxml=reports/flex-tests.xml \
-            -v \
-            --tb=short \
-            --no-header
-
-      - name: Upload JUnit report
-        if: always()
-        uses: actions/upload-artifact@v4.6.0
-        with:
-          name: junit-flex-tests
-          path: reports/
-
-  # ------------------------------------------------------------------ #
   #  SQL Data Quality Tests                                             #
   # ------------------------------------------------------------------ #
   sql-data-quality-tests:
@@ -927,7 +892,6 @@ jobs:
       - self-healing-agent-tests
       - performance-tests
       - payment-tests
-      - flex-tests
       - sql-data-quality-tests
       - scheduling-oracle-tests
       - prior-auth-oracle-tests

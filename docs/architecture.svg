@@ -91,11 +91,6 @@
     <text class="th" x="180" y="274" text-anchor="middle">payments</text>
     <text class="ts" x="180" y="290" text-anchor="middle">Idempotency · Async · Refunds · Webhooks</text>
   </g>
-  <g class="c-green">
-    <rect x="350" y="254" width="300" height="44" rx="10" stroke-width="0.5"/>
-    <text class="th" x="500" y="274" text-anchor="middle">fintech/flex</text>
-    <text class="ts" x="500" y="290" text-anchor="middle">Split-rent · Credit float · State machine</text>
-  </g>
 
   <!-- Arrow down -->
   <line x1="340" y1="298" x2="340" y2="323" class="arr" marker-end="url(#arrow)"/>
@@ -126,7 +121,7 @@
     <text class="th" x="340" y="530" text-anchor="middle">GitHub Actions CI — 19 parallel jobs</text>
     <text class="ts" x="340" y="547" text-anchor="middle">FHIR API · FHIR UI · Insurance API · Insurance UI · Fintech API · Fintech UI · PetStore API</text>
     <text class="ts" x="340" y="565" text-anchor="middle">PetStore UI · Async · EventSeq · DeepEval · Guardrails · Observability · Agent</text>
-    <text class="ts" x="340" y="583" text-anchor="middle">Payments · Flex</text>
+    <text class="ts" x="340" y="583" text-anchor="middle">Payments</text>
   </g>
 
   <!-- Arrow down -->
