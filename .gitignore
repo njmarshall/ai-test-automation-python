@@ -15,3 +15,8 @@ __pycache__/
 .idea/.deepeval/
 .idea/
 .deepeval/
+
+# Test artifacts
+.coverage
+.coverage.*
+reports/
