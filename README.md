@@ -202,7 +202,7 @@ The roadmap documents concrete, measurable improvements: flaky test quarantine s
 | 13 | [Your Payment API Passed. Can It Survive a Retry?](https://www.linkedin.com/pulse/your-payment-api-passed-can-survive-retry-neil-marshall-nv8gc/) | Retry resilience + idempotency |
 | 14 | [Your API Response Passed. What Did It Write to the Database?](https://www.linkedin.com/pulse/your-api-response-passed-what-did-write-database-neil-marshall-jdr6c/) | Database-layer testing |
 | 15 | [The Database Was Correct. The Customer Still Failed.](https://www.linkedin.com/pulse/database-correct-customer-still-failed-neil-marshall-nccae/) | Customer journey oracle |
-| 16 | Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure. | Healthcare patient journey oracle |
+| 16 | [Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.](https://www.linkedin.com/pulse/every-layer-passed-patient-still-couldnt-schedule-neil-marshall-siz0c/) | Healthcare patient journey oracle |
 
 ---
 

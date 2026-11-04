@@ -1,3 +1,11 @@
+## 2026-11-02
+- docs(readme): Article 16 LinkedIn URL added
+  - URL: https://www.linkedin.com/pulse/every-layer-passed-patient-still-couldnt-schedule-neil-marshall-siz0c/
+  - Published: November 1, 2026
+  - Title: Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.
+  - README Published Articles table row 16 now links to the live article
+  - 16 articles in this series
+
 ## 2026-11-01
 - feat(phase-7): CustomerJourneyOracle and prior authorization oracle tests (Article 16 code)
   - New: shared/oracle/customer_journey_oracle.py. Records step observations and judges the customer outcome separately from step success
