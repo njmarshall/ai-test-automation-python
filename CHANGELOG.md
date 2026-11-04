@@ -1,3 +1,11 @@
+## 2026-11-03
+- fix(pytest): register flaky marker to eliminate PytestUnknownMarkWarning (commit 67a8fe8)
+  - pytest.ini markers: added flaky with description "Tests quarantined for intermittent failures — run with retries, non-blocking in CI"
+  - Root cause: @pytest.mark.flaky(reruns=3, reruns_delay=2) used in projects/fintech/api/ai/generated/test_market_data_ai.py line 193 but marker was not declared
+  - Fix confirms pytest-rerunfailures plugin is active — 3 reruns fire correctly on that test class
+  - 222 tests collected cleanly, 0 warnings under -W error::pytest.PytestUnknownMarkWarning
+  - Month 1 roadmap Item 1 — Foundation Hardening
+
 ## 2026-11-02
 - docs(readme): Article 16 LinkedIn URL added
   - URL: https://www.linkedin.com/pulse/every-layer-passed-patient-still-couldnt-schedule-neil-marshall-siz0c/
@@ -16,6 +24,20 @@
   - New CI job: prior-auth-oracle-tests, wired into test-summary needs list
   - Badge updated: 421 to 424 passing tests
 - docs: corrected the 2026-10-21 entry. Article 16 had not yet been published on LinkedIn at that date
+- chore: remove split-rent mock domain and held article draft from the public tree (commit 0ded7e9)
+  - Removed: projects/fintech/flex/ — Flex chartered bank mock domain (62 tests)
+  - Removed: articles/article16_draft.md — article draft no longer needed alongside published version
+  - Removed: flex-tests CI job and its test-summary needs entry
+  - README, architecture diagram labels, and earlier CHANGELOG sections updated to match
+  - Test count: 424 → 362. Recoverable with git revert of this commit
+- chore: ignore coverage and report artifacts (commit de8b6b3)
+  - .gitignore: added coverage report directories and JUnit XML output paths
+  - Prevents htmlcov/, .coverage, reports/*.xml from appearing in git status after local runs
+- docs(readme): add Q1 2027 improvement roadmap link (commit 9cec8ea)
+  - Callout block added below intro paragraph pointing to the quarterly roadmap doc
+  - New section: Improvement Roadmap table (before Published Articles)
+  - Roadmap URL: https://claude.ai/artifact/LRLECcaQ3PRjokMbWyXjqc
+  - Goal: show version-to-version framework maturity progress to readers
 
 ## 2026-10-30
 - ci(shared): CI hardening — pytest-timeout + shared/ coverage gate (Option C)
@@ -24,6 +46,13 @@
   - New CI job: shared-coverage — runs the 3 shared/ unit test files with --cov=shared/async --cov=shared/observability --cov-fail-under=80 (baseline: 96% actual, gate at 80% for regression safety)
   - Coverage report uploaded as artifact: reports/shared-coverage.xml
   - shared-coverage added to test-summary needs list (23 jobs total)
+- test(shared): AsyncApiClient unit tests — zero-coverage gap closed (commit 0127f97)
+  - New: shared/src/test/java/com/aitesting/shared/http/AsyncApiClientTest.java (Python-side mirror)
+  - New: tests/unit/test_async_api_client.py — 15 tests covering the same three polling invariants as the Java suite
+  - Invariants: returns on expected status, throws on terminal failure, throws on timeout
+  - Technique: unittest.mock.patch("time.sleep") — no real waits, full coverage in <50ms
+  - Mirrors Java AsyncApiClientTest.java — same invariants, same mock-clock approach, cross-language parity documented
+  - Badge updated: 421 → 436 passing tests
 
 ## 2026-10-29
 - test(shared): unit tests for three zero-coverage shared/ modules (A+B)
