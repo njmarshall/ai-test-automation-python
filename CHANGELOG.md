@@ -1,3 +1,16 @@
+## 2026-11-05
+- fix(pytest): add tests/ to testpaths so unit suite runs locally (commit bb922de)
+  - pytest.ini testpaths was `projects` only — bare `pytest` from the repo root silently skipped all 132 unit tests in tests/unit/
+  - CI was unaffected (Unit Tests job explicitly targets tests/unit), but local dev runs showed 222 tests instead of 364
+  - Fix: testpaths = projects tests
+  - Badge updated: 362 → 364 (now reflects the full collected count)
+  - Month 1 roadmap Item 1 — Foundation Hardening
+
+## 2026-11-04
+- docs(changelog): catch-up entries for Nov 1-3 and Oct 30 commits (commit 9bf9e71)
+  - Added missing CHANGELOG sections for commits 0127f97, 0ded7e9, de8b6b3, 9cec8ea, 67a8fe8
+  - Sections patched: 2026-11-03 (new), 2026-11-01 (extended), 2026-10-30 (extended)
+
 ## 2026-11-03
 - fix(pytest): register flaky marker to eliminate PytestUnknownMarkWarning (commit 67a8fe8)
   - pytest.ini markers: added flaky with description "Tests quarantined for intermittent failures — run with retries, non-blocking in CI"
