@@ -28,6 +28,8 @@ import pytest
 
 from shared.observability.ai_observer import AiObserver, ObservationContext, ObservationRecord
 
+pytestmark = pytest.mark.unit
+
 
 # ═══════════════════════════════════════════════════════════════════ #
 #  ObservationRecord                                                   #

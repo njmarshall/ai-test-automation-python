@@ -26,6 +26,8 @@ import pytest
 
 import importlib
 
+pytestmark = pytest.mark.unit
+
 _async_poller = importlib.import_module("shared.async.async_poller")
 AsyncPoller = _async_poller.AsyncPoller
 TimeoutStrategy = _async_poller.TimeoutStrategy

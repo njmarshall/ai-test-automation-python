@@ -27,6 +27,8 @@ from unittest.mock import patch
 import pytest
 import importlib
 
+pytestmark = pytest.mark.unit
+
 _event_sequencer = importlib.import_module("shared.async.event_sequencer")
 EventSequencer = _event_sequencer.EventSequencer
 SequenceResult = _event_sequencer.SequenceResult
