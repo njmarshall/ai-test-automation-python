@@ -1,3 +1,9 @@
+## 2026-11-09
+- docs(articles): Article 16 published on LinkedIn. Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.
+  - Covers Phase 7: the CustomerJourneyOracle and the prior authorization sandbox, built and tested in 2026-11-01
+  - 16 LinkedIn articles published total
+  - Reader input after publication: a seed set of escaped defects with the layer that should have caught each one, and risk based selection of longest path journeys. Both are candidates for upcoming articles
+
 ## 2026-11-05
 - fix(pytest): add tests/ to testpaths so unit suite runs locally (commit bb922de)
   - pytest.ini testpaths was `projects` only — bare `pytest` from the repo root silently skipped all 132 unit tests in tests/unit/
