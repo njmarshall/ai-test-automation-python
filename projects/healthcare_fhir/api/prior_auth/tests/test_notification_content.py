@@ -1,17 +1,19 @@
 """
 test_notification_content.py
 -------------------------------
-The cheapest test that would have caught the Article 16 defect.
+The cheapest test that would have caught the Article 16 defect: a
+notification content test.
 
 These tests need no HTTP call, no sandbox state and no oracle. They check
-the notification text directly against a stated contract: approval must
+the notification text directly against a stated content policy: approval must
 carry the authorization number, denial must carry the denial reason, for
-every recipient.
+both recipients in this sandbox.
 
-Scope: this level can only see the text a template produces. It cannot see
-whether the workflow actually used that template, sent it to the right
-recipient, or created the record at all. Those gaps belong to the
-integration level and to the customer journey oracle.
+Scope: this level examines only the text a template produces. It cannot
+determine whether the workflow selected the correct template, associated it
+with the intended recipient, or created the notification record. Those gaps
+belong to the integration level and to the customer journey oracle. Nothing
+here proves delivery by an external messaging provider.
 """
 
 from __future__ import annotations
@@ -39,7 +41,7 @@ CASES = [
 
 
 @pytest.mark.healthcare
-class TestNotificationContract:
+class TestNotificationContent:
 
     @pytest.mark.parametrize("status, auth, reason, detail", CASES)
     def test_defective_patient_message_is_flagged(self, status, auth, reason, detail):
@@ -59,14 +61,14 @@ class TestNotificationContract:
         message = provider_message(status, REQUEST_ID, auth, reason)
         assert missing_required_detail(status, message, auth, reason) == []
 
-    def test_contract_flags_an_approval_that_never_generated_a_number(self):
+    def test_content_check_flags_an_approval_that_never_generated_a_number(self):
         """A message cannot carry a number that does not exist."""
         message = patient_message(PriorAuthStatus.APPROVED, None, None, complete=True)
         assert missing_required_detail(
             PriorAuthStatus.APPROVED, message, None, None
         ) == ["authorization number"]
 
-    def test_contract_flags_a_denial_with_no_reason_on_file(self):
+    def test_content_check_flags_a_denial_with_no_reason_on_file(self):
         message = patient_message(PriorAuthStatus.DENIED, None, None, complete=True)
         assert missing_required_detail(
             PriorAuthStatus.DENIED, message, None, None

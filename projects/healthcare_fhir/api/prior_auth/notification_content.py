@@ -2,7 +2,7 @@
 notification_content.py : what each notification must say
 -------------------------------------------------------------
 Pure functions that build the notification text, plus one function that
-states the contract: what detail a notification must carry for its
+states the content policy: what detail a notification must carry for its
 recipient to act on the decision.
 
 Why this module exists
@@ -63,12 +63,13 @@ def missing_required_detail(
     denial_reason: Optional[str],
 ) -> List[str]:
     """
-    The contract. Returns the names of required details that are absent
+    The content policy. Returns the names of required details that are absent
     from `message`. An empty list means the message carries what its
     recipient needs to act.
 
     Approval requires the authorization number. Denial requires the denial
-    reason. The same contract applies to every recipient.
+    reason. In this sandbox the same policy applies to both recipients. A
+    production design would define it per recipient, status and content.
     """
     missing: List[str] = []
     if status == PriorAuthStatus.APPROVED:
