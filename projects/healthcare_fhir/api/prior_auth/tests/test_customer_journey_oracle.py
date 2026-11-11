@@ -32,6 +32,13 @@ def _patient_notification(notifications: list[dict]) -> dict:
     raise AssertionError("No patient notification was recorded.")
 
 
+def _message_has(notification: dict, detail: str | None) -> bool:
+    """True only if the detail appears in the notification's actual text.
+    The oracle observes what the patient would read, not a flag the
+    sandbox sets about itself."""
+    return bool(detail) and detail in notification["message"]
+
+
 @pytest.mark.healthcare
 class TestPriorAuthApprovalJourney:
 
@@ -94,7 +101,8 @@ class TestPriorAuthApprovalJourney:
                       status=review_body["status"],
                       authorization_number=review_body["authorization_number"])
         oracle.record("patient_notification", ok=True,
-                      includes_authorization_number=patient_note["includes_authorization_number"])
+                      includes_authorization_number=_message_has(
+                          patient_note, review_body["authorization_number"]))
 
         result = oracle.evaluate()
 
@@ -138,7 +146,8 @@ class TestPriorAuthApprovalJourney:
         oracle.record("submit", ok=True, status=submit_resp.json()["status"])
         oracle.record("review", ok=True, status=review_resp.json()["status"])
         oracle.record("patient_notification", ok=True,
-                      includes_authorization_number=patient_note["includes_authorization_number"])
+                      includes_authorization_number=_message_has(
+                          patient_note, review_resp.json()["authorization_number"]))
 
         result = oracle.evaluate()
         assert result.customer_outcome_met is True, result.customer_impact
@@ -190,7 +199,8 @@ class TestPriorAuthDenialJourney:
         oracle.record("submit", ok=True, status=submit_resp.json()["status"])
         oracle.record("review", ok=True, status=review_resp.json()["status"])
         oracle.record("patient_notification", ok=True,
-                      includes_denial_reason=patient_note["includes_denial_reason"])
+                      includes_denial_reason=_message_has(
+                          patient_note, review_resp.json()["denial_reason"]))
 
         result = oracle.evaluate()
         assert result.all_steps_technically_ok() is True

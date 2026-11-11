@@ -39,6 +39,10 @@ from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException
 
+from projects.healthcare_fhir.api.prior_auth.notification_content import (
+    patient_message,
+    provider_message,
+)
 from projects.healthcare_fhir.api.prior_auth.models import (
     NotificationChannel,
     NotificationRecipient,
@@ -160,8 +164,9 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
             request_id=request_id,
             recipient=NotificationRecipient.PROVIDER,
             channel=NotificationChannel.PORTAL,
-            message=f"Request {request_id} approved. "
-                     f"Authorization number: {request.authorization_number}.",
+            message=provider_message(
+                PriorAuthStatus.APPROVED, request_id,
+                request.authorization_number, None),
             includes_authorization_number=True,
             includes_denial_reason=False,
             sent_at=now,
@@ -171,13 +176,9 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
             request_id=request_id,
             recipient=NotificationRecipient.PATIENT,
             channel=NotificationChannel.PORTAL,
-            message=(
-                f"Your request has been approved. "
-                f"Authorization number: {request.authorization_number}."
-                if complete else
-                "Your request has been approved. "
-                "Please contact your provider for next steps."
-            ),
+            message=patient_message(
+                PriorAuthStatus.APPROVED, request.authorization_number,
+                None, complete),
             includes_authorization_number=complete,
             includes_denial_reason=False,
             sent_at=now,
@@ -200,7 +201,8 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
             request_id=request_id,
             recipient=NotificationRecipient.PROVIDER,
             channel=NotificationChannel.PORTAL,
-            message=f"Request {request_id} denied. Reason: {decision.reason}.",
+            message=provider_message(
+                PriorAuthStatus.DENIED, request_id, None, decision.reason),
             includes_authorization_number=False,
             includes_denial_reason=True,
             sent_at=now,
@@ -210,12 +212,8 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
             request_id=request_id,
             recipient=NotificationRecipient.PATIENT,
             channel=NotificationChannel.PORTAL,
-            message=(
-                f"Your request has been denied. Reason: {decision.reason}."
-                if complete else
-                "Your request has been denied. "
-                "Please contact your provider for more information."
-            ),
+            message=patient_message(
+                PriorAuthStatus.DENIED, None, decision.reason, complete),
             includes_authorization_number=False,
             includes_denial_reason=complete,
             sent_at=now,
