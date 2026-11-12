@@ -10,6 +10,7 @@ allure-pytest==2.13.*
 
 # Test data generation (replaces Java Faker)
 Faker==25.*
+openpyxl==3.1.*           # Excel fixture reader — BA-owned test data sheets
 
 # Environment/config
 python-dotenv>=1.0
