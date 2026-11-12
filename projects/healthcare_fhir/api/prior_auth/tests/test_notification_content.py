@@ -22,6 +22,7 @@ import pytest
 
 from projects.healthcare_fhir.api.prior_auth.models import PriorAuthStatus
 from projects.healthcare_fhir.api.prior_auth.notification_content import (
+    contains_detail,
     missing_required_detail,
     patient_message,
     provider_message,
@@ -73,3 +74,55 @@ class TestNotificationContent:
         assert missing_required_detail(
             PriorAuthStatus.DENIED, message, None, None
         ) == ["denial reason"]
+
+
+UNSUPPORTED = [PriorAuthStatus.SUBMITTED, PriorAuthStatus.PENDING_REVIEW]
+
+
+@pytest.mark.healthcare
+class TestUnsupportedStatusFailsClosed:
+    """A content policy must not report a status it does not understand as
+    compliant. These three functions raise instead of guessing."""
+
+    @pytest.mark.parametrize("status", UNSUPPORTED)
+    def test_patient_message_rejects_unsupported_status(self, status):
+        with pytest.raises(ValueError, match="Unsupported"):
+            patient_message(status, AUTH, REASON, complete=True)
+
+    @pytest.mark.parametrize("status", UNSUPPORTED)
+    def test_provider_message_rejects_unsupported_status(self, status):
+        with pytest.raises(ValueError, match="Unsupported"):
+            provider_message(status, REQUEST_ID, AUTH, REASON)
+
+    @pytest.mark.parametrize("status", UNSUPPORTED)
+    def test_content_check_rejects_unsupported_status(self, status):
+        with pytest.raises(ValueError, match="Unsupported"):
+            missing_required_detail(status, "any text", AUTH, REASON)
+
+
+@pytest.mark.healthcare
+class TestRecordedFlagsMatchMessageText:
+    """The includes_* flags on a notification record must never disagree
+    with the message text. They are derived from it, and this test keeps
+    them honest if that ever changes."""
+
+    @pytest.mark.parametrize("approve", [True, False], ids=["approval", "denial"])
+    @pytest.mark.parametrize("complete", [False, True], ids=["defect", "fixed"])
+    def test_flags_match_message_text(self, prior_auth_client, approve, complete):
+        prior_auth_client.configure(patient_notification_complete=complete)
+        request_id = prior_auth_client.submit(
+            patient_id="pat-900", patient_name="Flag Check",
+            provider_id="prov-900", procedure_code="29881",
+            procedure_description="Knee arthroscopy",
+            diagnosis_code="M23.51",
+        ).json()["request_id"]
+        decision = prior_auth_client.review(
+            request_id, approve=approve, reviewer_id="reviewer-1",
+            reason=None if approve else REASON,
+        ).json()
+
+        for note in prior_auth_client.notifications(request_id).json():
+            assert note["includes_authorization_number"] == contains_detail(
+                note["message"], decision["authorization_number"])
+            assert note["includes_denial_reason"] == contains_detail(
+                note["message"], decision["denial_reason"])

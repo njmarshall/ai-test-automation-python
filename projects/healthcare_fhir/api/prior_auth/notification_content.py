@@ -34,7 +34,9 @@ def provider_message(
     if status == PriorAuthStatus.APPROVED:
         return (f"Request {request_id} approved. "
                 f"Authorization number: {authorization_number}.")
-    return f"Request {request_id} denied. Reason: {denial_reason}."
+    if status == PriorAuthStatus.DENIED:
+        return f"Request {request_id} denied. Reason: {denial_reason}."
+    raise ValueError(f"Unsupported decision status: {status}")
 
 
 def patient_message(
@@ -50,10 +52,18 @@ def patient_message(
                     f"Authorization number: {authorization_number}.")
         return ("Your request has been approved. "
                 "Please contact your provider for next steps.")
-    if complete:
-        return f"Your request has been denied. Reason: {denial_reason}."
-    return ("Your request has been denied. "
-            "Please contact your provider for more information.")
+    if status == PriorAuthStatus.DENIED:
+        if complete:
+            return f"Your request has been denied. Reason: {denial_reason}."
+        return ("Your request has been denied. "
+                "Please contact your provider for more information.")
+    raise ValueError(f"Unsupported decision status: {status}")
+
+
+def contains_detail(message: str, detail: Optional[str]) -> bool:
+    """True only if `detail` exists and appears in the message text.
+    The single place that answers "does this message carry that detail?"."""
+    return bool(detail) and detail in message
 
 
 def missing_required_detail(
@@ -70,12 +80,17 @@ def missing_required_detail(
     Approval requires the authorization number. Denial requires the denial
     reason. In this sandbox the same policy applies to both recipients. A
     production design would define it per recipient, status and content.
+
+    Fails closed: a status the policy does not cover raises ValueError
+    instead of being reported as compliant.
     """
     missing: List[str] = []
     if status == PriorAuthStatus.APPROVED:
-        if not authorization_number or authorization_number not in message:
+        if not contains_detail(message, authorization_number):
             missing.append("authorization number")
     elif status == PriorAuthStatus.DENIED:
-        if not denial_reason or denial_reason not in message:
+        if not contains_detail(message, denial_reason):
             missing.append("denial reason")
+    else:
+        raise ValueError(f"Unsupported decision status: {status}")
     return missing

@@ -40,6 +40,7 @@ from uuid import uuid4
 from fastapi import FastAPI, HTTPException
 
 from projects.healthcare_fhir.api.prior_auth.notification_content import (
+    contains_detail,
     patient_message,
     provider_message,
 )
@@ -158,16 +159,21 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
     if decision.approve:
         request.status = PriorAuthStatus.APPROVED
         request.authorization_number = f"AUTH-{uuid4().hex[:10].upper()}"
+        provider_text = provider_message(
+            PriorAuthStatus.APPROVED, request_id,
+            request.authorization_number, None)
+        patient_text = patient_message(
+            PriorAuthStatus.APPROVED, request.authorization_number,
+            None, complete)
 
         _notifications[request_id].append(NotificationRecord(
             notification_id=str(uuid4()),
             request_id=request_id,
             recipient=NotificationRecipient.PROVIDER,
             channel=NotificationChannel.PORTAL,
-            message=provider_message(
-                PriorAuthStatus.APPROVED, request_id,
-                request.authorization_number, None),
-            includes_authorization_number=True,
+            message=provider_text,
+            includes_authorization_number=contains_detail(
+                provider_text, request.authorization_number),
             includes_denial_reason=False,
             sent_at=now,
         ))
@@ -176,10 +182,9 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
             request_id=request_id,
             recipient=NotificationRecipient.PATIENT,
             channel=NotificationChannel.PORTAL,
-            message=patient_message(
-                PriorAuthStatus.APPROVED, request.authorization_number,
-                None, complete),
-            includes_authorization_number=complete,
+            message=patient_text,
+            includes_authorization_number=contains_detail(
+                patient_text, request.authorization_number),
             includes_denial_reason=False,
             sent_at=now,
         ))
@@ -195,16 +200,20 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
             )
         request.status = PriorAuthStatus.DENIED
         request.denial_reason = decision.reason
+        provider_text = provider_message(
+            PriorAuthStatus.DENIED, request_id, None, decision.reason)
+        patient_text = patient_message(
+            PriorAuthStatus.DENIED, None, decision.reason, complete)
 
         _notifications[request_id].append(NotificationRecord(
             notification_id=str(uuid4()),
             request_id=request_id,
             recipient=NotificationRecipient.PROVIDER,
             channel=NotificationChannel.PORTAL,
-            message=provider_message(
-                PriorAuthStatus.DENIED, request_id, None, decision.reason),
+            message=provider_text,
             includes_authorization_number=False,
-            includes_denial_reason=True,
+            includes_denial_reason=contains_detail(
+                provider_text, decision.reason),
             sent_at=now,
         ))
         _notifications[request_id].append(NotificationRecord(
@@ -212,10 +221,10 @@ def review_request(request_id: str, decision: ReviewDecisionRequest) -> PriorAut
             request_id=request_id,
             recipient=NotificationRecipient.PATIENT,
             channel=NotificationChannel.PORTAL,
-            message=patient_message(
-                PriorAuthStatus.DENIED, None, decision.reason, complete),
+            message=patient_text,
             includes_authorization_number=False,
-            includes_denial_reason=complete,
+            includes_denial_reason=contains_detail(
+                patient_text, decision.reason),
             sent_at=now,
         ))
 
