@@ -1,3 +1,23 @@
+## 2026-11-11
+- feat(dataprovider): add ExcelDataProvider — BA-owned dynamic test data from Excel fixtures (commit de9c8ff)
+  - Implements Strategy pattern: ExcelDataProvider.load(path) returns list[dict], fully domain-agnostic
+  - openpyxl 3.1.* added to requirements.txt for .xlsx read/write
+  - Directly addresses Federal Reserve Bank of New York interview gap: Excel is the correct tool
+    for regulated-industry test data (SOX, Basel III, HIPAA audits require human-readable, time-stamped
+    evidence; JSON fixtures in git do not satisfy compliance auditors)
+  - new: shared/dataprovider/excel_data_provider.py — load() and load_named() methods, blank-row skipping
+  - new: projects/fintech/api/data/loan_scenarios.xlsx — 7 loan scenarios (personal, home improvement,
+    short-term, max-principal, minimum viable, zero-interest promo, high-risk subprime)
+  - new: projects/fintech/api/tests/test_loan_scenarios_excel.py — 21 parametrized tests (3 methods × 7 rows):
+    monthly payment (amortisation formula ±$0.02), total interest (±$1.00), required-column guard
+  - new: projects/healthcare_fhir/api/data/prior_auth_scenarios.xlsx — 8 prior-auth scenarios with real
+    CPT codes (72148, 27447, 93460, 95810, 97110, 0582T) and ICD-10 diagnosis codes
+  - new: projects/healthcare_fhir/api/tests/test_prior_auth_scenarios_excel.py — 23 parametrized tests
+    (3 methods × 8 scenarios, 1 PENDING skipped): decision oracle, denial-reason presence, column guard
+  - new: tests/unit/test_excel_data_provider.py — 13 unit tests for ExcelDataProvider itself
+    (happy path, blank-row skipping, sheet targeting, load_named, all error paths)
+  - pytest -m unit: 132 → 184 unit tests (+52); 184 passed, 1 skipped
+
 ## 2026-11-09
 - docs(articles): Article 16 published on LinkedIn. Every Layer Passed. The Patient Still Couldn't Schedule Their Procedure.
   - Covers Phase 7: the CustomerJourneyOracle and the prior authorization sandbox, built and tested in 2026-11-01
