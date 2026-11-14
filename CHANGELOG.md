@@ -204,3 +204,12 @@
   - 19 new unit tests in tests/unit/test_self_heal_report.py
 - Total unit tests: 49 (21 jira_notifier + 19 self_heal_report + 9 base_test_generator)
 - Total tests: 332 (up from 292)
+
+## 2026-11-13
+- docs: Article 17 published, "The Cheapest Test That Would Have Caught It"
+  - New: prior_auth/notification_content.py. Pure functions that build the notification text and state the content policy
+  - New: notification content tests. Approval must carry the authorization number, denial must carry the denial reason, and unsupported statuses fail closed
+  - Changed: the customer journey oracle tests now read the real message text instead of trusting a flag set by the sandbox
+  - prior_auth folder: 21 tests passing
+  - Correction: Article 16's oracle trusted a derived sandbox flag instead of inspecting the notification text. Fixed and explained in Article 17
+  - Reader feedback credited in the article
