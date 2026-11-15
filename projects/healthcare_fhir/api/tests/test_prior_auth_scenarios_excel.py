@@ -99,6 +99,7 @@ def _evaluate_prior_auth(
 
 
 @pytest.mark.healthcare
+@pytest.mark.excel
 @pytest.mark.unit
 class TestPriorAuthScenariosFromExcel:
     """

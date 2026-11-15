@@ -66,6 +66,7 @@ def _total_interest(monthly: float, term_months: int, principal: float, annual_r
 
 
 @pytest.mark.fintech
+@pytest.mark.excel
 @pytest.mark.unit
 class TestLoanScenariosFromExcel:
     """
