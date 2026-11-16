@@ -30,6 +30,7 @@ Design
 
 from __future__ import annotations
 
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 
 import pytest
@@ -43,26 +44,37 @@ _FIXTURE = Path("projects/fintech/api/data/loan_scenarios.xlsx")
 _SCENARIOS = ExcelDataProvider.load(_FIXTURE)
 
 
-def _monthly_payment(principal: float, annual_rate_pct: float, term_months: int) -> float:
-    """
-    Standard amortisation formula.
+CENT = Decimal("0.01")
 
-    M = P * r * (1+r)^n / ((1+r)^n - 1)
+
+def _money(value) -> Decimal:
+    """Convert a sheet cell to Decimal via str() so float noise never enters."""
+    return Decimal(str(value))
+
+
+def _monthly_payment(principal: Decimal, annual_rate_pct: Decimal, term_months: int) -> Decimal:
+    """
+    Standard amortisation formula, computed in Decimal and quantized to
+    the cent with ROUND_HALF_UP (banker's rounding is NOT used for
+    customer-facing payments).
+
+        M = P * r * (1+r)^n / ((1+r)^n - 1)
 
     For zero-interest loans the formula collapses to P / n.
     """
     if annual_rate_pct == 0:
-        return round(principal / term_months, 2)
-    r = (annual_rate_pct / 100) / 12
+        return (principal / term_months).quantize(CENT, rounding=ROUND_HALF_UP)
+    r = annual_rate_pct / Decimal(100) / Decimal(12)
     n = term_months
-    m = principal * r * (1 + r) ** n / ((1 + r) ** n - 1)
-    return round(m, 2)
+    growth = (1 + r) ** n
+    m = principal * r * growth / (growth - 1)
+    return m.quantize(CENT, rounding=ROUND_HALF_UP)
 
 
-def _total_interest(monthly: float, term_months: int, principal: float, annual_rate_pct: float = 1.0) -> float:
+def _total_interest(monthly: Decimal, term_months: int, principal: Decimal, annual_rate_pct: Decimal) -> Decimal:
     if annual_rate_pct == 0:
-        return 0.0
-    return round(monthly * term_months - principal, 2)
+        return Decimal("0.00")
+    return (monthly * term_months - principal).quantize(CENT, rounding=ROUND_HALF_UP)
 
 
 @pytest.mark.fintech
@@ -83,17 +95,18 @@ class TestLoanScenariosFromExcel:
     )
     def test_monthly_payment_matches_expected(self, scenario: dict) -> None:
         """
-        Calculated monthly payment must match the BA's expected value
-        within $0.02 (rounding tolerance on published rate tables).
+        Calculated monthly payment must equal the BA's expected value to
+        the cent. Decimal arithmetic with an explicit ROUND_HALF_UP policy,
+        so no float tolerance is needed or allowed.
         """
         calculated = _monthly_payment(
-            principal=float(scenario["loan_amount"]),
-            annual_rate_pct=float(scenario["annual_rate_pct"]),
+            principal=_money(scenario["loan_amount"]),
+            annual_rate_pct=_money(scenario["annual_rate_pct"]),
             term_months=int(scenario["term_months"]),
         )
-        expected = float(scenario["expected_monthly_payment"])
+        expected = _money(scenario["expected_monthly_payment"]).quantize(CENT)
 
-        assert abs(calculated - expected) <= 0.02, (
+        assert calculated == expected, (
             f"[{scenario['scenario_id']}] {scenario['scenario_label']}: "
             f"calculated ${calculated:.2f} vs expected ${expected:.2f} "
             f"(loan ${scenario['loan_amount']}, "
@@ -107,23 +120,23 @@ class TestLoanScenariosFromExcel:
     )
     def test_total_interest_matches_expected(self, scenario: dict) -> None:
         """
-        Total interest over the loan term must match the BA's expected
-        value within $1.00 (accumulated rounding across all payments).
+        Total interest over the loan term must equal the BA's expected
+        value to the cent, derived from the quantized monthly payment.
         """
         monthly = _monthly_payment(
-            principal=float(scenario["loan_amount"]),
-            annual_rate_pct=float(scenario["annual_rate_pct"]),
+            principal=_money(scenario["loan_amount"]),
+            annual_rate_pct=_money(scenario["annual_rate_pct"]),
             term_months=int(scenario["term_months"]),
         )
         calculated_interest = _total_interest(
             monthly=monthly,
             term_months=int(scenario["term_months"]),
-            principal=float(scenario["loan_amount"]),
-            annual_rate_pct=float(scenario["annual_rate_pct"]),
+            principal=_money(scenario["loan_amount"]),
+            annual_rate_pct=_money(scenario["annual_rate_pct"]),
         )
-        expected_interest = float(scenario["expected_total_interest"])
+        expected_interest = _money(scenario["expected_total_interest"]).quantize(CENT)
 
-        assert abs(calculated_interest - expected_interest) <= 1.00, (
+        assert calculated_interest == expected_interest, (
             f"[{scenario['scenario_id']}] {scenario['scenario_label']}: "
             f"total interest ${calculated_interest:.2f} vs expected ${expected_interest:.2f}"
         )
