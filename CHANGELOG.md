@@ -1,3 +1,15 @@
+## 2026-11-15
+- docs(plan): add 12-month Framework Improvement Plan (Dec 2026 to Nov 2027) and short version in README
+  - new: docs/Framework_Improvement_Plan_2027.docx. Six phases extending the Q1 2027 roadmap: foundation close-out,
+    observability and the diagnose step (HealingPolicy merge, Triage Agent), test data platform (three tiers,
+    analyst-owned sheet columns, DataGuard, TestDataAgent), FAANG readiness and Java parity, agent set completion,
+    sustain and publish
+  - README: 12-Month Improvement Plan section with phase table, agent inventory (built, planned, deliberately not built),
+    and next review date February 1, 2027
+  - Honest Month 1 status recorded: item 1 done, items 2, 4, 5 partial, item 3 not started
+- feat(markers): register excel marker and apply to both ExcelDataProvider test classes (commit 93c6844)
+  - pytest -m excel selects the 39 Excel-driven tests (1 PENDING scenario skipped by design)
+
 ## 2026-11-11
 - feat(dataprovider): add ExcelDataProvider — BA-owned dynamic test data from Excel fixtures (commit de9c8ff)
   - Implements Strategy pattern: ExcelDataProvider.load(path) returns list[dict], fully domain-agnostic
