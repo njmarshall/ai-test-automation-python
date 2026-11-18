@@ -154,7 +154,7 @@ class AiObserver:
 
         with observer.observe("fhir_generation") as obs:
             response = claude.messages.create(
-                model="claude-sonnet-4-6",
+                model=GENERATOR_MODEL,  # from shared.config.models
                 messages=[{"role": "user", "content": prompt}]
             )
             obs.record_tokens(

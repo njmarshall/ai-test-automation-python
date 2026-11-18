@@ -1,3 +1,18 @@
+## 2026-11-17
+- feat(config): pin Claude model versions in one source of truth (12-month plan Phase A)
+  - new: shared/config/models.py. GENERATOR_MODEL and JUDGE_MODEL, pinned to exact model ids,
+    overridable with LLM_MODEL and LLM_JUDGE_MODEL
+  - Bug fixed: EnvConfig defaulted to claude-sonnet-4-20250514 while five modules hardcoded
+    claude-sonnet-4-6. Two sources of truth that already disagreed
+  - Rewired: SelfHealingAgent, ExploratoryTestAgent, BaseTestGenerator, ClaudeJudge (both the API
+    call and get_model_name), EnvConfig, and the AiObserver docstring example
+  - Generator and judge kept as separate roles so a judge changeover can be measured with
+    Cohen's kappa (Phase B) without changing what gets generated
+  - new: tests/unit/test_model_pinning.py. Fails the build if any file under shared/ hardcodes a
+    claude model string; checks EnvConfig agrees with models.py, env overrides work, and pins are
+    exact ids, never aliases. On its first run it caught a missed hardcode in ClaudeJudge.get_model_name
+  - pytest -m unit: 226 passed, 1 skipped. 477 tests collected
+
 ## 2026-11-15
 - docs(plan): add 12-month Framework Improvement Plan (Dec 2026 to Nov 2027) and short version in README
   - new: docs/Framework_Improvement_Plan_2027.docx. Six phases extending the Q1 2027 roadmap: foundation close-out,

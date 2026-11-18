@@ -64,6 +64,7 @@ import time
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+from shared.config.models import GENERATOR_MODEL
 from shared.guardrails.input_guard import InputGuard
 from shared.observability.ai_observer import AiObserver
 
@@ -298,7 +299,7 @@ Return ONLY the JSON array, no markdown, no explanation."""
 
             with self._observer.observe("exploratory_scenario_generation") as obs:
                 message = client.messages.create(
-                    model="claude-sonnet-4-6",
+                    model=GENERATOR_MODEL,
                     max_tokens=2048,
                     messages=[{"role": "user", "content": safe_prompt}],
                 )

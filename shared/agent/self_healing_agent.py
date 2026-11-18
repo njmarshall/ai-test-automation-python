@@ -52,6 +52,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
+from shared.config.models import GENERATOR_MODEL
 from shared.guardrails.input_guard import InputGuard
 from shared.guardrails.output_guard import OutputGuard
 from shared.jira.jira_notifier import JiraNotifier
@@ -303,7 +304,7 @@ Return the complete fixed test file:"""
 
             with self._observer.observe("self_healing_fix") as obs:
                 message = client.messages.create(
-                    model="claude-sonnet-4-6",
+                    model=GENERATOR_MODEL,
                     max_tokens=4096,
                     messages=[{"role": "user", "content": prompt}],
                 )

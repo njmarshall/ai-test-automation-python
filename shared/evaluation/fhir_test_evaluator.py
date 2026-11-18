@@ -38,6 +38,8 @@ from deepeval.models import DeepEvalBaseLLM
 from deepeval.test_case import LLMTestCase, SingleTurnParams
 from anthropic import Anthropic
 
+from shared.config.models import JUDGE_MODEL
+
 
 # ------------------------------------------------------------------ #
 #  Evaluation result                                                   #
@@ -76,7 +78,7 @@ class ClaudeJudge(DeepEvalBaseLLM):
 
     def generate(self, prompt: str) -> str:
         response = self.client.messages.create(
-            model="claude-sonnet-4-6",
+            model=JUDGE_MODEL,
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}]
         )
@@ -86,7 +88,7 @@ class ClaudeJudge(DeepEvalBaseLLM):
         return self.generate(prompt)
 
     def get_model_name(self) -> str:
-        return "claude-sonnet-4-6"
+        return JUDGE_MODEL
 
 
 # ------------------------------------------------------------------ #

@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 
+from shared.config.models import GENERATOR_MODEL
+
 load_dotenv()  # reads .env file — env vars always take priority
 
 class EnvConfig:
@@ -16,4 +18,4 @@ class EnvConfig:
     BEARER_TOKEN: str         = os.getenv("BEARER_TOKEN", "")
     LOG_ALL_REQUESTS: bool    = os.getenv("LOG_ALL_REQUESTS", "false").lower() == "true"
     LLM_API_KEY: str          = os.getenv("LLM_API_KEY", "")
-    LLM_MODEL: str            = os.getenv("LLM_MODEL", "claude-sonnet-4-20250514")
+    LLM_MODEL: str            = GENERATOR_MODEL  # single source: shared/config/models.py

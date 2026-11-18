@@ -27,6 +27,7 @@ from abc import ABC, abstractmethod
 
 import anthropic
 
+from shared.config.models import GENERATOR_MODEL
 from shared.observability.ai_observer import AiObserver
 from shared.guardrails.input_guard import InputGuard
 from shared.guardrails.output_guard import OutputGuard
@@ -42,7 +43,7 @@ class BaseTestGenerator(ABC):
       implemented by each domain-specific subclass.
     """
 
-    DEFAULT_MODEL   = "claude-sonnet-4-6"
+    DEFAULT_MODEL   = GENERATOR_MODEL
     DEFAULT_TOKENS  = 4096
 
     def __init__(
