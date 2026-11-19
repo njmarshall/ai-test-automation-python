@@ -1,0 +1,76 @@
+# ------------------------------------------------------------------ #
+#  Nightly Health Check                                               #
+#                                                                     #
+#  Why: ci.yml only runs on push and pull request. When nobody        #
+#  commits for a week, nothing notices a broken dependency, a         #
+#  changed sandbox, or a retired model. This workflow runs every      #
+#  night whether or not anyone pushed.                                #
+#                                                                     #
+#  Scope: fast tests that need no secrets and no network             #
+#  (unit + Excel-driven), so it costs nothing in API spend.          #
+#                                                                     #
+#  On failure: opens one GitHub issue, or comments on the existing    #
+#  open one, so repeated nightly failures never spam new issues.      #
+#                                                                     #
+#  12-month plan, Phase A: scheduled CI run.                          #
+# ------------------------------------------------------------------ #
+name: Nightly Health Check
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # 10:00 UTC = 02:00 Pacific (standard time)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  nightly:
+    name: Nightly unit and Excel tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit and Excel-driven tests
+        run: |
+          pytest -m "unit or excel" \
+            --junitxml=reports/nightly.xml \
+            --timeout=10 \
+            -q \
+            --tb=short \
+            --no-header
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4.6.0
+        with:
+          name: junit-nightly
+          path: reports/
+
+      - name: Open or update failure issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TITLE="Nightly health check failing"
+          EXISTING=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Still failing on $(date -u +%Y-%m-%d). Run: $RUN_URL"
+          else
+            gh issue create --title "$TITLE" \
+              --body "The nightly unit and Excel test run failed on $(date -u +%Y-%m-%d). Run: $RUN_URL. Close this issue once the nightly run is green again."
+          fi

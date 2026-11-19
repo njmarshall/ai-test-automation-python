@@ -1,3 +1,13 @@
+## 2026-11-18
+- ci(nightly): add scheduled nightly health check (12-month plan Phase A)
+  - new: .github/workflows/nightly.yml. Runs every night at 10:00 UTC (02:00 Pacific) whether or not
+    anyone pushed, plus manual workflow_dispatch
+  - Scope: pytest -m "unit or excel". No secrets, no network, no LLM spend (226 passed, 1 skipped locally)
+  - On failure: opens a single "Nightly health check failing" issue, or comments on the open one,
+    so repeated failures never create duplicate issues
+  - Why: ci.yml runs only on push and pull request, so dependency drift, sandbox changes, or a retired
+    model would go unnoticed during weeks with no commits
+
 ## 2026-11-17
 - feat(config): pin Claude model versions in one source of truth (12-month plan Phase A)
   - new: shared/config/models.py. GENERATOR_MODEL and JUDGE_MODEL, pinned to exact model ids,
