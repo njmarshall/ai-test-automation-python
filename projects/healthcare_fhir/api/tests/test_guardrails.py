@@ -26,6 +26,10 @@ import pytest
 from shared.guardrails.input_guard import InputGuard, ScrubResult
 from shared.guardrails.output_guard import OutputGuard, ValidationResult
 
+# No network, no secrets, millisecond runtime: counted in the unit layer
+# (docs/test-pyramid.md).
+pytestmark = pytest.mark.unit
+
 
 @pytest.mark.healthcare
 class TestInputGuard:

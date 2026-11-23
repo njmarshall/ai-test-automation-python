@@ -19,6 +19,10 @@ from shared.agent.exploratory_test_agent import (
     FHIR_PATIENT_SPEC,
 )
 
+# No network, no secrets, millisecond runtime: counted in the unit layer
+# (docs/test-pyramid.md).
+pytestmark = pytest.mark.unit
+
 
 @pytest.mark.healthcare
 class TestExploratoryTestAgent:

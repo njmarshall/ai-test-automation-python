@@ -20,6 +20,10 @@ import pytest
 
 from shared.observability.ai_observer import AiObserver
 
+# No network, no secrets, millisecond runtime: counted in the unit layer
+# (docs/test-pyramid.md).
+pytestmark = pytest.mark.unit
+
 
 @pytest.mark.healthcare
 class TestAiObserver:

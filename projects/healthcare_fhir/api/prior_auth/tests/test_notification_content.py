@@ -28,6 +28,10 @@ from projects.healthcare_fhir.api.prior_auth.notification_content import (
     provider_message,
 )
 
+# No network, no secrets, millisecond runtime: counted in the unit layer
+# (docs/test-pyramid.md).
+pytestmark = pytest.mark.unit
+
 AUTH = "AUTH-1234567890"
 REASON = "Documentation does not establish medical necessity."
 REQUEST_ID = "req-001"

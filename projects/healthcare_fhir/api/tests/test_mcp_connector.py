@@ -14,7 +14,7 @@ import pytest
 
 from shared.mcp.mcp_connector import McpConnector, McpResult
 
-pytestmark = pytest.mark.healthcare
+pytestmark = [pytest.mark.healthcare, pytest.mark.unit]
 
 
 class TestMcpConnector:

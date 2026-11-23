@@ -22,6 +22,10 @@ import pytest
 
 from shared.agent.self_healing_agent import SelfHealingAgent, HealingResult
 
+# No network, no secrets, millisecond runtime: counted in the unit layer
+# (docs/test-pyramid.md).
+pytestmark = pytest.mark.unit
+
 
 @pytest.mark.healthcare
 class TestSelfHealingAgent:

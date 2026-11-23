@@ -24,6 +24,10 @@ from projects.healthcare_fhir.api.prior_auth.models import (
 )
 from shared.oracle.customer_journey_oracle import CustomerJourneyOracle
 
+# No network, no secrets, millisecond runtime: counted in the unit layer
+# (docs/test-pyramid.md).
+pytestmark = pytest.mark.unit
+
 
 def _patient_notification(notifications: list[dict]) -> dict:
     for n in notifications:

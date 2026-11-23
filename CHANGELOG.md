@@ -1,3 +1,16 @@
+## 2026-11-23
+- docs(pyramid): test pyramid audit by evidence, and fix 70 mislabelled unit tests (12-month plan Phase A)
+  - new: docs/test-pyramid.md. Tests classified by running the non-unit, non-UI suite with no outbound
+    internet: unit 297 (62%), local integration 68 (14%), live external 100 (21%), UI 12 (3%)
+  - Finding: 70 tests in 7 healthcare_fhir files ran offline in milliseconds but had no unit marker, so the
+    suite looked 50% integration when it is 35%
+  - Fix: module-level pytestmark unit on test_notification_content, test_guardrails, test_observability,
+    test_exploratory_agent, test_mcp_connector, test_self_healing_agent, test_customer_journey_oracle
+  - pytest -m unit: 227 to 297 tests (296 passed, 1 skipped, under 2 seconds). The nightly health check
+    (-m "unit or excel") now covers the 70 at no extra cost
+  - Risk recorded: 35 AI-generated tests depend on live third-party sandboxes; 13 fintech market data
+    tests have no contract snapshot
+
 ## 2026-11-18
 - ci(nightly): add scheduled nightly health check (12-month plan Phase A)
   - new: .github/workflows/nightly.yml. Runs every night at 10:00 UTC (02:00 Pacific) whether or not
