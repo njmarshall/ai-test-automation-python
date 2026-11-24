@@ -18,18 +18,26 @@ Coverage is measured with `pytest -m unit`: no network, no secrets, about 3 seco
 
 | Tier | Packages | Floor | Why this level |
 |---|---|---|---|
-| Safety critical | guardrails, dataprovider, async, jira, observability, config, reporting, ai | 90 to 95% | These decide what reaches Claude, what data a test trusts, and what a human is told. A gap here is a silent correctness risk. |
+| Safety critical | guardrails, dataprovider, async, jira, observability, config, reporting, ai, assertions | 90 to 95% | These decide what reaches Claude, what data a test trusts, and what a human is told. A gap here is a silent correctness risk. |
 | Core logic | oracle 80%, contract 70% | 70 to 80% | Pure decision logic. Should rise toward the safety tier. |
 | LLM boundary | agent 65%, evaluation 50%, mcp 50% | 50 to 65% | Lower because the interesting branches sit behind a Claude call or an external service. Raised as seams are added (Phase B). |
-| Integration exercised | http 35%, assertions 35% | 35% | Mostly reached by live API tests, which the gate does not count. |
+| Integration exercised | http 35% | 35% | Mostly reached by live API tests, which the gate does not count. |
 | Excluded | performance | none | Locust and k6 driver scripts, run by the k6 and performance jobs. |
-| **Overall** | all gated packages | **80%** | Measured 80.7%. |
+| **Overall** | all gated packages | **82%** | Measured 82.6% (raised from 80% on November 24). |
 
 Floors are set at today's measured value, rounded down. That makes the gate honest on day one and turns every future improvement into a ratchet.
 
-## Known gap: assertions
+## First ratchet: assertions (closed November 24, 2026)
 
-`shared/assertions/response_validator.py` is at 35 percent, yet every API test in the repository asserts through it. It is pure logic with no network, so it can be unit tested to near 100 percent. It is the first package whose floor should move. Target: 90 percent in Phase B.
+`shared/assertions/response_validator.py`, the fluent `.status_code().has_field()` checker used by the Petstore suite, started at 35 percent. It is pure logic, so it was unit tested to 100 percent the same day and its floor was raised from 35 to 95.
+
+The new tests found real defects, each confirmed by running the tests against the previous version:
+
+- `field_equals("x", None)` passed when `x` was missing, because `body.get()` returns `None` for a missing key. A test checking that a value was cleared would pass if the API dropped the field.
+- A JSON array body made `has_field("id")` check list membership, and made `field_equals` crash with `AttributeError` instead of failing.
+- A non-JSON body (for example a gateway HTML error page) and a response without timing data crashed instead of failing with a readable message.
+
+Low coverage was not a cosmetic number here. It was where the bugs were.
 
 ## How the gate works
 

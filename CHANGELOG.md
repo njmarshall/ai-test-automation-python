@@ -1,4 +1,15 @@
 ## 2026-11-24
+- fix(assertions): unit test ResponseValidator to 100% and fix the defects the tests found (first coverage ratchet)
+  - Bug: field_equals("x", None) passed when "x" was missing, because body.get() returns None
+  - Bug: a JSON array body made has_field check list membership and made field_equals crash with AttributeError
+  - Bug: a non-JSON body or a response without elapsed_ms crashed instead of failing with a readable message
+  - Fix: a JSON object guard and a missing-field sentinel; every check now fails with AssertionError and a clear message
+  - new: tests/unit/test_response_validator.py (19 tests on in-memory httpx responses). Against the previous
+    validator, 6 fail: 5 behavior defects and 1 improved message
+  - Coverage: shared/assertions 35% to 100%, overall 80.7% to 82.6%. Floors raised: assertions 35 to 95, overall 80 to 82
+  - Correction: coverage-policy.md said every API test uses ResponseValidator. Only the Petstore suite does;
+    FHIR and other domains have their own validators
+  - pytest -m unit: 327 tests (326 passed, 1 skipped)
 - ci(coverage): per-package coverage floors for all of shared/ (12-month plan Phase A, completes Month 1)
   - Found: the shared-coverage gate measured only shared/async and shared/observability, 2 of 16 packages
   - new: coverage_thresholds.json. A floor per package, set at today's measured value rounded down, measured

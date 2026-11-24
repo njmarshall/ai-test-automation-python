@@ -1,6 +1,6 @@
 {
   "_about": "Per-package line coverage floors for shared/, measured on the offline unit suite (pytest -m unit). Ratchet rule: a floor may be raised, never lowered, except by an ADR. Policy and rationale: docs/coverage-policy.md. Enforced by scripts/check_coverage.py in the shared-coverage CI job.",
-  "overall": 80,
+  "overall": 82,
   "packages": {
     "ai": 95,
     "async": 95,
@@ -15,7 +15,7 @@
     "agent": 65,
     "mcp": 50,
     "evaluation": 50,
-    "assertions": 35,
+    "assertions": 95,
     "http": 35
   },
   "excluded": {
