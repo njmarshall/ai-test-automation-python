@@ -1,0 +1,53 @@
+{
+  "_about": "Every test marked @pytest.mark.flaky must have an entry here, and every entry must point to a real flaky test. Enforced by tests/unit/test_flaky_registry.py. A quarantined test is contained with accountability, never silently retried forever. When review_by passes, the guard test fails until someone fixes the test, removes the marker, or re-reviews and extends the date.",
+  "entries": [
+    {
+      "nodeid": "projects/fintech/api/ai/generated/test_market_data_ai.py::TestBuyAndSellPriceEndpoints::test_btc_usd_buy_price_exceeds_sell_price",
+      "quarantined": "2026-09-09",
+      "introduced_in": "81e3d3a",
+      "owner": "Neil Marshall",
+      "status": "quarantined",
+      "cause": "external_dependency",
+      "reason": "Two separate live calls to a public market data API. The price can move between the buy and sell reads, and the public endpoint rate-limits bursts.",
+      "exit_plan": "Read buy and sell from one recorded response, or assert on a single spread endpoint, so the comparison is atomic.",
+      "reruns": 3,
+      "review_by": "2027-02-01"
+    },
+    {
+      "nodeid": "projects/healthcare_fhir/api/tests/test_patient.py::TestPatient::test_delete_patient_removes_resource",
+      "quarantined": "2026-06-22",
+      "introduced_in": "0b893dc",
+      "owner": "Neil Marshall",
+      "status": "quarantined",
+      "cause": "eventual_consistency",
+      "reason": "The public HAPI FHIR sandbox is eventually consistent. A read right after DELETE can still return the resource for a short window.",
+      "exit_plan": "Poll the read with AsyncPoller until 410 Gone or timeout, instead of retrying the whole test.",
+      "reruns": 3,
+      "review_by": "2027-02-01"
+    },
+    {
+      "nodeid": "projects/healthcare_fhir/api/ai/generated/test_patient_ai.py::TestPatientSearch::test_search_by_family_name_returns_bundle_containing_created_patient",
+      "quarantined": "2026-06-22",
+      "introduced_in": "0d1db28",
+      "owner": "Neil Marshall",
+      "status": "skipped",
+      "cause": "eventual_consistency",
+      "reason": "HAPI sandbox search index lags behind writes, so create-then-search fails in CI. The test is also skipped, which makes the retries unreachable.",
+      "exit_plan": "Replace skip plus retries with AsyncPoller on the search, or move to a local FHIR sandbox where indexing is synchronous.",
+      "reruns": 3,
+      "review_by": "2027-02-01"
+    },
+    {
+      "nodeid": "projects/healthcare_fhir/api/ai/test_deepeval_fhir.py::TestDeepEvalFhir::test_ai_generated_tests_are_relevant",
+      "quarantined": "2026-08-30",
+      "introduced_in": "0dcdc52",
+      "owner": "Neil Marshall",
+      "status": "quarantined",
+      "cause": "llm_nondeterminism",
+      "reason": "LLM-as-judge scores vary run to run near the 0.7 threshold. A retry turns a statistical question into a single lucky pass.",
+      "exit_plan": "Score N runs and assert on the pass rate (statistical assertion), then remove the retry. Planned with the judge versioning work in Phase B.",
+      "reruns": 4,
+      "review_by": "2027-02-01"
+    }
+  ]
+}

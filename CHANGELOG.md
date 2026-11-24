@@ -1,4 +1,15 @@
 ## 2026-11-23
+- feat(flaky): quarantine registry with enforced accountability (12-month plan Phase A)
+  - new: tests/flaky_registry.json. One entry per @pytest.mark.flaky test: owner, cause, reason,
+    exit plan, reruns, quarantine date, introducing commit, review_by (2027-02-01)
+  - Registered all 4 existing flaky tests, each with a distinct cause: live market data race,
+    HAPI eventual consistency after DELETE, HAPI search index lag, LLM judge nondeterminism
+  - Found: test_search_by_family_name was both skipped and marked flaky, so its retries could never run.
+    Recorded as status skipped with an AsyncPoller exit plan
+  - new: tests/unit/test_flaky_registry.py (11 tests). Fails the build if a flaky marker has no entry,
+    an entry has no matching marker, reruns disagree, a field is missing, or review_by has passed.
+    Verified against a simulated unregistered flaky test
+  - pytest -m unit: 308 tests (307 passed, 1 skipped)
 - docs(pyramid): test pyramid audit by evidence, and fix 70 mislabelled unit tests (12-month plan Phase A)
   - new: docs/test-pyramid.md. Tests classified by running the non-unit, non-UI suite with no outbound
     internet: unit 297 (62%), local integration 68 (14%), live external 100 (21%), UI 12 (3%)
