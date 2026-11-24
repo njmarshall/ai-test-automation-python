@@ -845,18 +845,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run shared/ coverage check
+      # Per-package floors for every package under shared/.
+      # Policy: docs/coverage-policy.md. Floors: coverage_thresholds.json.
+      - name: Run unit suite with coverage of all of shared/
         run: |
-          pytest tests/unit/test_async_poller.py \
-                 tests/unit/test_event_sequencer.py \
-                 tests/unit/test_ai_observer.py \
-            --cov=shared/async \
-            --cov=shared/observability \
+          pytest -m unit \
+            --cov=shared \
+            --cov-report=json:reports/coverage.json \
             --cov-report=xml:reports/shared-coverage.xml \
             --cov-report=term-missing \
-            --cov-fail-under=80 \
-            --timeout=10 \
+            --timeout=20 \
             --no-header -q
+
+      - name: Enforce per-package coverage floors
+        run: python scripts/check_coverage.py reports/coverage.json
 
       - name: Upload coverage report
         if: always()

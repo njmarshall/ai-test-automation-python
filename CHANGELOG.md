@@ -1,3 +1,16 @@
+## 2026-11-24
+- ci(coverage): per-package coverage floors for all of shared/ (12-month plan Phase A, completes Month 1)
+  - Found: the shared-coverage gate measured only shared/async and shared/observability, 2 of 16 packages
+  - new: coverage_thresholds.json. A floor per package, set at today's measured value rounded down, measured
+    on the offline unit suite. Ratchet rule: raise freely, lower only with an ADR
+  - new: scripts/check_coverage.py. Fails on any package or overall below its floor, on a new package with
+    no floor, and on a stale floor. Verified to fail when a floor is set above the measured value
+  - ci.yml shared-coverage job now runs pytest -m unit --cov=shared and enforces the floors
+  - new: docs/coverage-policy.md. Four tiers (safety critical 90 to 95%, core logic 70 to 80%, LLM boundary
+    50 to 65%, integration exercised 35%), performance scripts excluded, overall 80% (measured 80.7%)
+  - Known gap recorded: shared/assertions/response_validator.py at 35% although every API test asserts through it;
+    target 90% in Phase B
+
 ## 2026-11-23
 - feat(flaky): quarantine registry with enforced accountability (12-month plan Phase A)
   - new: tests/flaky_registry.json. One entry per @pytest.mark.flaky test: owner, cause, reason,

@@ -1,0 +1,24 @@
+{
+  "_about": "Per-package line coverage floors for shared/, measured on the offline unit suite (pytest -m unit). Ratchet rule: a floor may be raised, never lowered, except by an ADR. Policy and rationale: docs/coverage-policy.md. Enforced by scripts/check_coverage.py in the shared-coverage CI job.",
+  "overall": 80,
+  "packages": {
+    "ai": 95,
+    "async": 95,
+    "config": 95,
+    "dataprovider": 90,
+    "guardrails": 90,
+    "jira": 95,
+    "observability": 95,
+    "reporting": 95,
+    "oracle": 80,
+    "contract": 70,
+    "agent": 65,
+    "mcp": 50,
+    "evaluation": 50,
+    "assertions": 35,
+    "http": 35
+  },
+  "excluded": {
+    "performance": "Load scripts (Locust, k6 driver) run in the k6 and performance jobs, not under pytest."
+  }
+}
