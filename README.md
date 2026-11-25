@@ -197,7 +197,7 @@ Short version of the [full plan](docs/Framework_Improvement_Plan_2027.docx). Fou
 | E. Completing the agent set | Apr to Jun 2027 | Test Selection Agent, Regression Seed Agent, Guardrail Red-Team Agent, Ticket Retesting Agent, Q2 2027 roadmap | Every Escape Is a Seed, Attacking Your Own Guardrails, The Agent That Retests but Never Closes |
 | F. Sustain and publish | Jul to Nov 2027 | Quarterly reviews, monthly dependency updates, article series to 25 to 30, book outline | |
 
-**Agent inventory:** built: SelfHealingAgent, ExploratoryTestAgent, ClaudeJudge evaluator, HITL via JiraNotifier. Planned: Triage (B), TestData (C), Test Selection, Regression Seed, Guardrail Red-Team, Ticket Retesting (E). Deliberately not built: Debate, Supervisor, Orchestrator-Subagent.
+**Agent inventory:** built: SelfHealingAgent, ExploratoryTestAgent, ClaudeJudge evaluator, HITL via JiraNotifier, TicketRetestAgent core (started early from Phase E; reruns tests on a fixed ticket, reopens on failure, never closes). Planned: Triage (B), TestData (C), Test Selection, Regression Seed, Guardrail Red-Team (E), live JIRA wiring for the retest agent. Deliberately not built: Debate, Supervisor, Orchestrator-Subagent.
 
 **Next review:** February 1, 2027.
 

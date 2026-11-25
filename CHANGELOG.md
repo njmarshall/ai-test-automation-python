@@ -1,4 +1,19 @@
 ## 2026-11-25
+- feat(agent): Ticket Retesting Agent core (Phase E, started early)
+  - new: shared/agent/ticket_retest_agent.py. When a ticket is marked fixed, reruns its linked tests in a fresh
+    pytest process and decides: VERIFIED (all passed, comment for a human to close), STILL_FAILING (any failure,
+    reopen and comment), INCONCLUSIVE (skipped or not found, comment only; silence is not evidence)
+  - Cannot close a ticket by design: the TicketTracker interface it receives has no close method
+  - Evidence comment lists every test with outcome and duration; failure messages pass through InputGuard so
+    PHI never reaches the ticket, and are truncated to 300 characters
+  - Found while testing: one renamed test id makes pytest abort the whole rerun (exit code 4), so the other tests
+    never ran. The runner now falls back to one run per id and reports the missing one as not_found
+  - new: tests/unit/test_ticket_retest_agent.py (15 tests). 12 use a fake runner; 3 run the real PytestRunner
+    against temporary test files, offline, to prove the full rerun loop
+  - Dry run only: DryRunTracker records calls. Live JIRA comment and reopen calls are not wired yet
+  - Coverage: ticket_retest_agent.py 100%, agent package 65.9% to 78.2%, overall 82.6% to 84.3%.
+    Floors raised: agent 65 to 78, overall 82 to 84
+  - pytest -m unit: 343 tests (342 passed, 1 skipped)
 - docs(plan): add Ticket Retesting Agent (Phase E) and property-based testing (Phase D) to the 12-month plan
   - Ticket Retesting Agent: when a JiraNotifier ticket is marked fixed, rerun the affected tests on the new
     build, attach evidence, and comment on the ticket. Never closes a ticket; a still-failing test reopens it
