@@ -10,6 +10,7 @@ allure-pytest==2.13.*
 
 # Test data generation (replaces Java Faker)
 Faker==25.*
+hypothesis==6.*        # property-based tests (tests/unit/test_input_guard_properties.py)
 openpyxl==3.1.*           # Excel fixture reader — BA-owned test data sheets
 
 # Environment/config

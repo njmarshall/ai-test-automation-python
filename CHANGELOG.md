@@ -1,4 +1,20 @@
 ## 2026-11-25
+- fix(guardrails): property-based tests found SSN and phone leaks in the PHI scrubber
+  - new: tests/unit/test_input_guard_properties.py (Hypothesis, 400 random inputs per property). Properties: an SSN,
+    phone number or email anywhere in random text is always removed; scrubbing is idempotent; scrubbed output is
+    safe; text with no digits, no '@' and no trigger words is unchanged
+  - Bug (first run, under 4 seconds): an SSN touching a letter leaked, e.g. '001-01-0001A', 'ssn123-45-6789',
+    'id_123-45-6789'. The phone pattern had the same flaw ('tel415-555-0100'). Cause: \b needs a word/non-word
+    change, and letters, digits and underscores are all word characters
+  - Fix: digit lookarounds (?<!\d)...(?!\d) instead of \b for SSN and phone. Policy recorded in the test: a number
+    touched by more digits is a longer number, not an SSN
+  - Hypothesis's failing examples pinned with @example as permanent regression tests. Against the previous scrubber,
+    the 3 SSN examples and the phone example leak; against the fix, all pass
+  - requirements.txt: hypothesis==6.*
+  - Plan and README: removed fintech/flex references (that code is no longer in the repo). The plan's property-based
+    row now targets the PHI scrubber (started), loan amortisation and payments idempotency. Also corrected the
+    plan's domain count from 6 to 5
+  - pytest -m unit: 349 tests (348 passed, 1 skipped)
 - feat(agent): Ticket Retesting Agent core (Phase E, started early)
   - new: shared/agent/ticket_retest_agent.py. When a ticket is marked fixed, reruns its linked tests in a fresh
     pytest process and decides: VERIFIED (all passed, comment for a human to close), STILL_FAILING (any failure,

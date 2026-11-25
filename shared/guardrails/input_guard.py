@@ -101,12 +101,14 @@ class InputGuard:
 
     # PHI patterns — order matters, more specific first
     PATTERNS = [
-        # Social Security Numbers
-        (r"\b\d{3}-\d{2}-\d{4}\b", "[SSN]", "ssn"),
+        # Social Security Numbers. Digit lookarounds, not \b: \b needs a
+        # word/non-word change, so "ssn123-45-6789" or "123-45-6789x" leaked.
+        # Found by property-based testing (tests/unit/test_input_guard_properties.py).
+        (r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)", "[SSN]", "ssn"),
         # Medical Record Numbers
         (r"\bMRN[:\s]+\d+\b", "[MRN]", "mrn"),
         # Phone numbers
-        (r"\b\d{3}[-.\s]\d{3}[-.\s]\d{4}\b", "[PHONE]", "phone"),
+        (r"(?<!\d)\d{3}[-.\s]\d{3}[-.\s]\d{4}(?!\d)", "[PHONE]", "phone"),
         # Email addresses
         (r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", "[EMAIL]", "email"),
         # IP addresses
