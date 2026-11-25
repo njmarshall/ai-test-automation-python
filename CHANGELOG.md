@@ -1,3 +1,12 @@
+## 2026-11-25
+- docs(plan): add Ticket Retesting Agent (Phase E) and property-based testing (Phase D) to the 12-month plan
+  - Ticket Retesting Agent: when a JiraNotifier ticket is marked fixed, rerun the affected tests on the new
+    build, attach evidence, and comment on the ticket. Never closes a ticket; a still-failing test reopens it
+  - Property-based testing: Hypothesis on fintech/flex rules (55% split, 3-retry limit, state machine) and
+    payments idempotency; any failing example becomes a permanent regression test
+  - README short plan and agent inventory updated to match
+  - Source: reply to a LinkedIn post listing five AI testing agents
+
 ## 2026-11-24
 - fix(assertions): unit test ResponseValidator to 100% and fix the defects the tests found (first coverage ratchet)
   - Bug: field_equals("x", None) passed when "x" was missing, because body.get() returns None

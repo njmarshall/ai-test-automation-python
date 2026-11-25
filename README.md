@@ -10,7 +10,7 @@ Production-grade AI-powered test automation framework across healthcare FHIR, in
 
 > **Improvement roadmap:** [Q1 2027 Three-Month Improvement Roadmap](https://claude.ai/artifact/LRLECcaQ3PRjokMbWyXjqc) — Foundation Hardening (Nov), Observability and Intelligence (Dec), FAANG-Readiness Layer (Jan). Updated each quarter to track framework maturity version-to-version.
 >
-> **12-month plan:** [Framework Improvement Plan, Dec 2026 to Nov 2027](docs/Framework_Improvement_Plan_2027.docx) — six phases covering the diagnose step for self-healing, a three-tier test data platform with DataGuard and a TestDataAgent, Java parity, and the remaining agents. See the [short version](#12-month-improvement-plan) below.
+> **12-month plan:** [Framework Improvement Plan, Dec 2026 to Nov 2027](docs/Framework_Improvement_Plan_2027.docx) — six phases covering the diagnose step for self-healing, a three-tier test data platform with DataGuard and a TestDataAgent, Java parity, the remaining agents including a Ticket Retesting Agent, and property-based testing. See the [short version](#12-month-improvement-plan) below.
 
 ---
 
@@ -193,11 +193,11 @@ Short version of the [full plan](docs/Framework_Improvement_Plan_2027.docx). Fou
 | A. Foundation close-out | Nov 16 to Dec 15, 2026 | Flaky registry and CI job, test pyramid audit, coverage policy, nightly scheduled run, pinned model version, oasdiff provider contract | The Spreadsheet Is Not Dead |
 | B. Observability and the diagnose step | Dec 2026 to Jan 2027 | LLM cost telemetry, baseline versioning, Cohen's kappa on judge changeover, Allure trend history, HealingPolicy allowlist merged, Triage Agent | The Diagnose Step Nobody Builds |
 | C. Test data platform | Jan to Feb 2027 | Three tiers (static, per run, scheduled), analyst-owned sheet columns (`enabled`, `tier`, `risk`, `owner`, `origin`), DataGuard at collection time, TestDataAgent with a proposed tab and human approval | Who Guards the Test Data? and The Agent That Proposes but Never Approves |
-| D. FAANG readiness and Java parity | Feb to Mar 2027 | Chaos suite, ONBOARDING.md, ADRs, k6 gates, mutation testing, Java ExcelDataProvider with Apache POI | Where Does This Test Belong? |
-| E. Completing the agent set | Apr to Jun 2027 | Test Selection Agent, Regression Seed Agent, Guardrail Red-Team Agent, Q2 2027 roadmap | Every Escape Is a Seed, Attacking Your Own Guardrails |
+| D. FAANG readiness and Java parity | Feb to Mar 2027 | Chaos suite, ONBOARDING.md, ADRs, k6 gates, mutation testing, Java ExcelDataProvider with Apache POI, property-based tests (Hypothesis) on fintech/flex and payments business rules | Where Does This Test Belong? |
+| E. Completing the agent set | Apr to Jun 2027 | Test Selection Agent, Regression Seed Agent, Guardrail Red-Team Agent, Ticket Retesting Agent, Q2 2027 roadmap | Every Escape Is a Seed, Attacking Your Own Guardrails, The Agent That Retests but Never Closes |
 | F. Sustain and publish | Jul to Nov 2027 | Quarterly reviews, monthly dependency updates, article series to 25 to 30, book outline | |
 
-**Agent inventory:** built: SelfHealingAgent, ExploratoryTestAgent, ClaudeJudge evaluator, HITL via JiraNotifier. Planned: Triage (B), TestData (C), Test Selection, Regression Seed, Guardrail Red-Team (E). Deliberately not built: Debate, Supervisor, Orchestrator-Subagent.
+**Agent inventory:** built: SelfHealingAgent, ExploratoryTestAgent, ClaudeJudge evaluator, HITL via JiraNotifier. Planned: Triage (B), TestData (C), Test Selection, Regression Seed, Guardrail Red-Team, Ticket Retesting (E). Deliberately not built: Debate, Supervisor, Orchestrator-Subagent.
 
 **Next review:** February 1, 2027.
 
