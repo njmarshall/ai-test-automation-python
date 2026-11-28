@@ -7,7 +7,8 @@
 #  night whether or not anyone pushed.                                #
 #                                                                     #
 #  Scope: fast tests that need no secrets and no network             #
-#  (unit + Excel-driven), so it costs nothing in API spend.          #
+#  (unit, Excel-driven, local sandboxes), so no API spend. Also a     #
+#  nightly flake hunt: shuffled order, then 4 parallel workers.      #
 #                                                                     #
 #  On failure: opens one GitHub issue, or comments on the existing    #
 #  open one, so repeated nightly failures never spam new issues.      #
@@ -52,6 +53,35 @@ jobs:
             -q \
             --tb=short \
             --no-header
+
+      # Flake hunt: the offline set in a new random order every night, then on
+      # 4 parallel workers. An unhandled exception in a helper thread is an error.
+      # Replay a failing order locally with the SHUFFLE_SEED printed in the log.
+      - name: Flake hunt, shuffled order
+        env:
+          SHUFFLE_SEED: ${{ github.run_number }}
+        run: |
+          pytest tests/unit \
+            projects/payments/api/tests \
+            projects/sql/api/tests \
+            tests/integration/test_patient_scheduling_oracle.py \
+            projects/fintech/api/tests/test_event_sequencer_per_event.py \
+            -p tests.plugins.shuffle_order \
+            -W error::pytest.PytestUnhandledThreadExceptionWarning \
+            --reruns 0 --timeout=60 -q \
+            --junitxml=reports/nightly-shuffled.xml
+
+      - name: Flake hunt, 4 parallel workers
+        run: |
+          pytest tests/unit \
+            projects/payments/api/tests \
+            projects/sql/api/tests \
+            tests/integration/test_patient_scheduling_oracle.py \
+            projects/fintech/api/tests/test_event_sequencer_per_event.py \
+            -n 4 \
+            -W error::pytest.PytestUnhandledThreadExceptionWarning \
+            --reruns 0 --timeout=60 -q --no-header \
+            --junitxml=reports/nightly-parallel.xml
 
       - name: Upload JUnit report
         if: always()

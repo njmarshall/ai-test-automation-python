@@ -1,4 +1,11 @@
 ## 2026-11-27
+- ci(nightly): nightly flake hunt so order and timing dependencies are caught the next morning
+  - new: tests/plugins/shuffle_order.py. Opt-in seeded random test order (SHUFFLE_SEED); the seed prints in the
+    report header so any failing order can be replayed exactly; does nothing when SHUFFLE_SEED is unset
+  - nightly.yml: two new steps on the offline set (unit, payments and scheduling sandboxes, SQL, per-event sequencer).
+    Shuffled order with SHUFFLE_SEED set to the run number, so every night tries a new order; then 4 parallel workers.
+    Unhandled exceptions in helper threads are errors in both
+  - Verified locally with the exact CI commands: 313 passed shuffled, 313 passed on 4 workers
 - fix(flaky): find and fix flaky tests by running the offline suite shuffled and in parallel
   - Method: the offline set (unit, local sandbox, Excel-driven; 417 tests) run 3 times in file order, then with a
     seeded random order, then on 4 parallel workers. File order: always green. Shuffled: errors in 2 of 3 runs.
