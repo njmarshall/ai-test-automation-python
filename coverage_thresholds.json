@@ -16,7 +16,7 @@
     "mcp": 50,
     "evaluation": 50,
     "assertions": 95,
-    "http": 35
+    "http": 60
   },
   "excluded": {
     "performance": "Load scripts (Locust, k6 driver) run in the k6 and performance jobs, not under pytest."

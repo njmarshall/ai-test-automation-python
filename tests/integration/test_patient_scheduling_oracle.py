@@ -59,10 +59,10 @@ import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
-# ── ports (avoid collision with payments sandbox on 8001-8003) ─────────────
-_SCHEDULING_PORT   = 8020
-_AVAILABILITY_PORT = 8021
-_NOTIFICATION_PORT = 8022
+from shared.http.local_sandbox import run_sandbox
+
+# Ports are chosen by the OS at startup (shared/http/local_sandbox.py).
+# Fixed ports 8020-8022 made this module flaky under shuffled or parallel runs.
 
 TIMEOUT = (2, 10)   # (connect, read) seconds per request
 
@@ -191,43 +191,37 @@ def reset_notifications():
 #  Fixtures                                                                   #
 # ═══════════════════════════════════════════════════════════════════════════ #
 
-def _start_server(app_instance, port: int) -> None:
-    """Launch a uvicorn server in a daemon thread."""
-    import uvicorn
-    config = uvicorn.Config(app_instance, host="127.0.0.1", port=port, log_level="error")
-    server = uvicorn.Server(config)
-    server.run()
-
-
 @pytest.fixture(scope="module")
 def sandbox_servers():
-    """Start all three sandbox microservices once for the module."""
-    for app_instance, port in [
-        (scheduling_app,   _SCHEDULING_PORT),
-        (availability_app, _AVAILABILITY_PORT),
-        (notification_app, _NOTIFICATION_PORT),
-    ]:
-        t = threading.Thread(target=_start_server, args=(app_instance, port), daemon=True)
-        t.start()
-    time.sleep(0.8)   # allow all three servers to bind
-    yield
+    """Start all three sandbox microservices once for the module; yield their URLs.
+
+    Each runs on a free port, is ready before the first test, and is
+    stopped (and its port released) when the module finishes.
+    """
+    with run_sandbox(scheduling_app) as scheduling_url, \
+         run_sandbox(availability_app) as availability_url, \
+         run_sandbox(notification_app) as notification_url:
+        yield {
+            "scheduling": scheduling_url,
+            "availability": availability_url,
+            "notification": notification_url,
+        }
 
 
 @pytest.fixture
 def clean_state(sandbox_servers):
     """Reset all three sandboxes before each test."""
-    requests.post(f"http://127.0.0.1:{_SCHEDULING_PORT}/reset",   timeout=TIMEOUT)
-    requests.post(f"http://127.0.0.1:{_AVAILABILITY_PORT}/reset",  timeout=TIMEOUT)
-    requests.post(f"http://127.0.0.1:{_NOTIFICATION_PORT}/reset",  timeout=TIMEOUT)
-    yield
+    for url in sandbox_servers.values():
+        requests.post(f"{url}/reset", timeout=TIMEOUT)
+    yield sandbox_servers
 
 
 @dataclass
 class SchedulingClient:
     """Thin client for the three scheduling microservices."""
-    scheduling_url:   str = f"http://127.0.0.1:{_SCHEDULING_PORT}"
-    availability_url: str = f"http://127.0.0.1:{_AVAILABILITY_PORT}"
-    notification_url: str = f"http://127.0.0.1:{_NOTIFICATION_PORT}"
+    scheduling_url:   str
+    availability_url: str
+    notification_url: str
 
     def book(self, patient_id: str, provider_id: str, slot_id: str,
              procedure: str) -> requests.Response:
@@ -274,7 +268,11 @@ class SchedulingClient:
 
 @pytest.fixture
 def client(clean_state) -> SchedulingClient:
-    return SchedulingClient()
+    return SchedulingClient(
+        scheduling_url=clean_state["scheduling"],
+        availability_url=clean_state["availability"],
+        notification_url=clean_state["notification"],
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════ #

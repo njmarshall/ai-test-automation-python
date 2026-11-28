@@ -1,3 +1,27 @@
+## 2026-11-27
+- fix(flaky): find and fix flaky tests by running the offline suite shuffled and in parallel
+  - Method: the offline set (unit, local sandbox, Excel-driven; 417 tests) run 3 times in file order, then with a
+    seeded random order, then on 4 parallel workers. File order: always green. Shuffled: errors in 2 of 3 runs.
+    Old payments code in parallel: 4 failed plus 4 errors, then 2 failed (different every run)
+  - Flake 1, payments sandboxes: fixed ports 8001/8002/8003, time.sleep(0.5) as readiness, and teardown that never
+    waited for the server thread. A restarted module server raced the old one for the same port: "Connection refused"
+  - Flake 2, patient scheduling oracle: three servers on fixed ports 8020 to 8022 that were never stopped. A second
+    start failed with "address already in use" and the tests silently passed against the old server
+  - new: shared/http/local_sandbox.py, run_sandbox(app). OS-chosen free port, readiness from uvicorn's started flag
+    with a deadline, clear errors if the server dies or never becomes ready, teardown that joins the thread and closes
+    the socket. Used by all payments fixtures and the scheduling oracle. 5 unit tests, 100% covered
+  - Flake 3, async payments: 4 tests created payments that were already SUCCEEDED (the sandbox default), so the poller
+    returned on its first check and never waited. Their background "process" threads fired after the test ended,
+    hit a closed client, and crashed into whichever test ran next
+  - Fix: those payments now start PENDING and the tests assert it; background threads are joined before the test ends.
+    Proof: with the processing step deleted, the old tests still pass (they never tested waiting) and the new tests fail
+  - Also: test_refunds.py and test_webhooks.py no longer import fixtures from conftest.py (pytest anti-pattern);
+    PaymentClient gains a public base_url; unused imports removed
+  - Verified: 5 shuffled seeds (including the 2 that failed) and 3 parallel runs, all identical, with unhandled thread
+    exceptions treated as errors. Parallel run time for the offline set: about 30s shuffled serial, 17s on 4 workers
+  - Coverage: shared/http 34.5% to 61.9%, overall 84.7%. Floor raised: http 35 to 60
+  - pytest -m unit: 355 tests (354 passed, 1 skipped)
+
 ## 2026-11-25
 - fix(guardrails): property-based tests found SSN and phone leaks in the PHI scrubber
   - new: tests/unit/test_input_guard_properties.py (Hypothesis, 400 random inputs per property). Properties: an SSN,

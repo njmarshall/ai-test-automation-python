@@ -42,6 +42,11 @@ class PaymentClient:
         self._base_url = base_url.rstrip("/")
         self._client   = httpx.Client(timeout=10.0)
 
+    @property
+    def base_url(self) -> str:
+        """Base URL of the sandbox this client talks to."""
+        return self._base_url
+
     # ── payments ─────────────────────────────────────────────────────
 
     def create_payment(

@@ -32,14 +32,13 @@ Test scenarios
 
 from __future__ import annotations
 
-import threading
-import time
 from uuid import uuid4
 
 import pytest
-import uvicorn
+
 
 from projects.payments.api.client.payment_client import PaymentClient
+from shared.http.local_sandbox import run_sandbox
 from projects.payments.api.sandbox.payment_server import app
 
 
@@ -49,20 +48,15 @@ from projects.payments.api.sandbox.payment_server import app
 
 @pytest.fixture(scope="module")
 def payment_server():
-    """Start payment sandbox server for the test module."""
-    config = uvicorn.Config(app, host="127.0.0.1", port=8001, log_level="error")
-    server = uvicorn.Server(config)
-    thread = threading.Thread(target=server.run, daemon=True)
-    thread.start()
-    time.sleep(0.5)  # wait for server to start
-    yield
-    server.should_exit = True
+    """Start payment sandbox for the test module; yield its base URL."""
+    with run_sandbox(app) as base_url:
+        yield base_url
 
 
 @pytest.fixture
 def client(payment_server) -> PaymentClient:
     """Payment client with clean sandbox state."""
-    c = PaymentClient(base_url="http://127.0.0.1:8001")
+    c = PaymentClient(base_url=payment_server)
     c.reset_sandbox()
     yield c
     c.close()

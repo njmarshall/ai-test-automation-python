@@ -36,10 +36,10 @@ import time
 from uuid import uuid4
 
 import pytest
-import uvicorn
+
 
 from projects.payments.api.client.payment_client import PaymentClient
-from projects.payments.api.sandbox.payment_server import app
+from shared.http.local_sandbox import run_sandbox
 
 _async_poller = importlib.import_module("shared.async.async_poller")
 AsyncPoller = _async_poller.AsyncPoller
@@ -94,22 +94,15 @@ def fail_payment(payment_id: str) -> dict:
 
 @pytest.fixture(scope="module")
 def payment_server():
-    """Start payment sandbox for the test module."""
-    config = uvicorn.Config(
-        payment_app, host="127.0.0.1", port=8002, log_level="error"
-    )
-    server = uvicorn.Server(config)
-    thread = threading.Thread(target=server.run, daemon=True)
-    thread.start()
-    time.sleep(0.5)
-    yield
-    server.should_exit = True
+    """Start payment sandbox for the test module; yield its base URL."""
+    with run_sandbox(payment_app) as base_url:
+        yield base_url
 
 
 @pytest.fixture
 def client(payment_server) -> PaymentClient:
     """Payment client pointing to async sandbox."""
-    c = PaymentClient(base_url="http://127.0.0.1:8002")
+    c = PaymentClient(base_url=payment_server)
     c.reset_sandbox()
     yield c
     c.close()
@@ -138,18 +131,21 @@ class TestAsyncPayment:
             amount=5000,
             merchant_id="merchant-async-001",
             idempotency_key=key,
+            initial_status="PENDING",  # must start unprocessed, or the poll proves nothing
         )
         assert response.status_code == 201
+        assert response.json()["status"] == "PENDING", "payment must start unprocessed"
         payment_id = response.json()["payment_id"]
 
         # Simulate async processing after 0.2s
         def process_after_delay():
             time.sleep(0.2)
             client._client.post(
-                f"http://127.0.0.1:8002/payments/{payment_id}/process"
+                f"{client.base_url}/payments/{payment_id}/process"
             )
 
-        threading.Thread(target=process_after_delay, daemon=True).start()
+        worker = threading.Thread(target=process_after_delay, daemon=True)
+        worker.start()
 
         # Poll for SUCCEEDED status
         poller = AsyncPoller(
@@ -163,6 +159,7 @@ class TestAsyncPayment:
             until=lambda r: r.json()["status"] == "SUCCEEDED",
             description=f"payment {payment_id} SUCCEEDED",
         )
+        worker.join(timeout=5)  # never let a helper thread outlive its test
 
         assert result.json()["status"] == "SUCCEEDED"
         assert result.json()["payment_id"] == payment_id
@@ -218,20 +215,23 @@ class TestAsyncPayment:
             amount=2500,
             merchant_id="merchant-idem",
             idempotency_key=key,
+            initial_status="PENDING",  # must start unprocessed, or the poll proves nothing
         )
         r2 = client.create_payment(
             amount=2500,
             merchant_id="merchant-idem",
             idempotency_key=key,
+            initial_status="PENDING",  # must start unprocessed, or the poll proves nothing
         )
 
         assert r1.status_code == 201
         assert r2.status_code == 200
+        assert r1.json()["status"] == "PENDING", "payment must start unprocessed"
         payment_id = r1.json()["payment_id"]
 
         # Process the payment
         client._client.post(
-            f"http://127.0.0.1:8002/payments/{payment_id}/process"
+            f"{client.base_url}/payments/{payment_id}/process"
         )
 
         # Poll once — should find SUCCEEDED
@@ -272,10 +272,11 @@ class TestAsyncPayment:
         def fail_after_delay():
             time.sleep(0.2)
             client._client.post(
-                f"http://127.0.0.1:8002/payments/{payment_id}/fail"
+                f"{client.base_url}/payments/{payment_id}/fail"
             )
 
-        threading.Thread(target=fail_after_delay, daemon=True).start()
+        worker = threading.Thread(target=fail_after_delay, daemon=True)
+        worker.start()
 
         poller = AsyncPoller(
             strategy="timeout",
@@ -288,6 +289,7 @@ class TestAsyncPayment:
             until=lambda r: r.json()["status"] in ("SUCCEEDED", "FAILED"),
             description=f"payment {payment_id} terminal status",
         )
+        worker.join(timeout=5)  # never let a helper thread outlive its test
 
         assert result.json()["status"] == "FAILED"
 
@@ -306,17 +308,20 @@ class TestAsyncPayment:
             amount=7500,
             merchant_id="merchant-backoff",
             idempotency_key=key,
+            initial_status="PENDING",  # must start unprocessed, or the poll proves nothing
         )
+        assert response.json()["status"] == "PENDING", "payment must start unprocessed"
         payment_id = response.json()["payment_id"]
 
         # Process after 0.5s
         def process_after_delay():
             time.sleep(0.5)
             client._client.post(
-                f"http://127.0.0.1:8002/payments/{payment_id}/process"
+                f"{client.base_url}/payments/{payment_id}/process"
             )
 
-        threading.Thread(target=process_after_delay, daemon=True).start()
+        worker = threading.Thread(target=process_after_delay, daemon=True)
+        worker.start()
 
         poller = AsyncPoller(
             strategy="backoff",
@@ -329,6 +334,7 @@ class TestAsyncPayment:
             until=lambda r: r.json()["status"] == "SUCCEEDED",
             description=f"payment {payment_id} with backoff",
         )
+        worker.join(timeout=5)  # never let a helper thread outlive its test
 
         assert result.json()["status"] == "SUCCEEDED"
 
@@ -346,12 +352,14 @@ class TestAsyncPayment:
             amount=3000,
             merchant_id="merchant-fixed",
             idempotency_key=key,
+            initial_status="PENDING",  # must start unprocessed, or the poll proves nothing
         )
+        assert response.json()["status"] == "PENDING", "payment must start unprocessed"
         payment_id = response.json()["payment_id"]
 
         # Process immediately
         client._client.post(
-            f"http://127.0.0.1:8002/payments/{payment_id}/process"
+            f"{client.base_url}/payments/{payment_id}/process"
         )
 
         poller = AsyncPoller(

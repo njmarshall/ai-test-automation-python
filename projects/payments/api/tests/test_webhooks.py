@@ -37,7 +37,6 @@ from __future__ import annotations
 
 import pytest
 
-from projects.payments.api.tests.conftest import payment_client, succeeded_payment
 
 
 # ─────────────────────────────────────────────────────────────────────────────

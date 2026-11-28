@@ -5,43 +5,30 @@ Shared pytest fixtures for all tests under projects/payments/api/tests/.
 
 Server lifecycle
 ----------------
-payment_server  — module-scoped: starts the FastAPI sandbox once per module.
-                  Uses port 8003 to avoid collision with test_idempotency.py
-                  (port 8001) and test_async_payment.py (port 8002).
-payment_client  — function-scoped: provides a clean PaymentClient,
-                  resets sandbox state before each test
+payment_server    — session-scoped: starts the FastAPI sandbox once, on a
+                    free port chosen by the OS (see shared/http/local_sandbox.py).
+                    Yields the base URL.
+payment_client    — function-scoped: a PaymentClient for that URL, with
+                    sandbox state reset before each test.
 succeeded_payment — function-scoped: creates one SUCCEEDED payment and
                     returns its response dict; used by refund and webhook tests
-
-Port: 8003 (dedicated to refund/webhook tests)
 """
 from __future__ import annotations
 
-import threading
-import time
-from uuid import uuid4
-
 import pytest
-import uvicorn
 
 from projects.payments.api.client.payment_client import PaymentClient
 from projects.payments.api.sandbox.payment_server import app
-
-_PORT = 8003
+from shared.http.local_sandbox import run_sandbox
 
 
 # ── server lifecycle ──────────────────────────────────────────────────────────
 
 @pytest.fixture(scope="session")
 def payment_server():
-    """Start the payment sandbox once per test module on port 8003."""
-    config = uvicorn.Config(app, host="127.0.0.1", port=_PORT, log_level="error")
-    server = uvicorn.Server(config)
-    thread = threading.Thread(target=server.run, daemon=True)
-    thread.start()
-    time.sleep(0.5)  # allow server to bind
-    yield
-    server.should_exit = True
+    """Start the payment sandbox once per session; yield its base URL."""
+    with run_sandbox(app) as base_url:
+        yield base_url
 
 
 # ── client ────────────────────────────────────────────────────────────────────
@@ -54,7 +41,7 @@ def payment_client(payment_server) -> PaymentClient:
     Using function scope ensures every test starts with an empty event log
     and no prior payments, which makes event-count assertions reliable.
     """
-    client = PaymentClient(base_url=f"http://127.0.0.1:{_PORT}")
+    client = PaymentClient(base_url=payment_server)
     client.reset_sandbox()
     yield client
     client.close()
